@@ -24,7 +24,6 @@
             box-sizing: border-box;
         }
 
-        /* 하단 잘림 방지를 위한 프레임 높이 최적화 */
         .iphone-frame {
             width: min(375px, 95vw);
             height: min(812px, 92vh); 
@@ -69,7 +68,6 @@
             z-index: 90;
         }
 
-        /* 상단 탭 */
         .top-nav {
             padding: 10px 20px 0;
             display: flex;
@@ -107,7 +105,6 @@
         }
         .main-view::-webkit-scrollbar { display: none; }
 
-        /* 튜터 카드 */
         .tutor-main-card {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -157,7 +154,6 @@
             color: #94a3b8;
         }
 
-        /* 버튼 */
         .call-action-btn {
             background: #4f46e5;
             color: white;
@@ -170,13 +166,12 @@
             margin-top: 20px;
         }
 
-        /* 하단 탭바 고정 */
         .bottom-tab-bar {
-            height: 50px;
+            height: 80px;
             border-top: 1px solid #f1f5f9;
             display: flex;
             justify-content: space-around;
-            padding-top: 14px;
+            padding-top: 10px;
             background: white;
             flex-shrink: 0;
         }
@@ -192,7 +187,6 @@
         .tab-item.active { color: #4f46e5; }
         .tab-item i { font-size: 18px; }
 
-        /* 맞춤설정 모달 */
         .setup-modal {
             position: absolute;
             inset: 0;
@@ -207,7 +201,6 @@
         .setup-section { margin-bottom: 24px; }
         .section-title { font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #1e293b; }
 
-        /* 프로필 편집 영역 */
         .profile-edit-box {
             background: #f8fafc;
             border-radius: 16px;
@@ -282,7 +275,6 @@
             color: #4f46e5;
         }
 
-        /* 통화 화면 */
         .call-screen {
             display: none;
             flex: 1;
@@ -291,12 +283,15 @@
             align-items: center;
         }
         .call-screen.show { display: flex; }
-        .call-avatar { width: 64px; height: 64px; background: #7367f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; background-size: cover; background-position: center; }
+        .call-avatar { width: 64px; height: 64px; background: #7367f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; background-size: cover; background-position: center; flex-shrink: 0; }
         .call-tutor-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .call-timer { font-size: 14px; color: #94a3b8; margin-bottom: 30px; }
-        .user-transcription { font-size: 18px; line-height: 1.3; font-weight: 600; color: #fbbf24; margin: 10px 0; text-align: center; }
-        .ai-message { font-size: 15px; color: white; text-align: center; margin-bottom: 5px; }
-        .ai-translation { font-size: 12px; color: #64748b; text-align: center; margin-bottom: 15px; }
+        .call-timer { font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
+        
+        .user-transcription { font-size: 18px; line-height: 1.3; font-weight: 600; color: #fbbf24; margin: 10px 0; text-align: center; min-height: 24px; }
+        
+        .ai-message-area { text-align: center; margin-bottom: 10px; }
+        .ai-message { font-size: 15px; color: white; margin-bottom: 4px; }
+        .ai-translation { font-size: 12px; color: #64748b; }
 
         .correction-card {
             background: rgba(255, 255, 255, 0.08);
@@ -310,14 +305,40 @@
             position: relative;
         }
         .correction-card.show { opacity: 1; transform: translateY(0); }
-        .bookmark-btn { position: absolute; top: 14px; right: 14px; color: rgba(251, 191, 36, 0.4); cursor: pointer; }
-        .bookmark-btn.active { color: #fbbf24; }
+
+        /* 북마크 버튼 고도화 */
+        .bookmark-btn { 
+            position: absolute; 
+            top: 14px; 
+            right: 14px; 
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05); /* 은은한 배경 추가 */
+            border-radius: 8px;
+            color: rgba(251, 191, 36, 0.4); 
+            cursor: pointer; 
+            z-index: 10; 
+            transition: all 0.2s ease; /* 전환 효과 */
+        }
+        .bookmark-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .bookmark-btn:active {
+            transform: scale(0.9); /* 클릭했을 때 눌리는 느낌 */
+        }
+        .bookmark-btn.active { 
+            color: #fbbf24; 
+            background: rgba(251, 191, 36, 0.15); /* 활성화 시 배경색 변화 */
+        }
 
         .call-controls {
-            padding: 10px 0 30px;
+            padding: 10px 0 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
             width: 100%;
             margin-top: auto;
         }
@@ -465,26 +486,40 @@
             <div id="call-timer" class="call-timer">00:00</div>
 
             <div class="flex-1 w-full flex flex-col justify-start">
-                <div id="ai-msg" class="ai-message opacity-0 transition-opacity">"What is your main objective for the upcoming market analysis?"</div>
-                <div id="ai-trans" class="ai-translation opacity-0 transition-opacity">"이번 시장 분석의 주요 목표는 무엇인가요?"</div>
+                <div class="ai-message-area">
+                    <div id="ai-msg" class="ai-message opacity-0 transition-opacity">"What is your main objective for the upcoming market analysis?"</div>
+                    <div id="ai-trans" class="ai-translation opacity-0 transition-opacity">"이번 시장 분석의 주요 목표는 무엇인가요?"</div>
+                </div>
 
                 <div id="user-transcription" class="user-transcription"></div>
 
+                <!-- 피드백 카드 -->
                 <div id="correction-card" class="correction-card">
-                    <div class="bookmark-btn" onclick="toggleBookmark(event)"><i class="far fa-bookmark"></i></div>
+                    <!-- 북마크 버튼 -->
+                    <div id="bookmark" class="bookmark-btn" onclick="toggleBookmark(event)">
+                        <i class="far fa-bookmark"></i>
+                    </div>
+
                     <div class="text-[9px] text-amber-400 font-extrabold uppercase mb-2">Ivy League Logic Feedback</div>
                     <div class="text-slate-400 text-[11px] line-through mb-1">"I want to find gaps in the market."</div>
-                    <div class="text-sm font-bold mb-1">Try: <span class="text-amber-400">"I'm looking to identify untapped market opportunities."</span></div>
+                    <div class="text-[13px] font-bold mb-1 leading-tight">Try: <span class="text-amber-400">"I'm looking to identify untapped market opportunities."</span></div>
+                    <div class="text-[10px] text-slate-500 mb-3 italic">"시장 내의 미개척 기회들을 포착하고자 합니다."</div>
                     
-                    <div class="pt-2 mt-2 border-t border-white/10">
+                    <div class="pt-2 border-t border-white/10">
+                        <div class="text-[9px] text-indigo-400 font-extrabold mb-1"><i class="fas fa-info-circle mr-1"></i> WHY THIS FEEDBACK?</div>
                         <p class="text-[11px] text-slate-300 leading-relaxed" style="text-align: justify; word-break: keep-all;">
-                            'Gaps'보다는 <b>'Untapped opportunities'</b>를 사용하면 비즈니스 전략적 관점에서 더 전문적인 인상을 줍니다.
+                            'Gaps'는 일상적인 구어체에서 흔히 사용되지만, 비즈니스 전략 회의에서는 <b>'Untapped opportunities'</b>라는 표현이 훨씬 더 주도적이고 분석적인 인상을 줍니다. 특히 'identify'라는 동사를 함께 활용하면 단순히 틈새를 '찾는 것'을 넘어 시장의 잠재적 가치를 '발굴하고 정의한다'는 전문적인 느낌을 줄 수 있습니다.
                         </p>
                     </div>
                 </div>
             </div>
 
             <div class="call-controls">
+                <div class="flex justify-around w-full opacity-60 mb-2">
+                    <div class="flex flex-col items-center gap-1 text-[9px]"><i class="fas fa-microphone-slash text-lg"></i>소리끔</div>
+                    <div class="flex flex-col items-center gap-1 text-[9px]"><i class="fas fa-volume-up text-lg"></i>스피커</div>
+                    <div class="flex flex-col items-center gap-1 text-[9px]"><i class="fas fa-closed-captioning text-lg"></i>자막 설정</div>
+                </div>
                 <div class="hang-up-btn" onclick="endCall()"><i class="fas fa-phone-slash"></i></div>
             </div>
         </div>
@@ -504,7 +539,6 @@
 
         let currentProfileImage = null;
 
-        // 이미지 미리보기
         function previewProfileImage(event) {
             const file = event.target.files[0];
             if (file) {
@@ -519,15 +553,10 @@
             }
         }
 
-        // 설정 저장
         function saveSettings() {
             const newName = document.getElementById('name-input').value;
-            
-            // 메인 화면 업데이트
             document.getElementById('home-tutor-name').innerText = newName;
             const homeAvatar = document.getElementById('home-avatar');
-            
-            // 통화 화면 업데이트
             document.getElementById('call-tutor-name').innerText = newName;
             const callAvatar = document.getElementById('call-avatar');
 
@@ -542,7 +571,6 @@
                 callAvatar.style.backgroundImage = "none";
                 callAvatar.innerText = newName.charAt(0).toUpperCase();
             }
-
             closeSetup();
         }
 
@@ -555,6 +583,7 @@
             document.getElementById('call-screen').classList.add('show');
             
             callSeconds = 0;
+            if (timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 callSeconds++;
                 const m = Math.floor(callSeconds / 60).toString().padStart(2, '0');
@@ -576,7 +605,7 @@
             userTrans.innerText = "";
             correction.classList.remove('show');
 
-            await new Promise(r => setTimeout(r, 1000));
+            await new Promise(r => setTimeout(r, 1500));
             aiMsg.classList.replace('opacity-0', 'opacity-100');
             aiTrans.classList.replace('opacity-0', 'opacity-100');
             
@@ -585,7 +614,7 @@
             const words = sentence.split(" ");
             for(let word of words) {
                 userTrans.innerText += (userTrans.innerText ? " " : "") + word;
-                await new Promise(r => setTimeout(r, 400));
+                await new Promise(r => setTimeout(r, 350));
             }
 
             await new Promise(r => setTimeout(r, 1000));
@@ -600,10 +629,17 @@
         }
 
         function toggleBookmark(event) {
-            const icon = event.currentTarget.querySelector('i');
-            icon.classList.toggle('far');
-            icon.classList.toggle('fas');
-            event.currentTarget.classList.toggle('active');
+            const btn = event.currentTarget;
+            const icon = btn.querySelector('i');
+            btn.classList.toggle('active');
+            
+            if (btn.classList.contains('active')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
         }
     </script>
 </body>
