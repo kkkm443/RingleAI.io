@@ -140,11 +140,38 @@
             transform: translateY(15px);
             opacity: 0;
             transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative; /* 북마크 위치 기준 */
         }
         .correction-card.show {
             transform: translateY(0);
             opacity: 1;
         }
+        
+        /* 북마크 버튼 스타일 */
+        .bookmark-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: rgba(251, 191, 36, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .bookmark-btn.active {
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+        }
+        .bookmark-btn:hover {
+            transform: scale(1.1);
+        }
+
         .correction-header {
             display: flex;
             align-items: center;
@@ -160,6 +187,7 @@
             margin-bottom: 10px;
             padding-bottom: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-right: 20px; /* 북마크와 겹치지 않게 여백 */
         }
         .original-text {
             color: #94a3b8;
@@ -191,7 +219,6 @@
             font-size: 11.5px;
             color: #cbd5e1;
             line-height: 1.5;
-            /* 자동 정렬 및 줄바꿈 최적화 */
             text-align: justify;
             word-break: normal;
             overflow-wrap: break-word;
@@ -313,7 +340,13 @@
 
                 <div id="user-transcription" class="user-transcription"></div>
 
+                <!-- 피드백 카드 -->
                 <div id="correction-card" class="correction-card">
+                    <!-- 북마크 버튼 추가 -->
+                    <div id="bookmark" class="bookmark-btn" onclick="toggleBookmark(event)">
+                        <i class="far fa-bookmark"></i>
+                    </div>
+
                     <div class="correction-header">
                         <i class="fas fa-sparkles"></i>
                         Ivy League Logic Feedback
@@ -394,6 +427,21 @@
 
             await new Promise(r => setTimeout(r, 800));
             correction.classList.add('show');
+        }
+
+        // 북마크 토글 기능
+        function toggleBookmark(event) {
+            const btn = event.currentTarget;
+            const icon = btn.querySelector('i');
+            btn.classList.toggle('active');
+            
+            if (btn.classList.contains('active')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
         }
     </script>
 </body>
