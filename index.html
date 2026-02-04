@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
-            background-color: #0b0e26;
-            color: white;
+            background-color: #f1f5f9;
+            color: #1e293b;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 0;
@@ -24,17 +24,25 @@
             box-sizing: border-box;
         }
 
+        /* 하단 잘림 방지를 위한 프레임 높이 최적화 */
         .iphone-frame {
-            width: min(375px, 90vw);
-            height: min(812px, 95vh);
-            background-color: #0b0e26;
+            width: min(375px, 95vw);
+            height: min(812px, 92vh); 
+            background-color: #ffffff;
             border: 10px solid #1f2937;
-            border-radius: 40px;
+            border-radius: 44px;
             position: relative;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
             overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        .iphone-frame.calling-mode {
+            background-color: #0b0e26;
+            color: white;
+            border-color: #0b0e26;
         }
 
         .notch {
@@ -47,239 +55,276 @@
             background: #1f2937;
             border-bottom-left-radius: 18px;
             border-bottom-right-radius: 18px;
-            z-index: 60;
+            z-index: 100;
         }
 
         .status-bar {
-            height: 40px;
-            padding: 0 28px;
+            height: 44px;
+            padding: 0 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 13px;
             font-weight: 600;
-            z-index: 50;
-            margin-top: 5px;
+            z-index: 90;
         }
 
-        .content {
+        /* 상단 탭 */
+        .top-nav {
+            padding: 10px 20px 0;
+            display: flex;
+            gap: 20px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .top-nav-item {
+            font-size: 15px;
+            font-weight: 700;
+            color: #94a3b8;
+            padding-bottom: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+        .top-nav-item.active {
+            color: #0f172a;
+        }
+        .top-nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #4f46e5;
+        }
+
+        .main-view {
             flex: 1;
+            overflow-y: auto;
+            scrollbar-width: none;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 10px 18px;
+        }
+        .main-view::-webkit-scrollbar { display: none; }
+
+        /* 튜터 카드 */
+        .tutor-main-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 30px 20px;
             text-align: center;
-            justify-content: flex-start; 
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
         }
-
-        .header-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .avatar {
-            width: 52px;
-            height: 52px;
+        .tutor-circle {
+            width: 100px;
+            height: 100px;
             background: #7367f0;
             border-radius: 50%;
+            margin: 0 auto 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 6px;
+            font-size: 40px;
+            color: white;
+            font-weight: 800;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
         }
-        .ai-name {
-            font-size: 18px;
-            font-weight: 700;
+        .tutor-tags {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-bottom: 10px;
         }
-        .timer {
+        .tag {
+            background: #f1f5f9;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #64748b;
+        }
+        .tutor-name {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 2px;
+        }
+        .tutor-info {
             font-size: 13px;
             color: #94a3b8;
         }
 
-        .speech-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .ai-message-group {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-        .ai-message {
-            font-size: 15px;
-            line-height: 1.4;
-            color: #f8fafc;
-        }
-        .translation {
-            font-size: 12px;
-            color: #64748b;
-            margin-top: 2px;
-        }
-
-        .user-transcription {
-            font-size: 17px;
-            line-height: 1.3;
-            font-weight: 600;
-            color: #fbbf24;
-            margin: 5px 0;
-            min-height: 26px; 
-        }
-
-        .correction-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            border-radius: 14px;
-            padding: 14px;
-            text-align: left;
-            transform: translateY(15px);
-            opacity: 0;
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative; /* 북마크 위치 기준 */
-        }
-        .correction-card.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        /* 북마크 버튼 스타일 */
-        .bookmark-btn {
-            position: absolute;
-            top: 14px;
-            right: 14px;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            color: rgba(251, 191, 36, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-        .bookmark-btn.active {
-            color: #fbbf24;
-            background: rgba(251, 191, 36, 0.15);
-        }
-        .bookmark-btn:hover {
-            transform: scale(1.1);
-        }
-
-        .correction-header {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 10px;
-            color: #fbbf24;
-            font-weight: 800;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-        }
-
-        .suggested-section {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-right: 20px; /* 북마크와 겹치지 않게 여백 */
-        }
-        .original-text {
-            color: #94a3b8;
-            font-size: 12px;
-            text-decoration: line-through;
-            margin-bottom: 2px;
-        }
-        .suggested-text {
+        /* 버튼 */
+        .call-action-btn {
+            background: #4f46e5;
             color: white;
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-        .suggested-text span {
-            color: #fbbf24;
-        }
-
-        .reasoning-section {
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-        }
-        .reasoning-label {
-            font-size: 10px;
-            color: #a78bfa;
+            padding: 16px;
+            border-radius: 16px;
             font-weight: 700;
-        }
-        .reasoning-text {
-            font-size: 11.5px;
-            color: #cbd5e1;
-            line-height: 1.5;
-            text-align: justify;
-            word-break: normal;
-            overflow-wrap: break-word;
-            letter-spacing: -0.02em;
+            font-size: 16px;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 20px;
         }
 
-        .controls {
-            padding: 15px 0 25px 0;
-            background: #0b0e26;
+        /* 하단 탭바 고정 */
+        .bottom-tab-bar {
+            height: 50px;
+            border-top: 1px solid #f1f5f9;
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            justify-content: space-around;
+            padding-top: 14px;
+            background: white;
             flex-shrink: 0;
         }
-        .button-row {
-            display: flex;
-            justify-content: space-evenly;
-            align-items: center;
-            width: 100%;
-        }
-        .icon-btn {
+        .tab-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
             color: #94a3b8;
             font-size: 10px;
-            cursor: pointer;
+            font-weight: 500;
         }
-        .icon-circle {
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.05);
+        .tab-item.active { color: #4f46e5; }
+        .tab-item i { font-size: 18px; }
+
+        /* 맞춤설정 모달 */
+        .setup-modal {
+            position: absolute;
+            inset: 0;
+            background: white;
+            z-index: 150;
+            display: none;
+            flex-direction: column;
+            padding: 50px 24px 24px;
+            overflow-y: auto;
+        }
+        .setup-modal.show { display: flex; }
+        .setup-section { margin-bottom: 24px; }
+        .section-title { font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #1e293b; }
+
+        /* 프로필 편집 영역 */
+        .profile-edit-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #f1f5f9;
+        }
+        .edit-avatar-trigger {
+            width: 60px;
+            height: 60px;
+            background: #7367f0;
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            background-size: cover;
+            background-position: center;
+        }
+        .camera-icon {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: white;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 10px;
+            color: #64748b;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .name-input-group {
+            flex: 1;
+        }
+        .name-input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1.5px solid #e2e8f0;
+            padding: 4px 0;
             font-size: 16px;
-            color: white;
+            font-weight: 600;
+            color: #0f172a;
+            outline: none;
         }
-        .hang-up-btn {
-            width: 58px;
-            height: 58px;
-            background: #ef4444;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            color: white;
-            box-shadow: 0 8px 12px -3px rgba(239, 68, 68, 0.3);
+        .name-input:focus { border-color: #4f46e5; }
+
+        .option-group { display: flex; gap: 8px; }
+        .option-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
             cursor: pointer;
+        }
+        .option-btn.active {
+            border-color: #4f46e5;
+            background: #f5f3ff;
+            color: #4f46e5;
         }
 
-        .home-indicator {
-            width: 100px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            margin: 0 auto;
+        /* 통화 화면 */
+        .call-screen {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            padding: 20px;
+            align-items: center;
         }
+        .call-screen.show { display: flex; }
+        .call-avatar { width: 64px; height: 64px; background: #7367f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; background-size: cover; background-position: center; }
+        .call-tutor-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .call-timer { font-size: 14px; color: #94a3b8; margin-bottom: 30px; }
+        .user-transcription { font-size: 18px; line-height: 1.3; font-weight: 600; color: #fbbf24; margin: 10px 0; text-align: center; }
+        .ai-message { font-size: 15px; color: white; text-align: center; margin-bottom: 5px; }
+        .ai-translation { font-size: 12px; color: #64748b; text-align: center; margin-bottom: 15px; }
+
+        .correction-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 14px;
+            padding: 14px;
+            width: 100%;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+            position: relative;
+        }
+        .correction-card.show { opacity: 1; transform: translateY(0); }
+        .bookmark-btn { position: absolute; top: 14px; right: 14px; color: rgba(251, 191, 36, 0.4); cursor: pointer; }
+        .bookmark-btn.active { color: #fbbf24; }
+
+        .call-controls {
+            padding: 10px 0 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            margin-top: auto;
+        }
+        .hang-up-btn { width: 64px; height: 64px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; margin: 0 auto; cursor: pointer; }
+
+        .home-indicator { width: 100px; height: 4px; background: #e2e8f0; border-radius: 10px; margin: 8px auto; flex-shrink: 0; }
+        .calling-mode .home-indicator { background: rgba(255, 255, 255, 0.2); }
 
         .overlay {
             position: absolute;
@@ -309,139 +354,256 @@
 </head>
 <body>
 
-    <div class="iphone-frame">
+    <div id="iphone" class="iphone-frame">
         <div class="notch"></div>
         
-        <div id="overlay" class="overlay" onclick="startCall()">
-            <div class="start-badge">대화 시작 (MVP 시연)</div>
-        </div>
-
+        <!-- 상태바 -->
         <div class="status-bar">
-            <span>12:54</span>
+            <span id="clock">12:54</span>
             <div class="flex gap-1 items-center">
-                <i class="fas fa-signal text-[10px]"></i>
-                <i class="fas fa-wifi text-[10px]"></i>
-                <i class="fas fa-battery-full text-[10px]"></i>
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
             </div>
         </div>
 
-        <div class="content">
-            <div class="header-area">
-                <div class="avatar">G</div>
-                <div class="ai-name">Gwen</div>
-                <div id="timer" class="timer">00:00</div>
+        <!-- 1. 메인 홈 화면 -->
+        <div id="home-view" class="flex flex-col flex-1">
+            <div class="px-5 py-2 flex justify-between items-center">
+                <h1 class="text-2xl font-extrabold">AI 전화</h1>
+                <div class="flex gap-4 text-slate-400">
+                    <i class="fas fa-fire-alt text-orange-400"></i>
+                    <i class="fas fa-bars"></i>
+                </div>
             </div>
 
-            <div class="speech-container">
-                <div id="ai-group" class="ai-message-group">
-                    <div class="ai-message">"What is your main objective for the upcoming market analysis?"</div>
-                    <div class="translation">"이번 시장 분석의 주요 목표는 무엇인가요?"</div>
+            <div class="top-nav">
+                <div class="top-nav-item active">전화</div>
+                <div class="top-nav-item" onclick="openSetup()">맞춤설정</div>
+                <div class="top-nav-item">전화내역</div>
+            </div>
+
+            <div class="main-view">
+                <div class="tutor-main-card">
+                    <div id="home-avatar" class="tutor-circle">G</div>
+                    <div class="tutor-tags">
+                        <span class="tag">밝은</span>
+                        <span class="tag">활기찬</span>
+                    </div>
+                    <div id="home-tutor-name" class="tutor-name">Gwen</div>
+                    <div class="tutor-info">#미국 #여성</div>
                 </div>
+
+                <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl flex justify-between items-center cursor-pointer" onclick="openSetup()">
+                    <div class="flex flex-col text-left">
+                        <span class="text-[10px] text-slate-400 font-bold uppercase">Curriculum</span>
+                        <span class="text-sm font-bold">비즈니스 분석</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-300 text-xs"></i>
+                </div>
+
+                <div class="call-action-btn" onclick="startCall()">
+                    바로 전화하기
+                </div>
+            </div>
+
+            <div class="bottom-tab-bar">
+                <div class="tab-item"><i class="fas fa-home"></i>홈</div>
+                <div class="tab-item"><i class="fas fa-video"></i>1:1 수업</div>
+                <div class="tab-item"><i class="fas fa-comment-dots"></i>AI 튜터</div>
+                <div class="tab-item active"><i class="fas fa-phone-alt"></i>AI 전화</div>
+                <div class="tab-item"><i class="fas fa-chart-bar"></i>성취</div>
+                <div class="tab-item"><i class="fas fa-user"></i>마이링글</div>
+            </div>
+        </div>
+
+        <!-- 2. 맞춤 설정 모달 -->
+        <div id="setup-modal" class="setup-modal">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-extrabold">맞춤설정</h2>
+                <i class="fas fa-times text-xl cursor-pointer" onclick="closeSetup()"></i>
+            </div>
+
+            <div class="section-title">AI 프로필 설정</div>
+            <div class="profile-edit-box">
+                <div class="edit-avatar-trigger" onclick="document.getElementById('file-input').click()">
+                    <div id="setup-avatar-preview" class="w-full h-full rounded-full flex items-center justify-center bg-indigo-500 overflow-hidden bg-size-cover">G</div>
+                    <div class="camera-icon"><i class="fas fa-camera"></i></div>
+                    <input type="file" id="file-input" style="display:none" accept="image/*" onchange="previewProfileImage(event)">
+                </div>
+                <div class="name-input-group">
+                    <div class="text-[10px] text-slate-400 font-bold mb-1">튜터 이름</div>
+                    <input type="text" id="name-input" class="name-input" value="Gwen" maxlength="12">
+                </div>
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">난이도 선택</div>
+                <div class="option-group">
+                    <div class="option-btn">Easy</div>
+                    <div class="option-btn active">Intermediate</div>
+                </div>
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">시간 선택</div>
+                <div class="option-group">
+                    <div class="option-btn active">5분</div>
+                    <div class="option-btn">10분</div>
+                </div>
+            </div>
+
+            <div class="call-action-btn mt-auto" onclick="saveSettings()">
+                설정 저장
+            </div>
+        </div>
+
+        <!-- 3. 통화 화면 -->
+        <div id="call-screen" class="call-screen">
+            <div id="call-avatar" class="call-avatar">G</div>
+            <div id="call-tutor-name" class="call-tutor-name">Gwen</div>
+            <div id="call-timer" class="call-timer">00:00</div>
+
+            <div class="flex-1 w-full flex flex-col justify-start">
+                <div id="ai-msg" class="ai-message opacity-0 transition-opacity">"What is your main objective for the upcoming market analysis?"</div>
+                <div id="ai-trans" class="ai-translation opacity-0 transition-opacity">"이번 시장 분석의 주요 목표는 무엇인가요?"</div>
 
                 <div id="user-transcription" class="user-transcription"></div>
 
-                <!-- 피드백 카드 -->
                 <div id="correction-card" class="correction-card">
-                    <!-- 북마크 버튼 추가 -->
-                    <div id="bookmark" class="bookmark-btn" onclick="toggleBookmark(event)">
-                        <i class="far fa-bookmark"></i>
-                    </div>
-
-                    <div class="correction-header">
-                        <i class="fas fa-sparkles"></i>
-                        Ivy League Logic Feedback
-                    </div>
+                    <div class="bookmark-btn" onclick="toggleBookmark(event)"><i class="far fa-bookmark"></i></div>
+                    <div class="text-[9px] text-amber-400 font-extrabold uppercase mb-2">Ivy League Logic Feedback</div>
+                    <div class="text-slate-400 text-[11px] line-through mb-1">"I want to find gaps in the market."</div>
+                    <div class="text-sm font-bold mb-1">Try: <span class="text-amber-400">"I'm looking to identify untapped market opportunities."</span></div>
                     
-                    <div class="suggested-section">
-                        <div class="original-text">"I want to find gaps in the market."</div>
-                        <div class="suggested-text">
-                            Try: <span>"I'm looking to identify untapped market opportunities."</span>
-                        </div>
-                        <div class="translation mt-1 text-[11px]">"시장 내의 미개척 기회들을 포착하고자 합니다."</div>
-                    </div>
-
-                    <div class="reasoning-section">
-                        <div class="reasoning-label"><i class="fas fa-info-circle mr-1"></i> WHY THIS FEEDBACK?</div>
-                        <p class="reasoning-text">
-                            'Gaps'는 일상적인 구어체에서 흔히 사용되지만, 비즈니스 전략 회의에서는 <b>'Untapped opportunities'</b>라는 표현이 훨씬 더 주도적이고 분석적인 인상을 줍니다. 특히 'identify'라는 동사를 함께 활용하면 단순히 틈새를 '찾는 것'을 넘어 시장의 잠재적 가치를 '발굴하고 정의한다'는 전문적인 느낌을 줄 수 있습니다.
+                    <div class="pt-2 mt-2 border-t border-white/10">
+                        <p class="text-[11px] text-slate-300 leading-relaxed" style="text-align: justify; word-break: keep-all;">
+                            'Gaps'보다는 <b>'Untapped opportunities'</b>를 사용하면 비즈니스 전략적 관점에서 더 전문적인 인상을 줍니다.
                         </p>
                     </div>
                 </div>
             </div>
+
+            <div class="call-controls">
+                <div class="hang-up-btn" onclick="endCall()"><i class="fas fa-phone-slash"></i></div>
+            </div>
         </div>
 
-        <div class="controls">
-            <div class="button-row">
-                <div class="icon-btn">
-                    <div class="icon-circle"><i class="fas fa-microphone-slash"></i></div>
-                    <span>소리끔</span>
-                </div>
-                <div class="icon-btn">
-                    <div class="icon-circle"><i class="fas fa-volume-up"></i></div>
-                    <span>스피커</span>
-                </div>
-                <div class="icon-btn">
-                    <div class="icon-circle"><i class="fas fa-closed-captioning"></i></div>
-                    <span>자막 설정</span>
-                </div>
-            </div>
-            <div class="button-row">
-                <div class="hang-up-btn" onclick="location.reload()">
-                    <i class="fas fa-phone-slash"></i>
-                </div>
-            </div>
-            <div class="home-indicator"></div>
-        </div>
+        <div class="home-indicator"></div>
     </div>
 
     <script>
-        let seconds = 0;
+        // 시계 업데이트
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+        }, 1000);
+
+        function openSetup() { document.getElementById('setup-modal').classList.add('show'); }
+        function closeSetup() { document.getElementById('setup-modal').classList.remove('show'); }
+
+        let currentProfileImage = null;
+
+        // 이미지 미리보기
+        function previewProfileImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentProfileImage = e.target.result;
+                    const preview = document.getElementById('setup-avatar-preview');
+                    preview.style.backgroundImage = `url(${currentProfileImage})`;
+                    preview.innerText = "";
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // 설정 저장
+        function saveSettings() {
+            const newName = document.getElementById('name-input').value;
+            
+            // 메인 화면 업데이트
+            document.getElementById('home-tutor-name').innerText = newName;
+            const homeAvatar = document.getElementById('home-avatar');
+            
+            // 통화 화면 업데이트
+            document.getElementById('call-tutor-name').innerText = newName;
+            const callAvatar = document.getElementById('call-avatar');
+
+            if (currentProfileImage) {
+                homeAvatar.style.backgroundImage = `url(${currentProfileImage})`;
+                homeAvatar.innerText = "";
+                callAvatar.style.backgroundImage = `url(${currentProfileImage})`;
+                callAvatar.innerText = "";
+            } else {
+                homeAvatar.style.backgroundImage = "none";
+                homeAvatar.innerText = newName.charAt(0).toUpperCase();
+                callAvatar.style.backgroundImage = "none";
+                callAvatar.innerText = newName.charAt(0).toUpperCase();
+            }
+
+            closeSetup();
+        }
+
         let timerInterval;
+        let callSeconds = 0;
 
         function startCall() {
-            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('iphone').classList.add('calling-mode');
+            document.getElementById('call-screen').classList.add('show');
+            
+            callSeconds = 0;
             timerInterval = setInterval(() => {
-                seconds++;
-                const m = Math.floor(seconds / 60).toString().padStart(2, '0');
-                const s = (seconds % 60).toString().padStart(2, '0');
-                document.getElementById('timer').innerText = `${m}:${s}`;
+                callSeconds++;
+                const m = Math.floor(callSeconds / 60).toString().padStart(2, '0');
+                const s = (callSeconds % 60).toString().padStart(2, '0');
+                document.getElementById('call-timer').innerText = `${m}:${s}`;
             }, 1000);
+
             runScenario();
         }
 
         async function runScenario() {
-            const aiGroup = document.getElementById('ai-group');
+            const aiMsg = document.getElementById('ai-msg');
+            const aiTrans = document.getElementById('ai-trans');
             const userTrans = document.getElementById('user-transcription');
             const correction = document.getElementById('correction-card');
 
-            aiGroup.style.opacity = '1';
-            await new Promise(r => setTimeout(r, 1500));
+            aiMsg.classList.add('opacity-0');
+            aiTrans.classList.add('opacity-0');
+            userTrans.innerText = "";
+            correction.classList.remove('show');
 
+            await new Promise(r => setTimeout(r, 1000));
+            aiMsg.classList.replace('opacity-0', 'opacity-100');
+            aiTrans.classList.replace('opacity-0', 'opacity-100');
+            
+            await new Promise(r => setTimeout(r, 2000));
             const sentence = "I want to find gaps in the market.";
             const words = sentence.split(" ");
-            
-            for(let i=0; i<words.length; i++) {
-                userTrans.innerText += (i === 0 ? "" : " ") + words[i];
-                await new Promise(r => setTimeout(r, 350)); 
+            for(let word of words) {
+                userTrans.innerText += (userTrans.innerText ? " " : "") + word;
+                await new Promise(r => setTimeout(r, 400));
             }
 
-            await new Promise(r => setTimeout(r, 800));
+            await new Promise(r => setTimeout(r, 1000));
             correction.classList.add('show');
         }
 
-        // 북마크 토글 기능
+        function endCall() {
+            clearInterval(timerInterval);
+            document.getElementById('call-screen').classList.remove('show');
+            document.getElementById('iphone').classList.remove('calling-mode');
+            document.getElementById('home-view').style.display = 'flex';
+        }
+
         function toggleBookmark(event) {
-            const btn = event.currentTarget;
-            const icon = btn.querySelector('i');
-            btn.classList.toggle('active');
-            
-            if (btn.classList.contains('active')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-            }
+            const icon = event.currentTarget.querySelector('i');
+            icon.classList.toggle('far');
+            icon.classList.toggle('fas');
+            event.currentTarget.classList.toggle('active');
         }
     </script>
 </body>
