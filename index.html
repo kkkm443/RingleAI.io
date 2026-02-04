@@ -3,14 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ringle AI Live Feedback MVP</title>
+    <title>Ringle AI Advanced MVP</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <style>
+        /* 폰트 및 기본 설정 - 모든 요소에 Pretendard 강제 적용 */
+        body, button, input, span, div, p, h1, h2 {
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+        }
+
         body {
             background-color: #f1f5f9;
             color: #1e293b;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -24,353 +29,235 @@
             box-sizing: border-box;
         }
 
+        /* 아이폰 프레임 */
         .iphone-frame {
             width: min(375px, 95vw);
             height: min(812px, 92vh); 
             background-color: #ffffff;
-            border: 10px solid #1f2937;
+            border: 12px solid #1f2937;
             border-radius: 44px;
             position: relative;
             display: flex;
             flex-direction: column;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.2);
             overflow: hidden;
-            transition: background-color 0.5s ease;
+            transition: background-color 0.3s ease;
         }
 
         .iphone-frame.calling-mode {
             background-color: #0b0e26;
-            color: white;
             border-color: #0b0e26;
         }
 
         .notch {
             position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 160px;
-            height: 28px;
-            background: #1f2937;
-            border-bottom-left-radius: 18px;
-            border-bottom-right-radius: 18px;
-            z-index: 100;
+            top: 0; left: 50%; transform: translateX(-50%);
+            width: 160px; height: 28px; background: #1f2937;
+            border-bottom-left-radius: 18px; border-bottom-right-radius: 18px;
+            z-index: 1100;
         }
 
         .status-bar {
-            height: 44px;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            font-weight: 600;
-            z-index: 90;
+            height: 44px; padding: 0 30px; display: flex; justify-content: space-between;
+            align-items: center; font-size: 13px; font-weight: 600; z-index: 1000; flex-shrink: 0;
+            color: inherit;
         }
 
+        /* 각 뷰 관리 */
+        .view-container {
+            flex: 1; position: relative; display: flex; flex-direction: column; overflow: hidden;
+        }
+
+        /* 뷰 전환 시 겹침 현상 원천 차단 */
+        .view {
+            position: absolute; inset: 0; display: none; flex-direction: column; 
+            background-color: #ffffff; z-index: 10;
+        }
+        .view.active { display: flex; }
+
+        /* 상단 네비게이션 */
         .top-nav {
-            padding: 10px 20px 0;
-            display: flex;
-            gap: 20px;
-            border-bottom: 1px solid #f1f5f9;
+            padding: 10px 20px 0; display: flex; gap: 20px; border-bottom: 1px solid #f1f5f9; flex-shrink: 0;
         }
         .top-nav-item {
-            font-size: 15px;
-            font-weight: 700;
-            color: #94a3b8;
-            padding-bottom: 12px;
-            cursor: pointer;
-            position: relative;
+            font-size: 15px; font-weight: 600; color: #94a3b8; padding-bottom: 12px;
+            cursor: pointer; position: relative;
         }
-        .top-nav-item.active {
-            color: #0f172a;
-        }
+        .top-nav-item.active { color: #0f172a; }
         .top-nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: #4f46e5;
+        }
+
+        /* 스크롤바 숨기기 */
+        .scroll-area {
+            flex: 1; overflow-y: auto; padding: 15px 20px;
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .scroll-area::-webkit-scrollbar { display: none; }
+
+        /* [홈] 프리미엄 배너 */
+        .upcoming-banner {
             background: #4f46e5;
-        }
-
-        .main-view {
-            flex: 1;
-            overflow-y: auto;
-            scrollbar-width: none;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .main-view::-webkit-scrollbar { display: none; }
-
-        .tutor-main-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 30px 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
-        }
-        .tutor-circle {
-            width: 100px;
-            height: 100px;
-            background: #7367f0;
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: white;
-            font-weight: 800;
-            background-size: cover;
-            background-position: center;
-            overflow: hidden;
-        }
-        .tutor-tags {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 10px;
-        }
-        .tag {
-            background: #f1f5f9;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 600;
-            color: #64748b;
-        }
-        .tutor-name {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 2px;
-        }
-        .tutor-info {
-            font-size: 13px;
-            color: #94a3b8;
-        }
-
-        .call-action-btn {
-            background: #4f46e5;
-            color: white;
-            padding: 16px;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 16px;
-            text-align: center;
+            border-radius: 16px; padding: 14px 18px; color: white; margin-bottom: 15px;
+            display: flex; justify-content: space-between; align-items: center;
             cursor: pointer;
-            margin-top: 20px;
         }
 
-        .bottom-tab-bar {
-            height: 50px;
-            border-top: 1px solid #f1f5f9;
-            display: flex;
-            justify-content: space-around;
-            padding-top: 10px;
-            background: white;
-            flex-shrink: 0;
+        /* [홈] 튜터 카드 */
+        .tutor-card {
+            background: white; border: 1px solid #f1f5f9; border-radius: 24px;
+            padding: 33px 20px; text-align: center; margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
         }
-        .tab-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: #94a3b8;
-            font-size: 10px;
-            font-weight: 500;
+        .avatar-circle {
+            width: 100px; height: 100px; background: #7367f0; border-radius: 50%;
+            margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;
+            font-size: 40px; color: white; font-weight: 800;
+            background-size: cover; background-position: center; overflow: hidden;
         }
-        .tab-item.active { color: #4f46e5; }
-        .tab-item i { font-size: 18px; }
+        .tag-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 10px; }
+        .tutor-tag { background: #f1f5f9; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; color: #94a3b8; }
+        .tutor-name-text { font-size: 22px; font-weight: 800; margin-bottom: 4px; color: #1e293b; }
 
-        .setup-modal {
-            position: absolute;
-            inset: 0;
-            background: white;
-            z-index: 150;
-            display: none;
-            flex-direction: column;
-            padding: 50px 24px 24px;
-            overflow-y: auto;
+        .curr-box-selector {
+            background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 16px;
+            padding: 16px 20px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; margin-bottom: 20px;
         }
-        .setup-modal.show { display: flex; }
-        .setup-section { margin-bottom: 24px; }
-        .section-title { font-size: 15px; font-weight: 800; margin-bottom: 12px; color: #1e293b; }
 
+        .btn-primary-action {
+            background: #4f46e5; color: white; padding: 18px; border-radius: 16px;
+            font-weight: 700; font-size: 16px; text-align: center; cursor: pointer;
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+            width: 100%;
+        }
+
+        /* 하단 탭 바 */
+        .bottom-bar {
+            height: 75px; border-top: 1px solid #f1f5f9; display: flex;
+            justify-content: space-around; padding-top: 10px; background: white;
+            flex-shrink: 0; z-index: 100;
+        }
+        .nav-item {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            gap: 4px; color: #94a3b8; font-size: 10px; font-weight: 500;
+        }
+        .nav-item.active { color: #4f46e5; }
+        .nav-item i { font-size: 18px; }
+
+        /* 커리큘럼 아코디언 */
+        .category-label { font-size: 11px; font-weight: 700; color: #94a3b8; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .curr-accordion-item { border: 1px solid #e2e8f0; border-radius: 16px; margin-bottom: 12px; overflow: hidden; background: white; transition: all 0.3s ease; }
+        .curr-accordion-item.active { border-color: #4f46e5; background: #f5f3ff; }
+        .curr-head { padding: 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+        .curr-title { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 15px; color: #1e293b; letter-spacing: -0.02em; }
+        .curr-body { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; padding: 0 18px; }
+        .curr-accordion-item.active .curr-body { max-height: 1200px; padding-bottom: 18px; }
+        
+        .curr-desc-p { font-size: 12px; color: #64748b; margin-bottom: 15px; line-height: 1.6; word-break: keep-all; font-weight: 400; }
+        
+        /* 전문직 세부 리스트 */
+        .sub-topic-row { padding: 14px; border-radius: 12px; background: white; border: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; font-size: 14px; cursor: pointer; margin-bottom: 8px; transition: all 0.2s; font-weight: 500; }
+        .sub-topic-row.selected { border-color: #4f46e5; color: #4f46e5; font-weight: 700; background: #f5f3ff; }
+        .sub-topic-row .check-mark { display: none; color: #4f46e5; font-size: 16px; }
+        .sub-topic-row.selected .check-mark { display: block; }
+
+        .random-info-bullet { font-size: 13px; color: #475569; padding-left: 20px; list-style: disc; line-height: 1.8; font-weight: 400; }
+
+        .workflow-sync-card { background: #fff1f2; border: 1.5px dashed #fb7185; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px; cursor: pointer; }
+
+        /* [맞춤설정] */
+        .opt-group { margin-bottom: 25px; }
+        .opt-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #1e293b; }
+        
         .profile-edit-box {
-            background: #f8fafc;
-            border-radius: 16px;
-            padding: 16px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
+            background: #f8fafc; border-radius: 16px; padding: 20px;
+            display: flex; align-items: center; gap: 20px; margin-bottom: 20px; border: 1px solid #f1f5f9;
+        }
+        .name-input-container { flex: 1; display: flex; flex-direction: column; }
+        .name-label-small { font-size: 10px; color: #94a3b8; font-weight: 700; margin-bottom: 2px; }
+        .name-input-field {
+            width: 100%; background: transparent; border: none; border-bottom: 1.5px solid #e2e8f0;
+            padding: 4px 0; font-size: 18px; font-weight: 700; color: #1e293b; outline: none; transition: border-color 0.2s;
+        }
+        .name-input-field:focus { border-color: #4f46e5; }
+
+        .opt-row { display: flex; gap: 10px; }
+        .opt-btn-item {
+            flex: 1; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 12px;
+            text-align: center; font-size: 14px; font-weight: 600; color: #94a3b8; cursor: pointer;
+            transition: all 0.2s;
+        }
+        .opt-btn-item.active { border-color: #4f46e5; background: #f5f3ff; color: #4f46e5; }
+
+        /* [통화 화면] */
+        .call-view-overlay { 
+            position: absolute; inset: 0; display: none; flex-direction: column; 
+            align-items: center; color: white; background-color: #0b0e26; z-index: 500;
+        }
+        .call-view-overlay.active { display: flex; }
+        
+        .call-header-fixed {
+            width: 100%; display: flex; flex-direction: column; align-items: center; padding: 15px 20px 5px; flex-shrink: 0;
+        }
+        .call-avatar-reduced { width: 72px; height: 72px; font-size: 28px; margin-bottom: 8px; }
+        .call-timer-label { font-size: 13px; color: #64748b; margin-bottom: 10px; }
+        
+        .call-scroll-body {
+            flex: 1; width: 100%; overflow-y: auto; padding: 0 20px;
+            -ms-overflow-style: none; scrollbar-width: none;
+        }
+        .call-scroll-body::-webkit-scrollbar { display: none; }
+
+        .ai-voice-msg-area { text-align: center; margin-bottom: 12px; padding: 0 10px; }
+        .user-trans-text { font-size: 17px; font-weight: 600; color: #fbbf24; margin: 10px 0; text-align: center; min-height: 24px; line-height: 1.4; letter-spacing: -0.01em; }
+        
+        .fb-card-advanced {
+            background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 18px; padding: 20px; width: 100%; opacity: 0; transform: translateY(15px); transition: all 0.5s ease; position: relative;
             margin-bottom: 20px;
-            border: 1px solid #f1f5f9;
         }
-        .edit-avatar-trigger {
-            width: 60px;
-            height: 60px;
-            background: #7367f0;
-            border-radius: 50%;
-            position: relative;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            background-size: cover;
-            background-position: center;
-        }
-        .camera-icon {
-            position: absolute;
-            bottom: -2px;
-            right: -2px;
-            background: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            color: #64748b;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .name-input-group {
-            flex: 1;
-        }
-        .name-input {
-            width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 1.5px solid #e2e8f0;
-            padding: 4px 0;
-            font-size: 16px;
-            font-weight: 600;
-            color: #0f172a;
-            outline: none;
-        }
-        .name-input:focus { border-color: #4f46e5; }
+        .fb-card-advanced.active { opacity: 1; transform: translateY(0); }
 
-        .option-group { display: flex; gap: 8px; }
-        .option-btn {
-            flex: 1;
-            padding: 10px;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 12px;
-            text-align: center;
-            font-size: 13px;
-            font-weight: 600;
-            color: #64748b;
-            cursor: pointer;
-        }
-        .option-btn.active {
-            border-color: #4f46e5;
-            background: #f5f3ff;
-            color: #4f46e5;
-        }
+        .fb-card-header { font-size: 10px; color: #fbbf24; font-weight: 800; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.1em; }
+        .fb-strikethrough { font-size: 12px; color: #94a3b8; text-decoration: line-through; margin-bottom: 4px; opacity: 0.6; }
+        .fb-try-bold { font-size: 15px; font-weight: 700; color: white; line-height: 1.4; margin-bottom: 6px; }
+        .fb-try-bold span { color: #fbbf24; }
+        .fb-ko-translation { font-size: 11px; color: #64748b; font-style: italic; margin-bottom: 18px; }
 
-        .call-screen {
-            display: none;
-            flex: 1;
-            flex-direction: column;
-            padding: 20px;
-            align-items: center;
+        .logic-viz-viz {
+            background: rgba(79, 70, 229, 0.15); border-radius: 12px; padding: 12px; margin: 15px 0; border: 1px solid rgba(79, 70, 229, 0.25);
         }
-        .call-screen.show { display: flex; }
-        .call-avatar { width: 64px; height: 64px; background: #7367f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; margin-bottom: 10px; background-size: cover; background-position: center; flex-shrink: 0; }
-        .call-tutor-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .call-timer { font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
-        
-        .user-transcription { font-size: 18px; line-height: 1.3; font-weight: 600; color: #fbbf24; margin: 10px 0; text-align: center; min-height: 24px; }
-        
-        .ai-message-area { text-align: center; margin-bottom: 10px; }
-        .ai-message { font-size: 15px; color: white; margin-bottom: 4px; }
-        .ai-translation { font-size: 12px; color: #64748b; }
+        .logic-step-item { display: flex; align-items: center; gap: 8px; font-size: 10.5px; color: #a5b4fc; margin-bottom: 6px; }
+        .logic-step-item.now { color: #fbbf24; font-weight: 700; }
 
-        .correction-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            border-radius: 14px;
-            padding: 14px;
-            width: 100%;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.5s ease;
-            position: relative;
-        }
-        .correction-card.show { opacity: 1; transform: translateY(0); }
+        .why-header { font-size: 10px; font-weight: 800; color: #818cf8; margin-bottom: 6px; }
+        .why-body { font-size: 11px; color: #cbd5e1; line-height: 1.6; text-align: justify; word-break: keep-all; }
 
-        /* 북마크 버튼 고도화 */
-        .bookmark-btn { 
-            position: absolute; 
-            top: 14px; 
-            right: 14px; 
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.05); /* 은은한 배경 추가 */
-            border-radius: 8px;
-            color: rgba(251, 191, 36, 0.4); 
-            cursor: pointer; 
-            z-index: 10; 
-            transition: all 0.2s ease; /* 전환 효과 */
+        .bookmark-icon-wrap { 
+            position: absolute; top: 20px; right: 20px; width: 34px; height: 34px; 
+            display: flex; align-items: center; justify-content: center; 
+            background: rgba(255, 255, 255, 0.05); border-radius: 10px; 
+            color: rgba(251, 191, 36, 0.4); cursor: pointer; transition: all 0.2s; 
         }
-        .bookmark-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .bookmark-btn:active {
-            transform: scale(0.9); /* 클릭했을 때 눌리는 느낌 */
-        }
-        .bookmark-btn.active { 
-            color: #fbbf24; 
-            background: rgba(251, 191, 36, 0.15); /* 활성화 시 배경색 변화 */
-        }
+        .bookmark-icon-wrap:active { transform: scale(0.9); }
+        .bookmark-icon-wrap.active { color: #fbbf24; background: rgba(251, 191, 36, 0.15); }
 
-        .call-controls {
-            padding: 10px 0 20px;
+        .call-action-footer { width: 100%; padding: 15px 0 25px; margin-top: auto; flex-shrink: 0; background-color: #0b0e26; border-top: 1px solid rgba(255,255,255,0.05); }
+        .btn-hangup-large { width: 64px; height: 64px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; margin: 0 auto; cursor: pointer; box-shadow: 0 10px 20px rgba(239, 68, 68, 0.3); }
+
+        .bottom-save-area {
+            padding: 16px 20px 30px; 
+            background: white; 
+            border-top: 1px solid #f1f5f9;
+            flex-shrink: 0;
+            z-index: 50;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            width: 100%;
-            margin-top: auto;
         }
-        .hang-up-btn { width: 64px; height: 64px; background: #ef4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white; margin: 0 auto; cursor: pointer; }
 
-        .home-indicator { width: 100px; height: 4px; background: #e2e8f0; border-radius: 10px; margin: 8px auto; flex-shrink: 0; }
-        .calling-mode .home-indicator { background: rgba(255, 255, 255, 0.2); }
-
-        .overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(11, 14, 38, 0.95);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            border-radius: 30px;
-            cursor: pointer;
-        }
-        .start-badge {
-            background: #fbbf24;
-            color: #0b0e26;
-            padding: 12px 24px;
-            border-radius: 30px;
-            font-weight: 800;
-            font-size: 16px;
-            animation: bounce 1s infinite;
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
+        .home-indicator-v3 { width: 110px; height: 5px; background: #e2e8f0; border-radius: 10px; margin: 10px auto; flex-shrink: 0; }
+        .calling-mode .home-indicator-v3 { background: rgba(255, 255, 255, 0.2); }
     </style>
 </head>
 <body>
@@ -378,269 +265,365 @@
     <div id="iphone" class="iphone-frame">
         <div class="notch"></div>
         
-        <!-- 상태바 -->
         <div class="status-bar">
-            <span id="clock">12:54</span>
-            <div class="flex gap-1 items-center">
+            <span id="clock-display">09:41</span>
+            <div class="flex gap-1.5 items-center">
                 <i class="fas fa-signal"></i>
                 <i class="fas fa-wifi"></i>
                 <i class="fas fa-battery-full"></i>
             </div>
         </div>
 
-        <!-- 1. 메인 홈 화면 -->
-        <div id="home-view" class="flex flex-col flex-1">
-            <div class="px-5 py-2 flex justify-between items-center">
-                <h1 class="text-2xl font-extrabold">AI 전화</h1>
-                <div class="flex gap-4 text-slate-400">
-                    <i class="fas fa-fire-alt text-orange-400"></i>
-                    <i class="fas fa-bars"></i>
-                </div>
-            </div>
-
-            <div class="top-nav">
-                <div class="top-nav-item active">전화</div>
-                <div class="top-nav-item" onclick="openSetup()">맞춤설정</div>
-                <div class="top-nav-item">전화내역</div>
-            </div>
-
-            <div class="main-view">
-                <div class="tutor-main-card">
-                    <div id="home-avatar" class="tutor-circle">G</div>
-                    <div class="tutor-tags">
-                        <span class="tag">밝은</span>
-                        <span class="tag">활기찬</span>
+        <div class="view-container">
+            <div id="home-view" class="view active">
+                <div class="px-5 py-2 flex justify-between items-center">
+                    <h1 class="text-2xl font-bold text-slate-800">AI 전화</h1>
+                    <div class="flex gap-4 text-slate-300">
+                        <i class="fas fa-fire text-orange-400"></i>
+                        <i class="fas fa-bars"></i>
                     </div>
-                    <div id="home-tutor-name" class="tutor-name">Gwen</div>
-                    <div class="tutor-info">#미국 #여성</div>
                 </div>
 
-                <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl flex justify-between items-center cursor-pointer" onclick="openSetup()">
-                    <div class="flex flex-col text-left">
-                        <span class="text-[10px] text-slate-400 font-bold uppercase">Curriculum</span>
-                        <span class="text-sm font-bold">비즈니스 분석</span>
+                <div class="top-nav">
+                    <div class="top-nav-item active">전화</div>
+                    <div class="top-nav-item" onclick="changeViewTo('setup-view')">맞춤설정</div>
+                    <div class="top-nav-item">전화내역</div>
+                </div>
+
+                <div class="scroll-area">
+                    <div class="upcoming-banner shadow-sm" onclick="alert('Harvard 수업 리허설 기능을 준비 중입니다.')">
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-bold opacity-80 uppercase tracking-widest">Ivy League Standard</span>
+                            <span class="text-[13px] font-bold">내일 21:00, Harvard 튜터 수업</span>
+                            <span class="text-[11px] opacity-90 mt-1">수업 전 AI와 미리 리허설 해보세요!</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-[10px]"></i>
                     </div>
-                    <i class="fas fa-chevron-right text-slate-300 text-xs"></i>
+
+                    <div class="tutor-card">
+                        <div id="home-avatar-img" class="avatar-circle">G</div>
+                        <div class="tag-row">
+                            <span class="tutor-tag">지적인</span>
+                            <span class="tutor-tag">논리적인</span>
+                        </div>
+                        <div id="home-tutor-name-label" class="tutor-name-text">Gwen</div>
+                    </div>
+
+                    <div class="curr-box-selector" onclick="changeViewTo('curr-view')">
+                        <div class="flex flex-col text-left">
+                            <span class="text-[9px] text-slate-400 font-bold uppercase mb-1">Current Curriculum</span>
+                            <span id="home-curr-display-text" class="text-[14px] font-bold">동물병원: 반려견 증상 전문 상담</span>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-300 text-xs"></i>
+                    </div>
+
+                    <div class="btn-primary-action" onclick="startFullCallSequence()" style="margin-top: auto; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; text-align: center; cursor: pointer; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);">바로 전화하기</div>
                 </div>
 
-                <div class="call-action-btn" onclick="startCall()">
-                    바로 전화하기
+                <div class="bottom-bar">
+                    <div class="nav-item"><i class="fas fa-home"></i><span>홈</span></div>
+                    <div class="nav-item"><i class="fas fa-video"></i><span>1:1 수업</span></div>
+                    <div class="nav-item"><i class="fas fa-comment-dots"></i><span>AI 튜터</span></div>
+                    <div class="nav-item active"><i class="fas fa-phone-alt"></i><span>AI 전화</span></div>
+                    <div class="nav-item"><i class="fas fa-chart-bar"></i><span>성취</span></div>
+                    <div class="nav-item"><i class="fas fa-user"></i><span>마이링글</span></div>
                 </div>
             </div>
 
-            <div class="bottom-tab-bar">
-                <div class="tab-item"><i class="fas fa-home"></i>홈</div>
-                <div class="tab-item"><i class="fas fa-video"></i>1:1 수업</div>
-                <div class="tab-item"><i class="fas fa-comment-dots"></i>AI 튜터</div>
-                <div class="tab-item active"><i class="fas fa-phone-alt"></i>AI 전화</div>
-                <div class="tab-item"><i class="fas fa-chart-bar"></i>성취</div>
-                <div class="tab-item"><i class="fas fa-user"></i>마이링글</div>
+            <div id="curr-view" class="view bg-white">
+                <div class="flex justify-between items-center px-5 pt-4 mb-4">
+                    <h2 class="text-xl font-bold">커리큘럼</h2>
+                    <i class="fas fa-times text-xl text-slate-300 cursor-pointer" onclick="changeViewTo('home-view')"></i>
+                </div>
+
+                <div class="scroll-area pt-0">
+                    <p class="text-[11px] text-slate-400 mb-6 leading-relaxed font-medium">주제를 선택하고 나만의 커리큘럼을 만들어 보세요.<br>선택한 주제에 맞춰 랜덤으로 상황이 제시됩니다.</p>
+
+                    <div class="workflow-sync-card" onclick="alert('PPT 스크립트 로딩 중...')">
+                        <i class="fas fa-file-invoice text-3xl text-pink-400 mb-2"></i>
+                        <div class="text-sm font-bold text-pink-600">Workflow Sync (초격차)</div>
+                        <p class="text-[10px] text-slate-400 mt-1 font-medium">내 PPT/스크립트를 학습하여 시뮬레이션을 진행합니다.</p>
+                    </div>
+
+                    <div class="category-label">전문직 전용 (개별 선택 가능)</div>
+                    <div class="curr-accordion-item active">
+                        <div class="curr-head" onclick="toggleAccItem(this)">
+                            <div class="curr-title"><i class="fas fa-user-md text-indigo-500"></i><span>전문직 및 커리어</span></div>
+                            <i class="fas fa-chevron-down text-slate-300 text-xs"></i>
+                        </div>
+                        <div class="curr-body">
+                            <p class="curr-desc-p">수의학, 법률, 투자 등 고난도 전문 상황의 어휘와 논리 구조를 학습합니다. 아래 주제 중 하나를 선택하세요.</p>
+                            <div class="sub-topic-list">
+                                <div class="sub-topic-row selected" onclick="selectExpertSubject(this, '동물병원 전문 상담')">
+                                    <span>동물병원 전문 상담</span><i class="fas fa-check-circle check-mark" style="display:block"></i>
+                                </div>
+                                <div class="sub-topic-row" onclick="selectExpertSubject(this, 'VC 피칭 전략: 투자 유치')">
+                                    <span>VC 피칭 전략</span><i class="fas fa-check-circle check-mark"></i>
+                                </div>
+                                <div class="sub-topic-row" onclick="selectExpertSubject(this, '연봉 협상 및 커리어 패스 설계')">
+                                    <span>연봉 협상 전략</span><i class="fas fa-check-circle check-mark"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="category-label">일반 카테고리 (상황 랜덤 제시)</div>
+                    <div class="curr-accordion-item"><div class="curr-head" onclick="toggleAccItem(this); updateTopic('일상과 취미 (랜덤)')"><div class="curr-title"><i class="fas fa-puzzle-piece text-slate-400"></i><span>일상과 취미</span></div><i class="fas fa-chevron-down text-slate-300 text-xs"></i></div><div class="curr-body"><p class="curr-desc-p">일상적인 상황에서 더 자연스럽고 우아한 표현을 씁니다.</p><ul class="random-info-bullet"><li>아침 루틴</li><li>주말 계획</li><li>좋아하는 영화</li><li>최근 시작한 취미</li><li>운동 vs 휴식, 나의 선택</li><li>내가 좋아하는 계절과 이유</li><li>스트레스 해소 방법</li><li>나만의 휴식 방법</li></ul></div></div>
+                    <div class="curr-accordion-item"><div class="curr-head" onclick="toggleAccItem(this); updateTopic('여행 (랜덤)')"><div class="curr-title"><i class="fas fa-plane text-slate-400"></i><span>여행</span></div><i class="fas fa-chevron-down text-slate-300 text-xs"></i></div><div class="curr-body"><p class="curr-desc-p">해외 여행 시 마주하는 필수적이고 고난도 상황들을 연습합니다.</p></div></div>
+                    <div class="curr-accordion-item"><div class="curr-head" onclick="toggleAccItem(this); updateTopic('음식과 요리 (랜덤)')"><div class="curr-title"><i class="fas fa-utensils text-slate-400"></i><span>음식과 요리</span></div><i class="fas fa-chevron-down text-slate-300 text-xs"></i></div><div class="curr-body"><p class="curr-desc-p">미식 경험과 레시피에 대해 풍성하게 대화합니다.</p></div></div>
+                    <div class="curr-accordion-item"><div class="curr-head" onclick="toggleAccItem(this); updateTopic('교육과 자기계발 (랜덤)')"><div class="curr-title"><i class="fas fa-graduation-cap text-slate-400"></i><span>교육과 자기계발</span></div><i class="fas fa-chevron-down text-slate-300 text-xs"></i></div><div class="curr-body"><p class="curr-desc-p">글로벌 교육 트렌드와 리더십 역량에 대해 토론합니다.</p></div></div>
+                    <div class="curr-accordion-item"><div class="curr-head" onclick="toggleAccItem(this); updateTopic('사회와 가치관 (랜덤)')"><div class="curr-title"><i class="fas fa-university text-slate-400"></i><span>사회와 가치관</span></div><i class="fas fa-chevron-down text-slate-300 text-xs"></i></div><div class="curr-body"><p class="curr-desc-p">현대 사회의 다양한 이슈를 공유합니다.</p></div></div>
+                    <div class="curr-accordion-item"><div class="curr-head" onclick="toggleAccItem(this); updateTopic('운동과 스포츠 (랜덤)')"><div class="curr-title"><i class="fas fa-baseball-ball text-slate-400"></i><span>운동과 스포츠</span></div><i class="fas fa-chevron-down text-slate-300 text-xs"></i></div><div class="curr-body"><p class="curr-desc-p">스포츠 취향과 건강 관리법을 이야기합니다.</p></div></div>
+                    <div class="curr-accordion-item"><div class="curr-head" onclick="toggleAccItem(this); updateTopic('음악 (랜덤)')"><div class="curr-title"><i class="fas fa-music text-slate-400"></i><span>음악</span></div><i class="fas fa-chevron-down text-slate-300 text-xs"></i></div><div class="curr-body"><p class="curr-desc-p">음악 감상평과 아티스트에 대해 대화합니다.</p></div></div>
+                    <div class="curr-accordion-item"><div class="curr-head" onclick="toggleAccItem(this); updateTopic('기후, 환경, 자연 (랜덤)')"><div class="curr-title"><i class="fas fa-leaf text-slate-400"></i><span>기후, 환경, 자연</span></div><i class="fas fa-chevron-down text-slate-300 text-xs"></i></div><div class="curr-body"><p class="curr-desc-p">지속 가능한 미래와 환경 보호 실천에 대해 논의합니다.</p></div></div>
+                </div>
+
+                <div class="bottom-save-area">
+                    <div class="btn-primary-action" onclick="changeViewTo('home-view')">저장 완료</div>
+                </div>
+            </div>
+
+            <div id="setup-view" class="view bg-white">
+                <div class="flex justify-between items-center px-5 pt-4 mb-8">
+                    <h2 class="text-xl font-bold">맞춤설정</h2>
+                    <i class="fas fa-times text-xl text-slate-300 cursor-pointer" onclick="changeViewTo('home-view')"></i>
+                </div>
+                <div class="px-5 scroll-area pt-0">
+                    <div class="opt-group">
+                        <div class="opt-title">AI 프로필 설정</div>
+                        <div class="profile-edit-box">
+                            <div class="relative cursor-pointer" onclick="document.getElementById('input-file-field').click()">
+                                <div id="setup-avatar-preview-box" class="w-16 h-16 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-xl overflow-hidden bg-size-cover">G</div>
+                                <div class="absolute -bottom-1 -right-1 bg-white w-6 h-6 rounded-full border shadow-sm flex items-center justify-center"><i class="fas fa-camera text-[10px] text-slate-400"></i></div>
+                                <input type="file" id="input-file-field" style="display:none" accept="image/*" onchange="handleImgUpdate(event)">
+                            </div>
+                            <div class="name-input-container">
+                                <span class="name-label-small">튜터 이름</span>
+                                <input type="text" id="input-name-value" class="name-input-field" value="Gwen">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="opt-group"><div class="opt-title">난이도 선택</div><div class="opt-row"><div class="opt-btn-item" onclick="toggleBtnItem(this)">Easy</div><div class="opt-btn-item active" onclick="toggleBtnItem(this)">Intermediate</div></div></div>
+                    <div class="opt-group"><div class="opt-title">속도 선택</div><div class="opt-row"><div class="opt-btn-item active" onclick="toggleBtnItem(this)">보통</div><div class="opt-btn-item" onclick="toggleBtnItem(this)">천천히</div></div></div>
+                    <div class="opt-group"><div class="opt-title">시간 선택</div><div class="opt-row"><div class="opt-btn-item active" onclick="toggleBtnItem(this)">5분</div><div class="opt-btn-item" onclick="toggleBtnItem(this)">10분</div></div></div>
+                </div>
+                <div class="bottom-save-area">
+                    <div class="btn-primary-action" onclick="applyFinalSettings()">저장 및 적용</div>
+                </div>
+            </div>
+
+            <div id="call-view" class="call-view-overlay">
+                <div class="call-header-fixed">
+                    <div id="call-avatar-img" class="avatar-circle call-avatar-reduced">G</div>
+                    <div id="call-name-label" class="text-lg font-bold mb-0.5">Gwen</div>
+                    <div id="call-timer-label" class="call-timer-label">00:00</div>
+                </div>
+
+                <div class="call-scroll-body">
+                    <div class="ai-voice-msg-area">
+                        <div id="ai-voice-msg" class="text-[15px] font-semibold text-white opacity-0 transition-opacity duration-700 leading-relaxed">질문을 생성하는 중...</div>
+                        <div id="ai-voice-msg-ko" class="text-[11px] text-slate-500 mt-2 opacity-0 transition-opacity duration-700 font-medium"></div>
+                    </div>
+
+                    <div id="user-voice-live" class="user-trans-text"></div>
+
+                    <div id="feedback-card-rich" class="fb-card-advanced">
+                        <div class="bookmark-icon-wrap" onclick="this.classList.toggle('active')"><i class="fas fa-bookmark"></i></div>
+                        
+                        <div class="fb-card-header">Ivy League Logic Feedback</div>
+                        <div id="fb-original-text" class="fb-strikethrough font-medium"></div>
+                        <div id="fb-try-en-text" class="fb-try-bold"></div>
+                        <div id="fb-try-ko-text" class="fb-ko-translation font-medium"></div>
+
+                        <div class="logic-viz-viz">
+                            <div class="text-[8px] text-white/40 mb-2 font-bold uppercase">Logic Mapping</div>
+                            <div class="logic-step-item"><i class="fas fa-check-circle"></i> Opening & Context</div>
+                            <div class="logic-step-item now"><i class="fas fa-circle"></i> Strategic Expression</div>
+                            <div class="logic-step-item"><i class="fas fa-circle"></i> Logical Conclusion</div>
+                        </div>
+
+                        <div class="pt-3 border-t border-white/10">
+                            <div class="why-header">WHY THIS FEEDBACK?</div>
+                            <p id="fb-why-long-text" class="why-body font-medium"></p>
+                        </div>
+                    </div>
+                    <div style="height: 30px;"></div>
+                </div>
+
+                <div class="call-action-footer">
+                    <div class="flex justify-around opacity-30 mb-8">
+                        <div class="flex flex-col items-center gap-1 text-[9px] font-bold"><i class="fas fa-microphone-slash text-lg"></i><span>소리끔</span></div>
+                        <div class="flex flex-col items-center gap-1 text-[9px] font-bold"><i class="fas fa-volume-up text-lg"></i><span>스피커</span></div>
+                        <div class="flex flex-col items-center gap-1 text-[9px] font-bold"><i class="fas fa-closed-captioning text-lg"></i><span>자막 설정</span></div>
+                    </div>
+                    <div class="btn-hangup-large" onclick="stopCallSequence()"><i class="fas fa-phone-slash"></i></div>
+                </div>
             </div>
         </div>
 
-        <!-- 2. 맞춤 설정 모달 -->
-        <div id="setup-modal" class="setup-modal">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-xl font-extrabold">맞춤설정</h2>
-                <i class="fas fa-times text-xl cursor-pointer" onclick="closeSetup()"></i>
-            </div>
-
-            <div class="section-title">AI 프로필 설정</div>
-            <div class="profile-edit-box">
-                <div class="edit-avatar-trigger" onclick="document.getElementById('file-input').click()">
-                    <div id="setup-avatar-preview" class="w-full h-full rounded-full flex items-center justify-center bg-indigo-500 overflow-hidden bg-size-cover">G</div>
-                    <div class="camera-icon"><i class="fas fa-camera"></i></div>
-                    <input type="file" id="file-input" style="display:none" accept="image/*" onchange="previewProfileImage(event)">
-                </div>
-                <div class="name-input-group">
-                    <div class="text-[10px] text-slate-400 font-bold mb-1">튜터 이름</div>
-                    <input type="text" id="name-input" class="name-input" value="Gwen" maxlength="12">
-                </div>
-            </div>
-
-            <div class="setup-section">
-                <div class="section-title">난이도 선택</div>
-                <div class="option-group">
-                    <div class="option-btn">Easy</div>
-                    <div class="option-btn active">Intermediate</div>
-                </div>
-            </div>
-
-            <div class="setup-section">
-                <div class="section-title">시간 선택</div>
-                <div class="option-group">
-                    <div class="option-btn active">5분</div>
-                    <div class="option-btn">10분</div>
-                </div>
-            </div>
-
-            <div class="call-action-btn mt-auto" onclick="saveSettings()">
-                설정 저장
-            </div>
-        </div>
-
-        <!-- 3. 통화 화면 -->
-        <div id="call-screen" class="call-screen">
-            <div id="call-avatar" class="call-avatar">G</div>
-            <div id="call-tutor-name" class="call-tutor-name">Gwen</div>
-            <div id="call-timer" class="call-timer">00:00</div>
-
-            <div class="flex-1 w-full flex flex-col justify-start">
-                <div class="ai-message-area">
-                    <div id="ai-msg" class="ai-message opacity-0 transition-opacity">"What is your main objective for the upcoming market analysis?"</div>
-                    <div id="ai-trans" class="ai-translation opacity-0 transition-opacity">"이번 시장 분석의 주요 목표는 무엇인가요?"</div>
-                </div>
-
-                <div id="user-transcription" class="user-transcription"></div>
-
-                <!-- 피드백 카드 -->
-                <div id="correction-card" class="correction-card">
-                    <!-- 북마크 버튼 -->
-                    <div id="bookmark" class="bookmark-btn" onclick="toggleBookmark(event)">
-                        <i class="far fa-bookmark"></i>
-                    </div>
-
-                    <div class="text-[9px] text-amber-400 font-extrabold uppercase mb-2">Ivy League Logic Feedback</div>
-                    <div class="text-slate-400 text-[11px] line-through mb-1">"I want to find gaps in the market."</div>
-                    <div class="text-[13px] font-bold mb-1 leading-tight">Try: <span class="text-amber-400">"I'm looking to identify untapped market opportunities."</span></div>
-                    <div class="text-[10px] text-slate-500 mb-3 italic">"시장 내의 미개척 기회들을 포착하고자 합니다."</div>
-                    
-                    <div class="pt-2 border-t border-white/10">
-                        <div class="text-[9px] text-indigo-400 font-extrabold mb-1"><i class="fas fa-info-circle mr-1"></i> WHY THIS FEEDBACK?</div>
-                        <p class="text-[11px] text-slate-300 leading-relaxed" style="text-align: justify; word-break: keep-all;">
-                            'Gaps'는 일상적인 구어체에서 흔히 사용되지만, 비즈니스 전략 회의에서는 <b>'Untapped opportunities'</b>라는 표현이 훨씬 더 주도적이고 분석적인 인상을 줍니다. 특히 'identify'라는 동사를 함께 활용하면 단순히 틈새를 '찾는 것'을 넘어 시장의 잠재적 가치를 '발굴하고 정의한다'는 전문적인 느낌을 줄 수 있습니다.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="call-controls">
-                <div class="flex justify-around w-full opacity-60 mb-2">
-                    <div class="flex flex-col items-center gap-1 text-[9px]"><i class="fas fa-microphone-slash text-lg"></i>소리끔</div>
-                    <div class="flex flex-col items-center gap-1 text-[9px]"><i class="fas fa-volume-up text-lg"></i>스피커</div>
-                    <div class="flex flex-col items-center gap-1 text-[9px]"><i class="fas fa-closed-captioning text-lg"></i>자막 설정</div>
-                </div>
-                <div class="hang-up-btn" onclick="endCall()"><i class="fas fa-phone-slash"></i></div>
-            </div>
-        </div>
-
-        <div class="home-indicator"></div>
+        <div class="home-indicator-v3"></div>
     </div>
 
     <script>
-        // 시계 업데이트
-        setInterval(() => {
+        function updateClock() {
+            const el = document.getElementById('clock-display');
+            if (!el) return;
             const now = new Date();
-            document.getElementById('clock').innerText = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        }, 1000);
-
-        function openSetup() { document.getElementById('setup-modal').classList.add('show'); }
-        function closeSetup() { document.getElementById('setup-modal').classList.remove('show'); }
-
-        let currentProfileImage = null;
-
-        function previewProfileImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentProfileImage = e.target.result;
-                    const preview = document.getElementById('setup-avatar-preview');
-                    preview.style.backgroundImage = `url(${currentProfileImage})`;
-                    preview.innerText = "";
-                }
-                reader.readAsDataURL(file);
-            }
+            el.innerText = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
         }
+        setInterval(updateClock, 1000); updateClock();
 
-        function saveSettings() {
-            const newName = document.getElementById('name-input').value;
-            document.getElementById('home-tutor-name').innerText = newName;
-            const homeAvatar = document.getElementById('home-avatar');
-            document.getElementById('call-tutor-name').innerText = newName;
-            const callAvatar = document.getElementById('call-avatar');
+        function changeViewTo(id) {
+            document.querySelectorAll('.view').forEach(v => {
+                v.classList.remove('active');
+                v.style.display = 'none';
+            });
+            document.getElementById('call-view').classList.remove('active');
+            document.getElementById('call-view').style.display = 'none';
 
-            if (currentProfileImage) {
-                homeAvatar.style.backgroundImage = `url(${currentProfileImage})`;
-                homeAvatar.innerText = "";
-                callAvatar.style.backgroundImage = `url(${currentProfileImage})`;
-                callAvatar.innerText = "";
-            } else {
-                homeAvatar.style.backgroundImage = "none";
-                homeAvatar.innerText = newName.charAt(0).toUpperCase();
-                callAvatar.style.backgroundImage = "none";
-                callAvatar.innerText = newName.charAt(0).toUpperCase();
+            const target = document.getElementById(id);
+            if (target) {
+                target.classList.add('active');
+                target.style.display = 'flex';
             }
-            closeSetup();
-        }
-
-        let timerInterval;
-        let callSeconds = 0;
-
-        function startCall() {
-            document.getElementById('home-view').style.display = 'none';
-            document.getElementById('iphone').classList.add('calling-mode');
-            document.getElementById('call-screen').classList.add('show');
             
-            callSeconds = 0;
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                callSeconds++;
-                const m = Math.floor(callSeconds / 60).toString().padStart(2, '0');
-                const s = (callSeconds % 60).toString().padStart(2, '0');
-                document.getElementById('call-timer').innerText = `${m}:${s}`;
-            }, 1000);
-
-            runScenario();
+            if (id === 'call-view') document.getElementById('iphone').classList.add('calling-mode');
+            else document.getElementById('iphone').classList.remove('calling-mode');
         }
 
-        async function runScenario() {
-            const aiMsg = document.getElementById('ai-msg');
-            const aiTrans = document.getElementById('ai-trans');
-            const userTrans = document.getElementById('user-transcription');
-            const correction = document.getElementById('correction-card');
+        function toggleAccItem(el) {
+            const item = el.parentElement;
+            const isOpen = item.classList.contains('active');
+            document.querySelectorAll('.curr-accordion-item').forEach(i => i.classList.remove('active'));
+            document.querySelectorAll('.curr-head i.fa-chevron-down').forEach(icon => icon.style.transform = 'rotate(0deg)');
+            
+            if(!isOpen) {
+                item.classList.add('active');
+                el.querySelector('i.fa-chevron-down').style.transform = 'rotate(180deg)';
+            }
+        }
 
-            aiMsg.classList.add('opacity-0');
-            aiTrans.classList.add('opacity-0');
-            userTrans.innerText = "";
-            correction.classList.remove('show');
+        function selectExpertSubject(el, text) {
+            document.querySelectorAll('.sub-topic-row').forEach(i => {
+                i.classList.remove('selected');
+                i.querySelector('.check-mark').style.display = 'none';
+            });
+            el.classList.add('selected');
+            el.querySelector('.check-mark').style.display = 'block';
+            updateTopic(text);
+        }
+
+        function updateTopic(text) {
+            document.getElementById('home-curr-display-text').innerText = text;
+            window.activeScenarioKey = text;
+        }
+
+        function toggleBtnItem(el) {
+            const btns = el.parentElement.querySelectorAll('.opt-btn-item');
+            btns.forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        let profileImgSource = null;
+        function handleImgUpdate(e) {
+            const f = e.target.files[0];
+            if(f) {
+                const r = new FileReader();
+                r.onload = (ev) => {
+                    profileImgSource = ev.target.result;
+                    document.getElementById('setup-avatar-preview-box').style.backgroundImage = `url(${profileImgSource})`;
+                    document.getElementById('setup-avatar-preview-box').innerText = "";
+                };
+                r.readAsDataURL(f);
+            }
+        }
+
+        function applyFinalSettings() {
+            const name = document.getElementById('input-name-value').value;
+            document.getElementById('home-tutor-name-label').innerText = name;
+            document.getElementById('call-name-label').innerText = name;
+            const avs = [document.getElementById('home-avatar-img'), document.getElementById('call-avatar-img')];
+            avs.forEach(a => {
+                if(profileImgSource) { a.style.backgroundImage = `url(${profileImgSource})`; a.innerText = ""; }
+                else { a.style.backgroundImage = "none"; a.innerText = name.charAt(0).toUpperCase(); }
+            });
+            changeViewTo('home-view');
+        }
+
+        let callTimer, counter = 0;
+        function startFullCallSequence() {
+            changeViewTo('call-view');
+            counter = 0; if(callTimer) clearInterval(callTimer);
+            callTimer = setInterval(() => {
+                counter++;
+                const m = Math.floor(counter/60).toString().padStart(2,'0');
+                const s = (counter%60).toString().padStart(2,'0');
+                document.getElementById('call-timer-label').innerText = `${m}:${s}`;
+            }, 1000);
+            runCallSimulation();
+        }
+
+        async function runCallSimulation() {
+            const aiMsg = document.getElementById('ai-voice-msg');
+            const aiMsgKo = document.getElementById('ai-voice-msg-ko');
+            const userTrans = document.getElementById('user-voice-live');
+            const fbBox = document.getElementById('feedback-card-rich');
+            const sc = window.activeScenarioKey || '동물병원';
+
+            aiMsg.classList.add('opacity-0'); aiMsgKo.classList.add('opacity-0');
+            userTrans.innerText = ""; fbBox.classList.remove('active');
+
+            const lib = {
+                '동물병원': { 
+                    q: '"Could you describe your puppy\'s symptoms? Has there been any vomiting?"', 
+                    k: '"강아지의 증상을 좀 더 자세히 설명해 주시겠어요? 구토 증세도 있었나요?"', 
+                    u: "He's very tired and his stomach is bad.", 
+                    t: 'Try: "He\'s <span>been exhibiting lethargy and intermittent gastrointestinal distress.</span>"', 
+                    tk: '"아이가 기력이 없고 간헐적인 위장 장애 증상을 보이고 있습니다."', 
+                    w: "수의학 상담에서는 'Lethargy'와 'Gastrointestinal distress' 같은 전문 용어를 사용해야 정확한 진단이 가능합니다. 링글 AI는 고난도 전문직 상황에 맞는 어휘를 즉시 제안합니다." 
+                },
+                'VC 피칭': { 
+                    q: '"Why should we invest in your product right now?"', 
+                    k: '"왜 지금 귀사의 투자 제품에 투자해야 하죠?"', 
+                    u: "We found a gap in the market.", 
+                    t: 'Try: "We <span>identify and capitalize on untapped market opportunities.</span>"', 
+                    tk: '"우리는 미개척된 시장 기회들을 포착하고 활용합니다."', 
+                    w: "'Gaps'보다는 'Untapped opportunities'가 비즈니스 전략 면에서 훨씬 더 주도적이고 전문적인 인상을 줍니다." 
+                },
+                'default': { 
+                    q: '"Tell me about your day. Anything interesting?"', 
+                    k: '"오늘 하루 어떠셨나요?"', 
+                    u: "It was good, I just worked.", 
+                    t: 'Try: "It\'s <span>been productive; I focused on various tasks.</span>"', 
+                    tk: '"생산적인 하루였습니다. 여러 업무에 집중했죠."', 
+                    w: "일상적인 'good' 보다는 'productive' 같은 어휘를 섞어 쓰면 훨씬 세련된 화자라는 인상을 줍니다." 
+                }
+            };
+
+            const target = lib[Object.keys(lib).find(k => sc.includes(k))] || lib['default'];
 
             await new Promise(r => setTimeout(r, 1500));
+            aiMsg.innerText = target.q; aiMsgKo.innerText = target.k;
             aiMsg.classList.replace('opacity-0', 'opacity-100');
-            aiTrans.classList.replace('opacity-0', 'opacity-100');
-            
-            await new Promise(r => setTimeout(r, 2000));
-            const sentence = "I want to find gaps in the market.";
-            const words = sentence.split(" ");
-            for(let word of words) {
-                userTrans.innerText += (userTrans.innerText ? " " : "") + word;
-                await new Promise(r => setTimeout(r, 350));
+            aiMsgKo.classList.replace('opacity-0', 'opacity-100');
+
+            await new Promise(r => setTimeout(r, 2200));
+            const words = target.u.split(" ");
+            for(let w of words) {
+                userTrans.innerText += (userTrans.innerText ? " " : "") + w;
+                await new Promise(r => setTimeout(r, 380));
             }
 
             await new Promise(r => setTimeout(r, 1000));
-            correction.classList.add('show');
+            document.getElementById('fb-original-text').innerText = `"${target.u}"`;
+            document.getElementById('fb-try-en-text').innerHTML = target.t;
+            document.getElementById('fb-try-ko-text').innerText = target.tk;
+            document.getElementById('fb-why-long-text').innerText = target.w;
+            fbBox.classList.add('active');
         }
 
-        function endCall() {
-            clearInterval(timerInterval);
-            document.getElementById('call-screen').classList.remove('show');
-            document.getElementById('iphone').classList.remove('calling-mode');
-            document.getElementById('home-view').style.display = 'flex';
-        }
-
-        function toggleBookmark(event) {
-            const btn = event.currentTarget;
-            const icon = btn.querySelector('i');
-            btn.classList.toggle('active');
-            
-            if (btn.classList.contains('active')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-            }
-        }
+        function stopCallSequence() { clearInterval(callTimer); changeViewTo('home-view'); }
+        window.activeScenarioKey = '동물병원 전문 상담';
     </script>
 </body>
 </html>
