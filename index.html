@@ -370,7 +370,7 @@
                         </div>
                     </div>
 
-                    <div class="upcoming-banner shadow-sm" onclick="alert('Harvard 수업 리허설 기능을 준비 중입니다.')">
+                    <div class="upcoming-banner shadow-sm" onclick="changeView('rehearsal-view')">
                         <div class="flex flex-col">
                             <span class="text-[10px] font-bold opacity-80 uppercase tracking-widest">Ivy League Standard</span>
                             <span class="text-[13px] font-bold">내일 21:00, Harvard 튜터 수업</span>
@@ -575,7 +575,7 @@
                         <div class="rank-list-item top-3">
                             <div class="rank-badge">1</div>
                             <div class="w-10 h-10 bg-slate-200 rounded-full mx-3 flex items-center justify-center text-[10px] font-bold text-slate-500">JD</div>
-                            <div class="flex-1"><p class="text-xs font-bold">이*영 <span class="text-[10px] text-slate-400 font-medium">| IT 기획</span></p></div>
+                            <div class="flex-1"><p class="text-xs font-bold">임*영 <span class="text-[10px] text-slate-400 font-medium">| IT 기획</span></p></div>
                             <span class="text-xs font-black text-slate-700">Lv.9</span>
                         </div>
                         <div class="rank-list-item top-3">
@@ -649,6 +649,75 @@
                 </div>
             </div>
 
+            <!-- [9. 리허설 뷰 (신규 추가)] -->
+            <div id="rehearsal-view" class="view bg-slate-50">
+                <div class="p-6 flex justify-between items-center flex-shrink-0">
+                    <i class="fas fa-chevron-left text-lg cursor-pointer z-10" onclick="changeView('home-view')"></i>
+                    <span class="text-xs font-bold uppercase tracking-widest text-slate-800">Class Rehearsal</span>
+                    <i class="fas fa-cog opacity-0"></i>
+                </div>
+                
+                <div class="scroll-area px-5 flex-1 flex flex-col pt-2">
+                    <!-- 프리미엄 사람 튜터 카드 (새로운 디자인 느낌 적용) -->
+                    <div class="relative bg-[#0b0e26] text-white rounded-[24px] p-6 mb-6 shadow-2xl overflow-hidden flex-shrink-0">
+                        <!-- 장식용 블러 배경 -->
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                        <div class="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl -ml-10 -mb-10"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start mb-5">
+                                <span class="text-[10px] font-black text-pink-300 uppercase tracking-widest bg-pink-500/10 px-2 py-1 rounded border border-pink-500/20">Harvard Standard</span>
+                                <div class="text-right">
+                                    <p class="text-[11px] text-slate-300 font-bold">내일 21:00</p>
+                                    <p class="text-[9px] text-slate-400 mt-0.5">20 min session</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center gap-4 mb-4">
+                                <!-- 실제 사람 튜터 이미지 -->
+                                <div class="w-16 h-16 rounded-full border-2 border-white/10 bg-cover bg-center shadow-lg" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');"></div>
+                                <div>
+                                    <h3 class="text-xl font-bold">Michael</h3>
+                                    <p class="text-[11px] text-slate-300 mt-1">Economics Major</p>
+                                </div>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed font-medium italic bg-white/5 p-3 rounded-xl border border-white/5">"Hi! I'm Michael. We'll be discussing the VC pitching strategy tomorrow. Let's practice your logic!"</p>
+                        </div>
+                    </div>
+
+                    <!-- 연습 설정 -->
+                    <div class="bg-white rounded-[20px] p-5 border border-slate-100 shadow-sm mb-4 flex-shrink-0">
+                        <h4 class="font-bold text-sm mb-3 text-slate-800">리허설 AI 설정</h4>
+                        <div class="flex flex-col gap-3">
+                            <div class="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl border border-slate-100 cursor-pointer">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-500"><i class="fas fa-brain"></i></div>
+                                    <div>
+                                        <p class="text-xs font-bold text-slate-700">Michael 페르소나 적용</p>
+                                        <p class="text-[10px] text-slate-400 mt-0.5">실제 튜터의 질문 스타일을 모방합니다</p>
+                                    </div>
+                                </div>
+                                <input type="checkbox" checked class="accent-indigo-500 w-4 h-4" onclick="event.stopPropagation()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 내 스크립트 기반 연습 -->
+                    <div class="bg-white rounded-[20px] p-5 border border-slate-100 shadow-sm flex-shrink-0 mb-6">
+                        <h4 class="font-bold text-sm mb-2 text-slate-800">내 스크립트 기반 연습</h4>
+                        <p class="text-[11px] text-slate-500 mb-4 leading-relaxed">준비한 피칭 대본을 업로드하면, AI가 투자자 입장에서 날카로운 꼬리 질문을 던집니다.</p>
+                        <div class="w-full border-2 border-dashed border-slate-200 rounded-xl p-5 text-center cursor-pointer hover:bg-slate-50 transition-colors">
+                            <i class="fas fa-file-upload text-2xl text-slate-300 mb-2"></i>
+                            <p class="text-xs font-bold text-slate-500">대본 파일 업로드 (PDF, DOCX)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="w-full px-5 pt-2 pb-10 flex-shrink-0 z-10 relative bg-slate-50">
+                    <button class="w-full py-4 bg-[#0b0e26] text-white rounded-2xl font-bold shadow-xl hover:bg-slate-800 transition-colors" onclick="startFullCallSequence()">실전 리허설 시작하기</button>
+                </div>
+            </div>
+
             <!-- [8. 마이페이지 뷰] -->
             <div id="my-view" class="view">
                 <div class="px-5 pt-8 mb-6">
@@ -712,7 +781,7 @@
         let activeProfileId = 0;
         let profiles = [
             { id: 0, name: "Gwen", color: "#7367f0", personality: "지적이고 논리적인 대화를 선호하며, 차분하게 피드백을 줍니다.", tags: ["지적인", "논리적인"], locked: false, image: "" },
-            { id: 1, name: "박보검", color: "#4F46E5", personality: "선하고 긍정적인 에너지를 주며, 다정하고 진솔하게 소통합니다.", tags: ["다정한", "진솔한"], locked: false, image: "https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png" },
+            { id: 1, name: "박보검", color: "#4F46E5", personality: "선하고 긍정적인 에너지를 주며, 다정하고 진솔하게 소통합니다.", tags: ["다정한", "진솔한"], locked: false, image: "https://i.namu.wiki/i/R0-19-15-14-13-12-11-10-9-8-7-6-5-4-3-2-1.jpg" },
             { id: 2, name: "Slot 3", color: "#94A3B8", personality: "", tags: [], locked: true, image: "" },
             { id: 3, name: "Slot 4", color: "#94A3B8", personality: "", tags: [], locked: true, image: "" },
             { id: 4, name: "Slot 5", color: "#94A3B8", personality: "", tags: [], locked: true, image: "" }
@@ -743,7 +812,7 @@
             const nav = document.getElementById('main-nav');
             const iphone = document.getElementById('iphone');
             
-            if (viewId === 'call-view' || viewId === 'game-view' || viewId === 'prep-view') {
+            if (viewId === 'call-view' || viewId === 'game-view' || viewId === 'prep-view' || viewId === 'rehearsal-view') {
                 nav.style.display = 'none'; 
                 if(viewId === 'call-view') iphone.classList.add('dark-mode');
             } else {
