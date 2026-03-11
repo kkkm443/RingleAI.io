@@ -26,7 +26,7 @@
             background-color: #f1f5f9; 
             color: #1e293b; 
             margin: 0; 
-            padding: 0; 
+            padding: 0;
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -150,6 +150,15 @@
 
         .scroll-area::-webkit-scrollbar { 
             display: none; 
+        }
+
+        /* 공통 스크롤바 숨김 클래스 */
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
         }
 
         /* [4. 홈 화면 컴포넌트 상세] */
@@ -718,6 +727,13 @@
         #toast-notification {
             transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
+
+        /* 드래그 충돌 방지 유틸리티 */
+        .prevent-drag * {
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -webkit-user-drag: none !important;
+        }
     </style>
 </head>
 <body>
@@ -748,7 +764,7 @@
                     <div class="top-nav-item" onclick="changeView('history-view')">전화내역</div>
                 </div>
 
-                <div class="scroll-area pb-32"> 
+                <div class="scroll-area pb-32 no-scrollbar"> 
                     
                     <div class="commute-card">
                         <div class="flex justify-between items-center mb-2">
@@ -803,7 +819,7 @@
                     <h2 class="text-xl font-bold">커리큘럼</h2>
                     <i class="fas fa-times text-xl text-slate-300 cursor-pointer" onclick="changeView('home-view')"></i>
                 </div>
-                <div class="scroll-area">
+                <div class="scroll-area no-scrollbar">
                     <p class="text-[11px] text-slate-400 mb-6 leading-relaxed font-medium">주제를 선택하고 나만의 커리큘럼을 만들어 보세요.</p>
                     <div class="workflow-sync-card" onclick="alert('PPT 스크립트 로딩 중...')">
                         <i class="fas fa-file-invoice text-3xl text-pink-400 mb-2"></i>
@@ -843,13 +859,13 @@
                     <h2 class="text-xl font-bold text-slate-800">맞춤설정</h2>
                     <i class="fas fa-times text-xl text-slate-300 cursor-pointer" onclick="changeView('home-view')"></i>
                 </div>
-                <div class="scroll-area !bg-white">
+                <div class="scroll-area !bg-white no-scrollbar">
                     <div class="opt-group mb-6">
                         <div class="opt-title px-6">
                             <span>캐릭터 프로필</span>
                             <button id="premium-toggle" class="text-[10px] bg-slate-100 text-slate-400 font-bold px-2 py-1 rounded-full transition-colors" onclick="togglePremium()">Premium OFF</button>
                         </div>
-                        <div id="profile-container" class="profile-list-scroll px-6">
+                        <div id="profile-container" class="profile-list-scroll px-6 prevent-drag">
                         </div>
                     </div>
 
@@ -966,7 +982,7 @@
                     <div id="call-timer" class="text-sm font-medium text-slate-500">00:00</div>
                 </div>
                 
-                <div class="call-scroll-body">
+                <div class="call-scroll-body no-scrollbar">
                     <div class="mt-8 text-center w-full mb-6">
                         <div id="ai-voice-msg" class="text-[15px] font-semibold text-white leading-relaxed opacity-0 transition-opacity duration-700">Connecting...</div>
                         <div id="ai-voice-msg-ko" class="text-[11px] text-slate-500 mt-2 opacity-0 transition-opacity duration-700 font-medium"></div>
@@ -1018,7 +1034,7 @@
                         <span class="px-3 py-1 bg-slate-100 text-slate-400 text-[11px] font-bold rounded-full">대기업</span>
                     </div>
                 </div>
-                <div class="scroll-area">
+                <div class="scroll-area no-scrollbar">
                     <div class="rank-card-main mt-4">
                         <div>
                             <p class="text-[10px] font-bold text-indigo-500 uppercase">My Spec Rank</p>
@@ -1053,7 +1069,7 @@
                     <i class="fas fa-cog opacity-0"></i>
                 </div>
                 
-                <div class="scroll-area flex-1 flex flex-col items-center justify-center p-6 text-center" style="background-color: transparent;">
+                <div class="scroll-area flex-1 flex flex-col items-center justify-center p-6 text-center no-scrollbar" style="background-color: transparent;">
                     <p class="text-indigo-400 text-[10px] font-black uppercase mb-4 tracking-widest">Repeat After AI</p>
                     <h2 class="text-2xl font-black mb-10 leading-tight">"This is a phenomenal opportunity for us."</h2>
                     
@@ -1086,7 +1102,7 @@
                     <i class="fas fa-times text-xl text-slate-400 cursor-pointer z-10" onclick="changeView('home-view')"></i>
                 </div>
                 
-                <div class="scroll-area px-5 flex-1 flex flex-col pt-4">
+                <div class="scroll-area px-5 flex-1 flex flex-col pt-4 no-scrollbar">
                     <div class="w-full h-1.5 bg-indigo-100 rounded-full mb-8 flex-shrink-0">
                         <div class="w-1/2 h-full bg-indigo-600 rounded-full"></div>
                     </div>
@@ -1114,13 +1130,14 @@
                     <i class="fas fa-cog opacity-0"></i>
                 </div>
                 
-                <div class="scroll-area px-5 flex-1 flex flex-col pt-2">
-                    <div class="relative bg-[#0b0e26] text-white rounded-[24px] p-6 mb-6 shadow-2xl overflow-hidden flex-shrink-0">
+                <div class="scroll-area px-5 flex-1 flex flex-col pt-2 pb-10 no-scrollbar">
+                    
+                    <div class="relative bg-[#0b0e26] text-white rounded-[24px] py-6 mb-6 shadow-2xl overflow-hidden flex-shrink-0">
                         <div class="absolute top-0 right-0 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
                         <div class="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/20 rounded-full blur-3xl -ml-10 -mb-10"></div>
                         
                         <div class="relative z-10">
-                            <div class="flex justify-between items-start mb-5">
+                            <div class="flex justify-between items-start mb-5 px-6">
                                 <span class="text-[10px] font-black text-pink-300 uppercase tracking-widest bg-pink-500/10 px-2 py-1 rounded border border-pink-500/20">Harvard Standard</span>
                                 <div class="text-right">
                                     <p class="text-[11px] text-slate-300 font-bold">내일 21:00</p>
@@ -1128,14 +1145,50 @@
                                 </div>
                             </div>
                             
-                            <div class="flex items-center gap-4 mb-4">
-                                <div class="w-16 h-16 rounded-full border-2 border-white/10 bg-cover bg-center shadow-lg" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');"></div>
-                                <div>
-                                    <h3 class="text-xl font-bold">Michael</h3>
-                                    <p class="text-[11px] text-slate-300 mt-1">Economics Major</p>
+                            <!-- 스크롤 컨테이너에 ID 추가 및 커서 스타일 적용 -->
+                            <div id="rehearsal-tutor-scroll" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar px-6 gap-3 pb-2 prevent-drag">
+                                <div class="w-[85%] snap-center flex-shrink-0 bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                                    <div class="flex items-center gap-4 mb-3">
+                                        <div class="w-14 h-14 rounded-full border border-white/20 bg-cover bg-center shadow-md" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');"></div>
+                                        <div>
+                                            <h3 class="text-lg font-bold">Michael</h3>
+                                            <p class="text-[10px] text-slate-300 mt-0.5">Economics Major</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium italic">"Hi! I'm Michael. We'll be discussing the VC pitching strategy tomorrow. Let's practice your logic!"</p>
                                 </div>
+                                <div class="w-[85%] snap-center flex-shrink-0 bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                                    <div class="flex items-center gap-4 mb-3">
+                                        <div class="w-14 h-14 rounded-full border border-white/20 bg-cover bg-center shadow-md" style="background-image: url('https://randomuser.me/api/portraits/women/44.jpg');"></div>
+                                        <div>
+                                            <h3 class="text-lg font-bold">Sarah</h3>
+                                            <p class="text-[10px] text-slate-300 mt-0.5">Psychology Major</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium italic">"Hello, I'm Sarah. I focus on clear communication. Let's make your pitch perfect and engaging!"</p>
+                                </div>
+                                <div class="w-[85%] snap-center flex-shrink-0 bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                                    <div class="flex items-center gap-4 mb-3">
+                                        <div class="w-14 h-14 rounded-full border border-white/20 bg-cover bg-center shadow-md" style="background-image: url('https://randomuser.me/api/portraits/men/22.jpg');"></div>
+                                        <div>
+                                            <h3 class="text-lg font-bold">David</h3>
+                                            <p class="text-[10px] text-slate-300 mt-0.5">Computer Science</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium italic">"Hey, David here. Let's dive deep into the technical aspects of your presentation tomorrow."</p>
+                                </div>
+                                <div class="w-2 flex-shrink-0"></div>
                             </div>
-                            <p class="text-xs text-slate-300 leading-relaxed font-medium italic bg-white/5 p-3 rounded-xl border border-white/5">"Hi! I'm Michael. We'll be discussing the VC pitching strategy tomorrow. Let's practice your logic!"</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-[20px] p-5 border border-slate-100 shadow-sm mb-4 flex-shrink-0">
+                        <h4 class="font-bold text-sm mb-3 text-slate-800">대화 타입 설정 (Context)</h4>
+                        <div class="flex flex-wrap gap-2 justify-center">
+                            <button class="rehearsal-type-btn px-4 py-2 bg-indigo-600 text-white border border-indigo-600 rounded-xl text-[12px] font-bold transition-all shadow-sm" onclick="selectRehearsalType(this)">비즈니스 미팅</button>
+                            <button class="rehearsal-type-btn px-4 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[12px] font-bold transition-all hover:bg-slate-100" onclick="selectRehearsalType(this)">투자 발표</button>
+                            <button class="rehearsal-type-btn px-4 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[12px] font-bold transition-all hover:bg-slate-100" onclick="selectRehearsalType(this)">인터뷰 면접</button>
+                            <button class="rehearsal-type-btn px-4 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[12px] font-bold transition-all hover:bg-slate-100" onclick="selectRehearsalType(this)">연봉 협상</button>
                         </div>
                     </div>
 
@@ -1170,7 +1223,7 @@
                 </div>
             </div>
 
-            <!-- [11. 마이페이지 뷰] (수정된 부분) -->
+            <!-- [11. 마이페이지 뷰] -->
             <div id="my-view" class="view bg-white">
                 <div class="px-6 pt-12 pb-6">
                     <div class="flex items-center gap-5">
@@ -1181,14 +1234,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="scroll-area !bg-white">
-                    <!-- 배너 -->
+                <div class="scroll-area !bg-white no-scrollbar">
                     <div class="w-full bg-[#F8FAFC] rounded-2xl py-4 px-5 flex justify-between items-center mb-6 cursor-pointer">
                         <span class="text-[14px] font-bold text-slate-700">친구 초대하고 1만원 + 멤버십 받기 🎁</span>
                         <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                     </div>
 
-                    <!-- 멤버십 카드 -->
                     <div class="w-full bg-white border border-slate-100 rounded-[20px] p-6 mb-5 shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex justify-between items-center cursor-pointer">
                         <div class="flex flex-col">
                             <span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-1 rounded w-fit mb-3">사용 중</span>
@@ -1198,7 +1249,6 @@
                         <i class="fas fa-chevron-right text-slate-300 text-lg"></i>
                     </div>
 
-                    <!-- 포인트 & 쿠폰 -->
                     <div class="flex gap-4">
                         <div class="flex-1 bg-white border border-slate-100 rounded-[16px] py-6 px-4 flex flex-col items-center justify-center shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
                             <span class="text-[10px] text-slate-400 font-bold mb-3">보유 포인트</span>
@@ -1213,11 +1263,148 @@
             </div>
 
             <!-- [12. 전화 내역 뷰] -->
-            <div id="history-view" class="view">
-                <div class="px-5 pt-4 pb-2 border-b border-slate-50"><h2 class="text-xl font-bold mb-4">전화내역</h2></div>
-                <div class="flex-1 flex flex-col items-center justify-center text-slate-300">
-                    <i class="fas fa-history text-4xl mb-3 opacity-20"></i>
-                    <span class="text-xs">최근 대화 내역이 없습니다.</span>
+            <div id="history-view" class="view bg-slate-50">
+                <div class="px-5 pt-4 pb-2 border-b border-slate-200 bg-white">
+                    <h2 class="text-xl font-bold mb-4">전화내역</h2>
+                </div>
+                
+                <div class="scroll-area flex-1 pb-24 px-4 pt-4 no-scrollbar">
+                    
+                    <!-- 카드 1 (분석 완료) -->
+                    <div class="bg-white rounded-[20px] border border-slate-100 shadow-sm overflow-hidden mb-4">
+                        <!-- 카드 헤더 및 요약 (클릭 시 펼치기) -->
+                        <div class="p-5 cursor-pointer" onclick="toggleAnalysis('hist-1', this)">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-cover bg-center border border-slate-100 shadow-sm" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');"></div>
+                                    <div>
+                                        <h3 class="font-bold text-slate-800 text-[15px]">Michael</h3>
+                                        <p class="text-[11px] text-slate-400 font-medium mt-0.5">3/11(수) 21:00 • 15분</p>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-down text-slate-300 text-sm transition-transform duration-300 toggle-icon mt-2"></i>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <span class="inline-block text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded mb-2">인터뷰 면접</span>
+                                <p class="text-[14px] font-bold text-slate-800 leading-snug">실리콘밸리 PM 기술 면접 대비</p>
+                            </div>
+
+                            <div class="flex items-center justify-between border-t border-slate-50 pt-3">
+                                <div class="flex gap-4">
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Complexity</span>
+                                        <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span><span class="text-xs font-black text-slate-700">7.5</span></div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Accuracy</span>
+                                        <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-xs font-black text-slate-700">8.0</span></div>
+                                    </div>
+                                    <div class="flex flex-col gap-1">
+                                        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Fluency</span>
+                                        <div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span class="text-xs font-black text-slate-700">6.5</span></div>
+                                    </div>
+                                </div>
+                                <div class="text-[10px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded-md">상세보기</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 카드 상세 내용 (분석/PREP/동기화) -->
+                        <div id="hist-1" class="p-5 border-t border-slate-100 flex flex-col gap-6 bg-slate-50/50 hidden">
+                            
+                            <!-- 1. 커뮤니케이션 습관 분석 -->
+                            <div>
+                                <h4 class="text-[12px] font-bold text-slate-800 mb-3 flex items-center"><i class="fas fa-chart-pie text-indigo-500 mr-2"></i>커뮤니케이션 습관</h4>
+                                <div class="flex gap-2">
+                                    <div class="flex-1 bg-white rounded-xl p-3 border border-slate-100 text-center shadow-sm">
+                                        <p class="text-[10px] font-bold text-slate-400 mb-1">침묵 구간 (3초+)</p>
+                                        <p class="text-lg font-black text-slate-700">4<span class="text-[9px] font-medium text-slate-500 ml-1">회</span></p>
+                                    </div>
+                                    <div class="flex-1 bg-white rounded-xl p-3 border border-slate-100 text-center shadow-sm">
+                                        <p class="text-[10px] font-bold text-slate-400 mb-1">추임새 (Um, Like)</p>
+                                        <p class="text-lg font-black text-orange-500">12<span class="text-[9px] font-medium text-slate-500 ml-1">회</span></p>
+                                    </div>
+                                </div>
+                                <div class="mt-3 bg-white rounded-xl p-3.5 border border-slate-100 shadow-sm">
+                                    <p class="text-[10px] font-bold text-slate-400 mb-2">발화 주도권 (Speaking Ratio)</p>
+                                    <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden flex">
+                                        <div class="h-full bg-indigo-500" style="width: 65%"></div>
+                                        <div class="h-full bg-teal-400" style="width: 35%"></div>
+                                    </div>
+                                    <div class="flex justify-between text-[9px] font-bold mt-2 text-slate-500">
+                                        <span class="text-indigo-600 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>학습자 65%</span>
+                                        <span class="text-teal-500 flex items-center gap-1">AI 35%<span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 2. 논리 구조 재배치 (PREP Framework) -->
+                            <div>
+                                <h4 class="text-[12px] font-bold text-slate-800 mb-3 flex items-center"><i class="fas fa-layer-group text-emerald-500 mr-2"></i>논리 구조 재배치 (PREP)</h4>
+                                <div class="bg-red-50/50 rounded-xl p-3 border border-red-100 mb-2 relative">
+                                    <p class="text-[9px] font-bold text-red-500 mb-1.5 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-red-400"></span>Original (파편화된 답변)</p>
+                                    <p class="text-[11px] text-slate-600 italic leading-relaxed">"어... 이번 마케팅은요, 소셜 미디어를 많이 썼고, 음... 그래서 전환율이 좀 올랐어요. 왜냐하면 타겟팅을 바꿨거든요. 그래서 잘 된 것 같아요."</p>
+                                </div>
+                                <div class="bg-emerald-50/50 rounded-xl p-4 border border-emerald-100 relative shadow-sm">
+                                    <p class="text-[9px] font-bold text-emerald-600 mb-3 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>Best Version (최적의 답변)</p>
+                                    <ul class="text-[11px] text-slate-700 space-y-2.5">
+                                        <li class="flex items-start leading-snug"><strong class="text-emerald-700 font-black text-[9px] bg-emerald-100 px-1.5 py-0.5 rounded mr-2 mt-0.5">P</strong>이번 마케팅 캠페인은 성공적이었습니다.</li>
+                                        <li class="flex items-start leading-snug"><strong class="text-emerald-700 font-black text-[9px] bg-emerald-100 px-1.5 py-0.5 rounded mr-2 mt-0.5">R</strong>타겟팅 전략을 전면 수정했기 때문입니다.</li>
+                                        <li class="flex items-start leading-snug"><strong class="text-emerald-700 font-black text-[9px] bg-emerald-100 px-1.5 py-0.5 rounded mr-2 mt-0.5">E</strong>소셜 미디어 타겟을 20대 후반으로 좁혀 공략했고,</li>
+                                        <li class="flex items-start leading-snug"><strong class="text-emerald-700 font-black text-[9px] bg-emerald-100 px-1.5 py-0.5 rounded mr-2 mt-0.5">P</strong>그 결과 전환율이 15% 상승하는 성과를 거두었습니다.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- 3. 맥락적 세션 동기화 -->
+                            <div>
+                                <h4 class="text-[12px] font-bold text-slate-800 mb-3 flex items-center"><i class="fas fa-sync-alt text-purple-500 mr-2"></i>맥락적 세션 동기화</h4>
+                                <div class="bg-purple-50/50 rounded-xl p-4 border border-purple-100 relative overflow-hidden shadow-sm">
+                                    <i class="fas fa-brain absolute -right-3 -top-3 text-purple-200 opacity-30 text-5xl"></i>
+                                    <div class="relative z-10">
+                                        <div class="inline-flex items-center text-[9px] font-black text-purple-600 bg-white px-2 py-1 rounded shadow-sm border border-purple-100 mb-2">
+                                            <i class="fas fa-bolt mr-1 text-yellow-500"></i> AI 메모리 작동
+                                        </div>
+                                        <p class="text-[11px] text-slate-700 leading-relaxed font-medium mb-3">
+                                            "지난주 연습에서 부족했던 <span class="bg-white text-purple-600 font-bold px-1 rounded border border-purple-100">데이터 기반 근거 제시</span>를 기억하고, 이번 AI가 꼬리 질문으로 구체적 수치를 집요하게 요구했습니다."
+                                        </p>
+                                        <div class="bg-white/80 rounded-lg p-2.5 text-[10px] border border-purple-100">
+                                            <span class="font-bold text-purple-700 mr-1">결과:</span> 
+                                            <span class="text-slate-600">이번 답변에선 전환율(15%)을 명확히 제시하여 약점 극복!</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- 카드 2 (분석 진행 중) -->
+                    <div class="bg-white rounded-[20px] border border-slate-100 shadow-sm overflow-hidden mb-4 opacity-90">
+                        <div class="p-5 cursor-pointer">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center text-white font-bold text-lg border border-slate-100 shadow-sm">G</div>
+                                    <div>
+                                        <h3 class="font-bold text-slate-800 text-[15px]">Gwen</h3>
+                                        <p class="text-[11px] text-slate-400 font-medium mt-0.5">3/12(목) 10:30 • 20분</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <span class="inline-block text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded mb-2">비즈니스 미팅</span>
+                                <p class="text-[14px] font-bold text-slate-800 leading-snug">해외 세일즈: 제품 판매 시연</p>
+                            </div>
+
+                            <div class="flex items-center border-t border-slate-50 pt-3">
+                                <div class="bg-slate-100 text-slate-500 text-[11px] font-bold px-3 py-2 rounded-lg flex items-center gap-2 w-full justify-center">
+                                    <i class="fas fa-spinner fa-spin"></i> AI 튜터 평가 분석 진행 중...
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </div>
             </div>
 
@@ -1603,6 +1790,22 @@
 
         let callTimer;
         function startFullCallSequence() {
+            const tutors = [
+                { name: "Michael", image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" },
+                { name: "Sarah", image: "https://randomuser.me/api/portraits/women/44.jpg" },
+                { name: "David", image: "https://randomuser.me/api/portraits/men/22.jpg" }
+            ];
+            const randomTutor = tutors[Math.floor(Math.random() * tutors.length)];
+            const callName = document.getElementById('call-name');
+            const callAvatar = document.getElementById('call-avatar');
+            
+            if (callName) callName.innerText = randomTutor.name;
+            if (callAvatar) {
+                callAvatar.style.backgroundImage = `url('${randomTutor.image}')`;
+                callAvatar.style.backgroundColor = 'transparent';
+                callAvatar.innerText = '';
+            }
+
             changeView('call-view');
             let counter = 0;
             const timerDisplay = document.getElementById('call-timer');
@@ -1664,62 +1867,92 @@
             if(timerDisplay) timerDisplay.innerText = "00:00";
         }
 
+        function selectRehearsalType(clickedBtn) {
+            const allBtns = document.querySelectorAll('.rehearsal-type-btn');
+            allBtns.forEach(btn => {
+                btn.className = "rehearsal-type-btn px-4 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[12px] font-bold transition-all hover:bg-slate-100";
+            });
+            clickedBtn.className = "rehearsal-type-btn px-4 py-2 bg-indigo-600 text-white border border-indigo-600 rounded-xl text-[12px] font-bold transition-all shadow-sm";
+        }
+
+        function toggleAnalysis(targetId, headerElement) {
+            const content = document.getElementById(targetId);
+            const icon = headerElement.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                if(icon) icon.style.transform = 'rotate(180deg)';
+                headerElement.classList.remove('border-b');
+            } else {
+                content.classList.add('hidden');
+                if(icon) icon.style.transform = 'rotate(0deg)';
+                headerElement.classList.add('border-b');
+            }
+        }
+
         window.onload = () => { 
             renderProfiles(); 
             updateClock();
 
-            // [추가/수정] 캐릭터 프로필 영역 마우스 드래그 스크롤 로직 (버그 개선)
-            const profileContainer = document.getElementById('profile-container');
+            // 통합 드래그 스크롤 로직 (화면 밖으로 마우스가 나가도 부드럽게 유지되도록 개선)
+            let activeSlider = null;
             let isDown = false;
             let startX;
             let scrollLeft;
             let isDragged = false;
 
-            profileContainer.style.cursor = 'grab';
-
-            profileContainer.addEventListener('mousedown', (e) => {
-                isDown = true;
-                isDragged = false;
-                profileContainer.style.cursor = 'grabbing';
-                startX = e.pageX;
-                scrollLeft = profileContainer.scrollLeft;
-            });
-
-            profileContainer.addEventListener('mouseleave', () => {
-                isDown = false;
-                profileContainer.style.cursor = 'grab';
-            });
-
-            profileContainer.addEventListener('mouseup', () => {
-                isDown = false;
-                profileContainer.style.cursor = 'grab';
-            });
-
-            profileContainer.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
+            function initDragScroll(slider) {
+                if(!slider) return;
+                slider.style.cursor = 'grab';
                 
-                // 텍스트 선택 및 브라우저 기본 드래그 방지
-                e.preventDefault(); 
+                slider.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    isDragged = false;
+                    activeSlider = slider;
+                    slider.style.cursor = 'grabbing';
+                    
+                    // 스냅 컨테이너일 경우 드래그 중에는 잠시 스냅 해제 (버벅임 방지)
+                    if (slider.classList.contains('snap-x')) {
+                        slider.style.scrollSnapType = 'none';
+                    }
+                    startX = e.pageX;
+                    scrollLeft = slider.scrollLeft;
+                });
+
+                slider.addEventListener('click', (e) => {
+                    if (isDragged) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        isDragged = false;
+                    }
+                }, true);
+            }
+
+            // Window 영역에서 이벤트 감지하여 마우스가 요소를 벗어나도 드래그 유지
+            window.addEventListener('mouseup', () => {
+                if (!isDown || !activeSlider) return;
+                isDown = false;
+                activeSlider.style.cursor = 'grab';
                 
+                // 마우스 클릭 해제 시 스냅(자석 효과) 원상복구
+                if (activeSlider.classList.contains('snap-x')) {
+                    activeSlider.style.scrollSnapType = ''; 
+                }
+                activeSlider = null;
+            });
+
+            window.addEventListener('mousemove', (e) => {
+                if (!isDown || !activeSlider) return;
+                e.preventDefault();
                 const x = e.pageX;
-                const walk = (x - startX) * 1.5; // 드래그 속도 완화
-                
-                // 약간의 움직임이 있을 때만 드래그로 판정
-                if (Math.abs(x - startX) > 5) {
-                    isDragged = true;
-                }
-                
-                profileContainer.scrollLeft = scrollLeft - walk;
+                const walk = (x - startX) * 1.5; // 스크롤 속도
+                if (Math.abs(walk) > 5) isDragged = true;
+                activeSlider.scrollLeft = scrollLeft - walk;
             });
 
-            // 캡처링 단계에서 클릭 이벤트 가로채기 (드래그 후 칩이 클릭되는 현상 방지)
-            profileContainer.addEventListener('click', (e) => {
-                if (isDragged) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    isDragged = false; // 1회 방어 후 초기화
-                }
-            }, true);
+            // 적용할 컨테이너 등록
+            initDragScroll(document.getElementById('profile-container'));
+            initDragScroll(document.getElementById('rehearsal-tutor-scroll'));
         };
     </script>
 </body>
