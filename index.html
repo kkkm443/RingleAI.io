@@ -765,6 +765,26 @@
                 display: none; /* 실제 아이폰의 홈 바가 표시되므로 가짜 홈 바 숨김 */
             }
         }
+
+        /* [13. 375px 미만 초소형 화면(아이폰 SE 등) UI 깨짐 방지 및 자동 축소 기능] */
+        @media (max-width: 374px) {
+            body {
+                overflow-x: hidden;
+                background-color: #ffffff;
+            }
+            .iphone-frame {
+                /* 화면 기준이 375px로 고정되도록 설정하고 비율에 맞게 전체 스케일을 축소합니다 */
+                width: 375px !important;
+                /* 축소되는 비율의 역수만큼 높이를 늘려주어야 화면 하단에 빈 공간이 생기지 않습니다 */
+                height: calc(100dvh * (375 / 100vw)) !important;
+                transform: scale(calc(100vw / 375)) !important;
+                transform-origin: top left !important;
+                max-width: none !important;
+                max-height: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1346,7 +1366,7 @@
                                     <i class="fas fa-magic text-amber-300"></i> AI Summary
                                 </h4>
                                 <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium">
-                                    다양한 비즈니스 상황에서 의견을 명확히 전달할 수 있습니다. 특히 <span class="text-white font-bold">듣기(Listening)</span> 능력이 뛰어나며, <span class="text-white font-bold">문법(Grammar)</span> 정확도를 높이면 한 단계 더 성장할 수 있습니다.
+                                    다양란 비즈니스 상황에서 의견을 명확히 전달할 수 있습니다. 특히 <span class="text-white font-bold">듣기(Listening)</span> 능력이 뛰어나며, <span class="text-white font-bold">문법(Grammar)</span> 정확도를 높이면 한 단계 더 성장할 수 있습니다.
                                 </p>
                             </div>
                         </div>
