@@ -806,7 +806,7 @@
                     </div>
 
                     <div class="mt-6 flex flex-col gap-3">
-                        <button class="btn-primary-action" onclick="startFullCallSequence()">바로 전화하기</button>
+                        <button class="btn-primary-action" onclick="startFullCallSequence(false)">바로 전화하기</button>
                         <button class="btn-primary-action bg-slate-800 shadow-slate-800/30 text-sm py-4" onclick="triggerIncomingCall()">예시로 전화 수신하기 <i class="fas fa-phone-volume ml-2"></i></button>
                     </div>
                 </div>
@@ -1224,7 +1224,7 @@
                 </div>
                 
                 <div class="w-full px-5 pt-2 pb-10 flex-shrink-0 z-10 relative bg-slate-50">
-                    <button class="w-full py-4 bg-[#0b0e26] text-white rounded-2xl font-bold shadow-xl" onclick="startFullCallSequence()">실전 리허설 시작하기</button>
+                    <button class="w-full py-4 bg-[#0b0e26] text-white rounded-2xl font-bold shadow-xl" onclick="startFullCallSequence(true)">실전 리허설 시작하기</button>
                 </div>
             </div>
 
@@ -1275,6 +1275,63 @@
                 
                 <div class="scroll-area flex-1 pb-24 px-4 pt-4 no-scrollbar">
                     
+                    <!-- [새로 추가된 종합 실력 요약 카드] -->
+                    <div class="relative bg-[#0b0e26] text-white rounded-[24px] p-6 mb-6 shadow-xl overflow-hidden flex-shrink-0">
+                        <!-- 배경 그라데이션 장식 -->
+                        <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                        <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -ml-10 -mb-10"></div>
+                        
+                        <div class="relative z-10">
+                            <!-- 헤더 및 차트 영역 -->
+                            <div class="flex justify-between items-center mb-5">
+                                <div>
+                                    <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest block mb-1">Overall Level</span>
+                                    <div class="flex items-baseline gap-1">
+                                        <span class="text-5xl font-black tracking-tighter">7</span>
+                                        <span class="text-sm font-bold text-slate-400">/ 10</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- 방사형 레이더 차트 (SVG) -->
+                                <div class="relative w-24 h-24 mr-2">
+                                    <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90 drop-shadow-lg">
+                                        <!-- 차트 배경 선 -->
+                                        <polygon points="50,5 95,50 50,95 5,50" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                                        <polygon points="50,25 75,50 50,75 25,50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                                        <line x1="50" y1="5" x2="50" y2="95" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2,2"/>
+                                        <line x1="5" y1="50" x2="95" y2="50" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2,2"/>
+                                        
+                                        <!-- 내 데이터 다각형 (Top: Speaking, Right: Vocab, Bottom: Listening, Left: Grammar) -->
+                                        <!-- Speaking 85%, Vocab 75%, Listening 95%, Grammar 70% 가상의 수치 반영 -->
+                                        <polygon points="50,11.75 83.75,50 50,92.75 18.5,50" fill="rgba(99, 102, 241, 0.45)" stroke="#818cf8" stroke-width="1.5" stroke-linejoin="round"/>
+                                        
+                                        <!-- 각 꼭짓점 포인트 원 -->
+                                        <circle cx="50" cy="11.75" r="2" fill="#fff" />
+                                        <circle cx="83.75" cy="50" r="2" fill="#fff" />
+                                        <circle cx="50" cy="92.75" r="2" fill="#fff" />
+                                        <circle cx="18.5" cy="50" r="2" fill="#fff" />
+                                    </svg>
+                                    
+                                    <!-- 차트 라벨 -->
+                                    <span class="absolute top-0 left-1/2 -translate-x-1/2 -mt-3 text-[8.5px] font-bold text-indigo-200 tracking-wider">SPK</span>
+                                    <span class="absolute right-0 top-1/2 -translate-y-1/2 -mr-5 text-[8.5px] font-bold text-indigo-200 tracking-wider">VOC</span>
+                                    <span class="absolute bottom-0 left-1/2 -translate-x-1/2 -mb-3 text-[8.5px] font-bold text-indigo-200 tracking-wider">LIS</span>
+                                    <span class="absolute left-0 top-1/2 -translate-y-1/2 -ml-5 text-[8.5px] font-bold text-indigo-200 tracking-wider">GRM</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 분석 요약 텍스트 -->
+                            <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                                <h4 class="text-[11px] font-bold text-indigo-300 mb-2 flex items-center gap-1.5 uppercase tracking-wide">
+                                    <i class="fas fa-magic text-amber-300"></i> AI Summary
+                                </h4>
+                                <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium">
+                                    다양한 비즈니스 상황에서 의견을 명확히 전달할 수 있습니다. 특히 <span class="text-white font-bold">듣기(Listening)</span> 능력이 뛰어나며, <span class="text-white font-bold">문법(Grammar)</span> 정확도를 높이면 한 단계 더 성장할 수 있습니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 카드 1 (분석 완료) -->
                     <div class="bg-white rounded-[20px] border border-slate-100 shadow-sm overflow-hidden mb-4">
                         <!-- 카드 헤더 및 요약 (클릭 시 펼치기) -->
@@ -1728,7 +1785,7 @@
         }
 
         function acceptIncomingCall() {
-            startFullCallSequence();
+            startFullCallSequence(false);
         }
 
         function promptDeclineWarning() {
@@ -1794,21 +1851,39 @@
         }
 
         let callTimer;
-        function startFullCallSequence() {
-            const tutors = [
-                { name: "Michael", image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" },
-                { name: "Sarah", image: "https://randomuser.me/api/portraits/women/44.jpg" },
-                { name: "David", image: "https://randomuser.me/api/portraits/men/22.jpg" }
-            ];
-            const randomTutor = tutors[Math.floor(Math.random() * tutors.length)];
+        // isRehearsal 플래그 추가: true이면 랜덤 튜터, false이면 사용자가 설정한 페르소나와 연결
+        function startFullCallSequence(isRehearsal = false) {
             const callName = document.getElementById('call-name');
             const callAvatar = document.getElementById('call-avatar');
             
-            if (callName) callName.innerText = randomTutor.name;
-            if (callAvatar) {
-                callAvatar.style.backgroundImage = `url('${randomTutor.image}')`;
-                callAvatar.style.backgroundColor = 'transparent';
-                callAvatar.innerText = '';
+            if (isRehearsal) {
+                const tutors = [
+                    { name: "Michael", image: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" },
+                    { name: "Sarah", image: "https://randomuser.me/api/portraits/women/44.jpg" },
+                    { name: "David", image: "https://randomuser.me/api/portraits/men/22.jpg" }
+                ];
+                const randomTutor = tutors[Math.floor(Math.random() * tutors.length)];
+                
+                if (callName) callName.innerText = randomTutor.name;
+                if (callAvatar) {
+                    callAvatar.style.backgroundImage = `url('${randomTutor.image}')`;
+                    callAvatar.style.backgroundColor = 'transparent';
+                    callAvatar.innerText = '';
+                }
+            } else {
+                const currProfile = profiles[activeProfileId];
+                if (callName) callName.innerText = currProfile.name;
+                if (callAvatar) {
+                    if (currProfile.image) {
+                        callAvatar.style.backgroundImage = `url('${currProfile.image}')`;
+                        callAvatar.style.backgroundColor = 'transparent';
+                        callAvatar.innerText = '';
+                    } else {
+                        callAvatar.style.backgroundImage = 'none';
+                        callAvatar.style.backgroundColor = currProfile.color;
+                        callAvatar.innerText = currProfile.name[0];
+                    }
+                }
             }
 
             changeView('call-view');
