@@ -2,7 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 모바일 환경에서 실제 노치 영역까지 화면을 확장하고 확대/축소를 방지하는 설정 추가 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Ringle AI Ultimate Integrated Version</title>
     <!-- [외부 라이브러리] -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -734,6 +735,36 @@
             -webkit-user-select: none !important;
             -webkit-user-drag: none !important;
         }
+
+        /* [12. 모바일 웹 브라우저 접속 시 반응형 대응 추가] */
+        @media (max-width: 640px) {
+            body {
+                background-color: #ffffff; /* 모바일에서는 바깥쪽 회색 배경 제거 */
+                align-items: flex-start; /* 화면 위쪽부터 채우기 */
+            }
+            .iphone-frame {
+                width: 100vw;
+                height: 100dvh; /* 브라우저 하단 툴바(Safari 등)를 제외한 실제 화면 높이 꽉 채우기 */
+                max-width: none;
+                max-height: none;
+                border: none; /* 하드웨어 테두리 제거 */
+                border-radius: 0; /* 둥근 모서리 제거 */
+                box-shadow: none;
+            }
+            .notch {
+                display: none; /* 모바일 기기 자체 노치가 있으므로 가짜 노치 숨김 */
+            }
+            .status-bar {
+                height: max(20px, env(safe-area-inset-top)); /* 실제 기기의 상태바 공간만 여백으로 차지하도록 변경 */
+                padding: 0;
+            }
+            .status-bar * {
+                display: none; /* 가짜 시계, 와이파이, 배터리 아이콘 숨김 */
+            }
+            .home-indicator {
+                display: none; /* 실제 아이폰의 홈 바가 표시되므로 가짜 홈 바 숨김 */
+            }
+        }
     </style>
 </head>
 <body>
@@ -820,7 +851,7 @@
                 </div>
                 <div class="scroll-area no-scrollbar">
                     <p class="text-[11px] text-slate-400 mb-6 leading-relaxed font-medium">주제를 선택하고 나만의 커리큘럼을 만들어 보세요.</p>
-                    <div class="workflow-sync-card" onclick="alert('PPT 스크립트 로딩 중...')">
+                    <div class="workflow-sync-card" onclick="showToast('학습 자료 업로드 기능은 현재 준비 중입니다.')">
                         <i class="fas fa-file-invoice text-3xl text-pink-400 mb-2"></i>
                         <div class="text-sm font-bold text-pink-600">학습 자료 업로드 </div>
                         <p class="text-[10px] text-slate-400 mt-1 font-medium">내 PPT/스크립트를 학습하여 시뮬레이션을 진행합니다.</p>
@@ -1464,7 +1495,7 @@
         <div class="bottom-bar" id="main-nav">
             <div class="nav-item active" onclick="changeView('home-view')"><i class="fas fa-phone-alt"></i><span>AI 전화</span></div>
             <div class="nav-item" onclick="changeView('rank-view')"><i class="fas fa-chart-bar"></i><span>성취</span></div>
-            <div class="nav-item" onclick="alert('AI 튜터 채팅은 준비 중입니다.')"><i class="fas fa-comment-dots"></i><span>AI 튜터</span></div>
+            <div class="nav-item" onclick="showToast('AI 튜터 채팅은 준비 중입니다.')"><i class="fas fa-comment-dots"></i><span>AI 튜터</span></div>
             <div class="nav-item" onclick="changeView('my-view')"><i class="fas fa-user"></i><span>마이링글</span></div>
         </div>
         
