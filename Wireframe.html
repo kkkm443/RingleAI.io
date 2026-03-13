@@ -6,6 +6,7 @@
     <title>Ringle AI - 9 Screens Wireframe</title>
     <!-- [외부 라이브러리] -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
     <style>
         /* [1. 기본 설정 및 프리젠테이션 보드 레이아웃] */
@@ -15,6 +16,7 @@
 
         /* [🔥 피그잼/피그마 렌더링 버그 완벽 방어 (모든 둥근 요소 & 아이콘 절대 고정)] */
         .rounded-full, .rounded-xl, .rounded-2xl { flex-shrink: 0 !important; }
+        i.fas, i.fab, i.far { flex-shrink: 0 !important; }
         svg { flex-shrink: 0 !important; }
         
         /* Tailwind w/h 사이즈 절대 크기 강제 고정 (피그마 플러그인 축소 오류 원천 차단) */
@@ -208,7 +210,7 @@
         .bottom-bar { height: 75px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; padding-top: 10px; background: white; flex-shrink: 0; z-index: 100; }
         .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; font-size: 10px; font-weight: 500; }
         .nav-item.active { color: #4f46e5; }
-        .nav-item svg { width: 22px; height: 22px; margin-bottom: 2px; }
+        .nav-item i { font-size: 18px; }
         .home-indicator { width: 110px; height: 5px; background: #e2e8f0; border-radius: 10px; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); z-index: 9999; margin: -13px auto 8px;}
         .dark-mode .home-indicator { background: rgba(255, 255, 255, 0.2); }
 
@@ -260,8 +262,8 @@
 <body class="wireframe-board">
 
     <div class="text-center mb-16">
-        <h1 class="text-4xl font-black text-white mb-4">Ringle AI - App Wireframe (Fixed Version)</h1>
-        <p class="text-slate-400 font-medium">폰트어썸 및 이모지를 100% 제거하고 절대 깨지지 않는 SVG 벡터 코드로 완벽 변환하였습니다.</p>
+        <h1 class="text-4xl font-black text-white mb-4">Ringle AI - App Wireframe (Exact Fidelity)</h1>
+        <p class="text-slate-400 font-medium">실제 코드(HTML/CSS)를 100% 활용하여 제작된 고해상도 프리젠테이션 뷰입니다.</p>
     </div>
 
     <div class="grid-container">
@@ -271,24 +273,12 @@
             <h2 class="frame-title"><span class="badge">1</span>홈 화면 (메인)</h2>
             <div class="iphone-frame">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view">
                     <div class="px-5 py-2 flex justify-between items-center bg-white">
                         <h1 class="text-2xl font-bold text-slate-800">AI 전화</h1>
-                        <div class="flex gap-4 text-slate-300">
-                            <!-- fa-fire 대체 -->
-                            <svg class="text-orange-400" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-                            <!-- fa-bars 대체 -->
-                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-                        </div>
+                        <div class="flex gap-4 text-slate-300"><i class="fas fa-fire text-orange-400"></i><i class="fas fa-bars"></i></div>
                     </div>
                     <div class="top-nav bg-white">
                         <div class="top-nav-item active">전화</div><div class="top-nav-item">맞춤설정</div><div class="top-nav-item">전화내역</div>
@@ -309,10 +299,10 @@
                                 <span class="text-[12px] font-bold">Harvard 튜터 수업</span>
                                 <span class="text-[11px] opacity-90 mt-1">Ivy League Standard</span>
                             </div>
-                            <!-- fa-chevron-right 대체 -->
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                            <i class="fas fa-chevron-right text-[10px]"></i>
                         </div>
                         <div class="tutor-card">
+                            <!-- absolute centering 처리 -->
                             <div class="avatar-circle bg-cover bg-center" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');">
                                 <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
                             </div>
@@ -325,37 +315,20 @@
                                 <span class="text-[9px] text-slate-400 font-bold uppercase mb-1">Current Curriculum</span>
                                 <span class="text-[14px] font-bold text-slate-800">해외 세일즈: 제품 판매 시연</span>
                             </div>
-                            <svg class="text-slate-300" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                            <i class="fas fa-chevron-right text-slate-300 text-xs"></i>
                         </div>
                         <div class="mt-6 flex flex-col gap-3 pb-8">
                             <button class="btn-primary-action">바로 전화하기</button>
-                            <button class="btn-primary-action bg-slate-800 shadow-slate-800/30 text-sm py-4 flex items-center justify-center gap-2">
-                                예시로 전화 수신하기 
-                                <!-- fa-phone-volume 대체 -->
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M14.05 2a9 9 0 0 1 8 7.94"/><path d="M14.05 6A5 5 0 0 1 18 10"/></svg>
-                            </button>
+                            <button class="btn-primary-action bg-slate-800 shadow-slate-800/30 text-sm py-4">예시로 전화 수신하기 <i class="fas fa-phone-volume ml-2"></i></button>
                         </div>
                     </div>
                 </div>
                 
                 <div class="bottom-bar">
-                    <!-- 하단 네비게이션 아이콘 전체 SVG 교체 -->
-                    <div class="nav-item active">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        <span>AI 전화</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                        <span>성취</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                        <span>AI 튜터</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <span>마이링글</span>
-                    </div>
+                    <div class="nav-item active"><i class="fas fa-phone-alt mb-1 text-lg"></i><span>AI 전화</span></div>
+                    <div class="nav-item"><i class="fas fa-chart-bar mb-1 text-lg"></i><span>성취</span></div>
+                    <div class="nav-item"><i class="fas fa-comment-dots mb-1 text-lg"></i><span>AI 튜터</span></div>
+                    <div class="nav-item"><i class="fas fa-user mb-1 text-lg"></i><span>마이링글</span></div>
                 </div>
                 <div class="home-indicator"></div>
             </div>
@@ -366,20 +339,12 @@
             <h2 class="frame-title"><span class="badge">2</span>페르소나 맞춤 설정</h2>
             <div class="iphone-frame">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view bg-white">
                     <div class="flex justify-between items-center px-6 pt-6 mb-6 flex-shrink-0">
                         <h2 class="text-xl font-bold text-slate-800">맞춤설정</h2>
-                        <!-- fa-times 대체 -->
-                        <svg class="text-slate-300" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        <i class="fas fa-times text-xl text-slate-300"></i>
                     </div>
                     <div class="scroll-area !bg-white no-scrollbar">
                         <div class="opt-group mb-6">
@@ -389,6 +354,7 @@
                             </div>
                             <div class="profile-list-scroll px-6">
                                 <div class="profile-chip">
+                                    <!-- absolute centering 처리 -->
                                     <div class="chip-avatar relative" style="background-color:#7367f0">
                                         <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">G</span>
                                     </div>
@@ -419,12 +385,12 @@
                                 <div class="text-[15px] font-bold text-slate-800 mb-4">AI 상세 설정</div>
                                 <div class="bg-white border border-slate-100 rounded-[20px] p-5 flex items-center gap-5 mb-6 shadow-sm">
                                     <div class="relative flex-shrink-0">
+                                        <!-- absolute centering 처리 -->
                                         <div class="w-[68px] h-[68px] rounded-full relative bg-cover bg-center flex-shrink-0" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');">
                                             <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
                                         </div>
-                                        <div class="absolute -bottom-1 -right-1 bg-white w-7 h-7 rounded-full border border-slate-100 shadow-sm relative flex-shrink-0 flex items-center justify-center">
-                                            <!-- fa-camera 대체 -->
-                                            <svg class="text-slate-500" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                                        <div class="absolute -bottom-1 -right-1 bg-white w-7 h-7 rounded-full border border-slate-100 shadow-sm relative flex-shrink-0">
+                                            <i class="fas fa-camera absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[11px] text-slate-500"></i>
                                         </div>
                                     </div>
                                     <div class="flex-1 flex flex-col justify-center">
@@ -452,52 +418,31 @@
             <h2 class="frame-title"><span class="badge">3</span>커리큘럼 및 주제</h2>
             <div class="iphone-frame">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view">
                     <div class="flex justify-between items-center px-5 pt-4 mb-4 flex-shrink-0">
-                        <h2 class="text-xl font-bold">커리큘럼</h2>
-                        <svg class="text-slate-300" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                        <h2 class="text-xl font-bold">커리큘럼</h2><i class="fas fa-times text-xl text-slate-300"></i>
                     </div>
                     <div class="scroll-area no-scrollbar">
                         <p class="text-[11px] text-slate-400 mb-6 font-medium">주제를 선택하고 나만의 커리큘럼을 만들어 보세요.</p>
                         <div class="workflow-sync-card">
-                            <!-- fa-file-invoice 대체 -->
-                            <svg class="text-pink-400 mb-2 mx-auto" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            <i class="fas fa-file-invoice text-3xl text-pink-400 mb-2"></i>
                             <div class="text-sm font-bold text-pink-600">학습 자료 업로드 </div>
                             <p class="text-[10px] text-slate-400 mt-1 font-medium">내 PPT/스크립트를 학습하여 시뮬레이션을 진행합니다.</p>
                         </div>
                         <div class="category-label">전문직 전용</div>
                         <div class="curr-accordion-item active">
                             <div class="curr-head">
-                                <div class="flex items-center gap-3 font-bold text-sm">
-                                    <!-- fa-user-md 대체 (briefcase) -->
-                                    <svg class="text-indigo-500" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                                    전문직 및 커리어
-                                </div>
-                                <svg class="text-slate-300 transform rotate-180" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                                <div class="flex items-center gap-3 font-bold text-sm"><i class="fas fa-user-md text-indigo-500"></i>전문직 및 커리어</div>
+                                <i class="fas fa-chevron-down text-xs text-slate-300 transform rotate-180"></i>
                             </div>
                             <div class="curr-body">
                                 <p class="text-[11px] text-slate-500 mb-4">상황의 어휘와 논리 구조를 학습합니다.</p>
                                 <div class="flex flex-col gap-2">
-                                    <div class="sub-topic-row selected">
-                                        <span>제품 판매 시연</span> 
-                                        <!-- fa-check-circle 대체 -->
-                                        <svg class="text-indigo-500" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                                    </div>
-                                    <div class="sub-topic-row">
-                                        <span>VC 피칭 전략</span>
-                                    </div>
-                                    <div class="sub-topic-row">
-                                        <span>연봉 협상 전략</span>
-                                    </div>
+                                    <div class="sub-topic-row selected"><span>제품 판매 시연</span> <i class="fas fa-check-circle text-indigo-500"></i></div>
+                                    <div class="sub-topic-row"><span>VC 피칭 전략</span> <i class="fas fa-check-circle text-indigo-500 hidden"></i></div>
+                                    <div class="sub-topic-row"><span>연봉 협상 전략</span> <i class="fas fa-check-circle text-indigo-500 hidden"></i></div>
                                 </div>
                             </div>
                         </div>
@@ -515,20 +460,13 @@
             <h2 class="frame-title"><span class="badge">4</span>수업 전 리허설</h2>
             <div class="iphone-frame">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view bg-slate-50">
                     <div class="p-6 flex justify-between items-center flex-shrink-0">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                        <i class="fas fa-chevron-left text-lg"></i>
                         <span class="text-xs font-bold uppercase tracking-widest text-slate-800">Class Rehearsal</span>
-                        <svg class="opacity-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        <i class="fas fa-cog opacity-0"></i>
                     </div>
                     
                     <div class="scroll-area px-5 flex-1 flex flex-col pt-2 pb-10 no-scrollbar">
@@ -542,6 +480,7 @@
                                 <div class="px-6 pb-2">
                                     <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
                                         <div class="flex items-center gap-4 mb-3">
+                                            <!-- absolute centering 처리 -->
                                             <div class="w-14 h-14 rounded-full relative border border-white/20 bg-cover bg-center flex-shrink-0" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');">
                                                 <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
                                             </div>
@@ -563,8 +502,7 @@
                         <div class="bg-white rounded-[20px] p-5 border border-slate-100 shadow-sm mb-6">
                             <h4 class="font-bold text-sm mb-2 text-slate-800">내 스크립트 기반 연습</h4>
                             <div class="w-full border-2 border-dashed border-slate-200 rounded-xl p-5 text-center mt-3">
-                                <!-- fa-file-upload 대체 -->
-                                <svg class="text-slate-300 mb-2 mx-auto" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                <i class="fas fa-file-upload text-2xl text-slate-300 mb-2"></i>
                                 <p class="text-xs font-bold text-slate-500">대본 파일 업로드 (PDF, DOCX)</p>
                             </div>
                         </div>
@@ -582,25 +520,18 @@
             <h2 class="frame-title"><span class="badge">5</span>AI 전화 수신 (Dark Mode)</h2>
             <div class="iphone-frame dark-mode">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view transparent" style="background: linear-gradient(180deg, #1e293b 0%, #020617 100%);">
                     <div class="flex flex-col items-center pt-24 flex-1 w-full text-white">
                         <div class="text-[13px] text-slate-400 mb-3 flex items-center gap-2 font-medium">
-                            <svg class="text-indigo-500" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                            Ringle 음성 통화...
+                            <i class="fab fa-neos text-indigo-500"></i> Ringle 음성 통화...
                         </div>
                         <h2 class="text-4xl font-bold mb-14">박보검</h2>
                         
                         <div class="relative mb-12">
                             <div class="absolute inset-0 bg-indigo-500 rounded-full ring-animation blur-md"></div>
+                            <!-- absolute centering 처리 -->
                             <div class="relative w-32 h-32 rounded-full bg-cover bg-center border-4 border-[#020617] shadow-2xl z-10 flex-shrink-0" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');">
                                 <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
                             </div>
@@ -612,18 +543,18 @@
                         </div>
                     </div>
                     
-                    <!-- 🚨 사용자 피드백: "거절 응답 부분 시발 지금 이상하잖아" 완벽 수정 🚨 -->
                     <div class="flex justify-between px-14 pb-20 w-full flex-shrink-0">
                         <div class="flex flex-col items-center gap-3">
-                            <!-- flex 중앙 정렬로 레이아웃 파괴 원천 차단 + 아이콘 SVG 교체 -->
-                            <button class="w-[72px] h-[72px] rounded-full bg-[#ef4444] flex items-center justify-center flex-shrink-0 text-white shadow-lg shadow-red-500/30">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="22" y1="2" x2="2" y2="22"/></svg>
+                            <!-- absolute centering 처리 -->
+                            <button class="w-16 h-16 rounded-full bg-[#ef4444] relative flex-shrink-0 text-white shadow-lg">
+                                <i class="fas fa-times absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl"></i>
                             </button>
                             <span class="text-xs text-white font-medium">거절</span>
                         </div>
                         <div class="flex flex-col items-center gap-3">
-                            <button class="w-[72px] h-[72px] rounded-full bg-[#3b82f6] flex items-center justify-center flex-shrink-0 text-white shadow-lg shadow-blue-500/30 ring-animation">
-                                <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <!-- absolute centering 처리 -->
+                            <button class="w-16 h-16 rounded-full bg-[#3b82f6] relative flex-shrink-0 text-white shadow-lg ring-animation">
+                                <i class="fas fa-check absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl"></i>
                             </button>
                             <span class="text-xs text-white font-medium">응답</span>
                         </div>
@@ -638,17 +569,11 @@
             <h2 class="frame-title"><span class="badge">6</span>실시간 통화 및 피드백</h2>
             <div class="iphone-frame dark-mode">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view transparent" style="background-color: #0b0e26;">
                     <div class="w-full display-flex flex-col items-center padding-15-20-5 flex-shrink-0" style="display:flex; flex-direction:column; align-items:center; padding: 15px 20px 5px;">
+                        <!-- absolute centering 처리 -->
                         <div class="w-20 h-20 rounded-full relative mb-2 shadow-xl bg-cover bg-center flex-shrink-0" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');">
                             <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
                         </div>
@@ -672,18 +597,9 @@
 
                             <div class="logic-viz-viz">
                                 <div class="text-[8px] text-white/40 mb-2 font-bold uppercase">Logic Mapping</div>
-                                <div class="logic-step-item">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                                    Opening & Context
-                                </div>
-                                <div class="logic-step-item now">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
-                                    Strategic Expression
-                                </div>
-                                <div class="logic-step-item">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
-                                    Logical Conclusion
-                                </div>
+                                <div class="logic-step-item"><i class="fas fa-check-circle"></i> Opening & Context</div>
+                                <div class="logic-step-item now"><i class="fas fa-circle"></i> Strategic Expression</div>
+                                <div class="logic-step-item"><i class="fas fa-circle"></i> Logical Conclusion</div>
                             </div>
 
                             <div class="pt-3 border-t border-white/10">
@@ -695,22 +611,13 @@
                     
                     <div class="w-full p-10 pb-12 bg-[#0b0e26] border-t border-white/5 flex-shrink-0 text-white">
                         <div class="flex justify-around items-center mb-8 opacity-40">
-                            <div class="flex flex-col items-center gap-1">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                                <span class="text-[9px] font-bold">소리끔</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-1">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
-                                <span class="text-[9px] font-bold">스피커</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-1">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" ry="2"/><path d="M7 15h4M15 15h2M7 11h2M13 11h4"/></svg>
-                                <span class="text-[9px] font-bold">자막설정</span>
-                            </div>
+                            <div class="flex flex-col items-center gap-1"><i class="fas fa-microphone-slash text-lg"></i><span class="text-[9px] font-bold">소리끔</span></div>
+                            <div class="flex flex-col items-center gap-1"><i class="fas fa-volume-up text-lg"></i><span class="text-[9px] font-bold">스피커</span></div>
+                            <div class="flex flex-col items-center gap-1"><i class="fas fa-closed-captioning text-lg"></i><span class="text-[9px] font-bold">자막설정</span></div>
                         </div>
-                        <!-- 종료 버튼 역시 중앙 정렬 보장 -->
-                        <div class="w-[64px] h-[64px] bg-red-500 rounded-full mx-auto flex items-center justify-center flex-shrink-0 shadow-xl">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="22" y1="2" x2="2" y2="22"/></svg>
+                        <!-- absolute centering 처리 -->
+                        <div class="w-16 h-16 bg-red-500 rounded-full mx-auto relative flex-shrink-0 shadow-xl">
+                            <i class="fas fa-phone-slash absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl"></i>
                         </div>
                     </div>
                 </div>
@@ -723,14 +630,7 @@
             <h2 class="frame-title"><span class="badge">7</span>통화 내역 및 종합 요약</h2>
             <div class="iphone-frame">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view bg-slate-50">
                     <div class="px-5 pt-4 pb-2 border-b border-slate-200 bg-white">
@@ -757,11 +657,7 @@
                                     </div>
                                 </div>
                                 <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
-                                    <h4 class="text-[11px] font-bold text-indigo-300 mb-2 flex items-center gap-1.5 uppercase tracking-wide">
-                                        <!-- fa-magic 대체 -->
-                                        <svg class="text-amber-300" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg> 
-                                        AI Summary
-                                    </h4>
+                                    <h4 class="text-[11px] font-bold text-indigo-300 mb-2 flex items-center gap-1.5 uppercase tracking-wide"><i class="fas fa-magic text-amber-300"></i> AI Summary</h4>
                                     <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium">의견을 명확히 전달할 수 있습니다. <span class="text-white font-bold">듣기(Listening)</span> 능력이 뛰어나며, <span class="text-white font-bold">문법(Grammar)</span> 정확도를 높이면 한 단계 성장할 수 있습니다.</p>
                                 </div>
                             </div>
@@ -770,6 +666,7 @@
                             <div class="p-5">
                                 <div class="flex justify-between items-start mb-4">
                                     <div class="flex items-center gap-3">
+                                        <!-- absolute centering 처리 -->
                                         <div class="w-10 h-10 rounded-full relative bg-cover bg-center border border-slate-100 flex-shrink-0" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');">
                                             <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></span>
                                         </div>
@@ -788,23 +685,9 @@
                     </div>
                 </div>
                 <div class="bottom-bar">
-                    <!-- 하단 네비게이션 아이콘 전체 SVG 교체 -->
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        <span>AI 전화</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                        <span>성취</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                        <span>AI 튜터</span>
-                    </div>
-                    <div class="nav-item active">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <span>마이링글</span>
-                    </div>
+                    <div class="nav-item"><i class="fas fa-phone-alt"></i><span>AI 전화</span></div>
+                    <div class="nav-item"><i class="fas fa-chart-bar"></i><span>성취</span></div>
+                    <div class="nav-item active"><i class="fas fa-user"></i><span>마이링글</span></div>
                 </div>
                 <div class="home-indicator"></div>
             </div>
@@ -815,14 +698,7 @@
             <h2 class="frame-title"><span class="badge">8</span>익명 랭킹 & 스펙 랭크</h2>
             <div class="iphone-frame">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view">
                     <div class="px-5 pt-4 pb-2 border-b border-slate-50">
@@ -841,19 +717,18 @@
                                 <h3 class="text-lg font-black text-indigo-900">상위 12.4%</h3>
                                 <p class="text-[11px] text-slate-500 mt-1">전체 직군 중 142위</p>
                             </div>
+                            <!-- absolute centering 처리 -->
                             <div class="w-12 h-12 bg-white rounded-full relative flex-shrink-0 shadow-sm text-indigo-600">
                                 <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-black">142</span>
                             </div>
                         </div>
                         <div class="mb-5">
                             <button class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-[16px] font-bold text-[15px] shadow-sm flex items-center justify-center gap-2">
-                                <!-- fa-microphone-alt 대체 -->
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-                                발음챌린지로 랭킹 올리기! 
-                                <svg class="opacity-80 ml-1" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                                <i class="fas fa-microphone-alt"></i> 발음챌린지로 랭킹 올리기! <i class="fas fa-chevron-right text-[12px] ml-1 opacity-80"></i>
                             </button>
                         </div>
                         <div class="space-y-0">
+                            <!-- absolute centering 처리된 랭킹 아이콘들 -->
                             <div class="rank-list-item top-3">
                                 <div class="rank-badge">1</div>
                                 <div class="w-10 h-10 bg-indigo-100 text-indigo-500 rounded-full mx-3 relative flex-shrink-0">
@@ -891,23 +766,10 @@
                 </div>
                 
                 <div class="bottom-bar">
-                    <!-- 하단 네비게이션 아이콘 전체 SVG 교체 -->
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        <span>AI 전화</span>
-                    </div>
-                    <div class="nav-item active">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                        <span>성취</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                        <span>AI 튜터</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <span>마이링글</span>
-                    </div>
+                    <div class="nav-item"><i class="fas fa-phone-alt"></i><span>AI 전화</span></div>
+                    <div class="nav-item active"><i class="fas fa-chart-bar"></i><span>성취</span></div>
+                    <div class="nav-item"><i class="fas fa-comment-dots"></i><span>AI 튜터</span></div>
+                    <div class="nav-item"><i class="fas fa-user"></i><span>마이링글</span></div>
                 </div>
                 <div class="home-indicator"></div>
             </div>
@@ -918,21 +780,14 @@
             <h2 class="frame-title"><span class="badge">9</span>마이 링글 (설정/정보)</h2>
             <div class="iphone-frame">
                 <div class="notch"></div>
-                <div class="status-bar">
-                    <span id="clock">09:41</span>
-                    <div class="flex gap-1.5 items-center">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h.01"/><path d="M7 20v-4"/><path d="M12 20v-8"/><path d="M17 20V8"/><path d="M22 4v16"/></svg>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="10" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="13"/><rect x="4" y="9" width="12" height="6" rx="1" ry="1" fill="currentColor"/></svg>
-                    </div>
-                </div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
                 
                 <div class="wf-view bg-white">
                     <div class="px-6 pt-12 pb-6">
                         <div class="flex items-center gap-5">
-                            <div class="w-[72px] h-[72px] bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                <!-- fa-user 대체 -->
-                                <svg class="text-slate-300" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <!-- absolute centering 처리 -->
+                            <div class="w-[72px] h-[72px] bg-slate-100 rounded-full relative flex-shrink-0">
+                                <i class="fas fa-user absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-slate-300 text-3xl"></i>
                             </div>
                             <div class="flex flex-col gap-1">
                                 <h2 class="text-2xl font-bold text-slate-800">이아영</h2>
@@ -942,12 +797,9 @@
                     </div>
                     <div class="scroll-area !bg-white no-scrollbar">
                         <div class="w-full bg-[#F8FAFC] rounded-2xl py-4 px-5 flex justify-between items-center mb-6">
-                            <span class="text-[14px] font-bold text-slate-700 flex items-center">
-                                친구 초대하고 1만원 + 멤버십 받기
-                                <!-- 🎁 / fa-gift 대체 -->
-                                <svg class="text-pink-500 ml-1.5" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-                            </span>
-                            <svg class="text-slate-400" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                            <!-- 깨지는 🎁 이모지를 안전한 웹 폰트(fa-gift)로 교체 -->
+                            <span class="text-[14px] font-bold text-slate-700">친구 초대하고 1만원 + 멤버십 받기 <i class="fas fa-gift text-pink-500 ml-1"></i></span>
+                            <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
                         </div>
                         <div class="w-full bg-white border border-slate-100 rounded-[20px] p-6 mb-5 shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex justify-between items-center">
                             <div class="flex flex-col">
@@ -955,7 +807,7 @@
                                 <h3 class="text-[18px] font-black text-slate-800">AI 올인원 멤버십</h3>
                                 <p class="text-[12px] text-slate-400 font-medium mt-2">만료 예정: 2026.02.05</p>
                             </div>
-                            <svg class="text-slate-300" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                            <i class="fas fa-chevron-right text-slate-300 text-lg"></i>
                         </div>
                         <div class="flex gap-4">
                             <div class="flex-1 bg-white border border-slate-100 rounded-[16px] py-6 px-4 flex flex-col items-center justify-center shadow-sm">
@@ -969,35 +821,20 @@
                         </div>
                         <div class="mt-8 border-t border-slate-50 pt-4">
                             <div class="flex justify-between items-center p-4 border-b border-slate-50">
-                                <span class="text-[13px] font-bold text-slate-700">알림 설정</span>
-                                <svg class="text-slate-300" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                                <span class="text-[13px] font-bold text-slate-700">알림 설정</span><i class="fas fa-chevron-right text-xs text-slate-300"></i>
                             </div>
                             <div class="flex justify-between items-center p-4">
-                                <span class="text-[13px] font-bold text-slate-700">고객 센터</span>
-                                <svg class="text-slate-300" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                                <span class="text-[13px] font-bold text-slate-700">고객 센터</span><i class="fas fa-chevron-right text-xs text-slate-300"></i>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="bottom-bar">
-                    <!-- 하단 네비게이션 아이콘 전체 SVG 교체 -->
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        <span>AI 전화</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                        <span>성취</span>
-                    </div>
-                    <div class="nav-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                        <span>AI 튜터</span>
-                    </div>
-                    <div class="nav-item active">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <span>마이링글</span>
-                    </div>
+                    <div class="nav-item"><i class="fas fa-phone-alt"></i><span>AI 전화</span></div>
+                    <div class="nav-item"><i class="fas fa-chart-bar"></i><span>성취</span></div>
+                    <div class="nav-item"><i class="fas fa-comment-dots"></i><span>AI 튜터</span></div>
+                    <div class="nav-item active"><i class="fas fa-user"></i><span>마이링글</span></div>
                 </div>
                 <div class="home-indicator"></div>
             </div>
