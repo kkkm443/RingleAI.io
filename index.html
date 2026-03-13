@@ -1891,6 +1891,7 @@
         }
 
         async function runComplexSimulation() {
+            const currentTopic = document.getElementById('curr-display').innerText;
             const aiMsg = document.getElementById('ai-voice-msg');
             const aiMsgKo = document.getElementById('ai-voice-msg-ko');
             const userTrans = document.getElementById('user-voice-live');
@@ -1900,16 +1901,57 @@
             if(aiMsgKo) aiMsgKo.classList.add('opacity-0');
             if(userTrans) userTrans.innerText = ""; 
             if(fbCard) fbCard.classList.remove('active');
+
+            let scenario = {};
+
+            // 커리큘럼 선택에 따른 동적 시나리오 매핑
+            if (currentTopic.includes('제품 판매') || currentTopic.includes('해외 세일즈')) {
+                scenario = {
+                    aiEn: '"Can you highlight the main advantage of your new software?"',
+                    aiKo: '"새 소프트웨어의 주요 장점이 무엇인지 강조해 주시겠어요?"',
+                    userText: "It is very fast and easy to use for people.",
+                    fbTryEn: 'Try: "It offers <span>unprecedented processing speeds and an intuitive interface.</span>"',
+                    fbTryKo: '"전례 없는 처리 속도와 직관적인 인터페이스를 제공합니다."',
+                    fbWhy: "비즈니스 시연에서는 'fast'나 'easy' 대신, 'unprecedented speed', 'intuitive interface' 같은 전문적인 비즈니스 어휘가 고객에게 더 큰 신뢰감을 줍니다."
+                };
+            } else if (currentTopic.includes('VC 피칭')) {
+                scenario = {
+                    aiEn: '"What is your core strategy to acquire new users in the first year?"',
+                    aiKo: '"첫 해 신규 사용자 확보를 위한 핵심 전략은 무엇입니까?"',
+                    userText: "We will use social media and get a lot of users.",
+                    fbTryEn: 'Try: "We plan to <span>leverage targeted campaigns to drive aggressive user acquisition.</span>"',
+                    fbTryKo: '"타겟팅된 캠페인을 활용하여 공격적인 사용자 확보를 추진할 계획입니다."',
+                    fbWhy: "투자자 피칭에서는 구체적이고 전략적인 비즈니스 용어('leverage', 'drive aggressive acquisition')를 사용하는 것이 논리력과 전문성을 돋보이게 합니다."
+                };
+            } else if (currentTopic.includes('연봉 협상')) {
+                scenario = {
+                    aiEn: '"Why do you believe you deserve a salary increase for this role?"',
+                    aiKo: '"이 직무에서 연봉 인상을 받아야 한다고 생각하시는 이유가 무엇인가요?"',
+                    userText: "I work very hard and did a good job last year.",
+                    fbTryEn: 'Try: "I have <span>consistently exceeded performance metrics and delivered significant value.</span>"',
+                    fbTryKo: '"저는 지속적으로 성과 지표를 초과 달성하며 상당한 가치를 제공해 왔습니다."',
+                    fbWhy: "연봉 협상 시에는 주관적인 표현('work hard')보다 'exceeded metrics', 'delivered value'와 같이 객관적이고 성과 중심적인 어휘가 효과적입니다."
+                };
+            } else {
+                // 기본값
+                scenario = {
+                    aiEn: '"Could you describe your puppy\'s symptoms? Has there been any vomiting?"',
+                    aiKo: '"강아지의 증상을 좀 더 자세히 설명해 주시겠어요? 구토 증세도 있었나요?"',
+                    userText: "He's very tired and his stomach is bad.",
+                    fbTryEn: 'Try: "He\'s <span>been exhibiting lethargy and intermittent gastrointestinal distress.</span>"',
+                    fbTryKo: '"아이가 기력이 없고 간헐적인 위장 장애 증상을 보이고 있습니다."',
+                    fbWhy: "수의학 상담에서는 'Lethargy'와 'Gastrointestinal distress' 같은 전문 용어를 사용해야 정확한 진단이 가능합니다."
+                };
+            }
             
             await new Promise(r => setTimeout(r, 1500));
-            if(aiMsg) aiMsg.innerText = '"Could you describe your puppy\'s symptoms? Has there been any vomiting?"';
-            if(aiMsgKo) aiMsgKo.innerText = '"강아지의 증상을 좀 더 자세히 설명해 주시겠어요? 구토 증세도 있었나요?"';
+            if(aiMsg) aiMsg.innerText = scenario.aiEn;
+            if(aiMsgKo) aiMsgKo.innerText = scenario.aiKo;
             if(aiMsg) aiMsg.classList.remove('opacity-0'); 
             if(aiMsgKo) aiMsgKo.classList.remove('opacity-0');
 
             await new Promise(r => setTimeout(r, 2000));
-            const userText = "He's very tired and his stomach is bad.";
-            const words = userText.split(" ");
+            const words = scenario.userText.split(" ");
             for(let w of words) {
                 if(userTrans) userTrans.innerText += (userTrans.innerText ? " " : "") + w;
                 await new Promise(r => setTimeout(r, 300));
@@ -1921,10 +1963,10 @@
             const fbTryKo = document.getElementById('fb-try-ko-text');
             const fbWhy = document.getElementById('fb-why-long-text');
 
-            if(fbOrg) fbOrg.innerText = `"${userText}"`;
-            if(fbTryEn) fbTryEn.innerHTML = 'Try: "He\'s <span>been exhibiting lethargy and intermittent gastrointestinal distress.</span>"';
-            if(fbTryKo) fbTryKo.innerText = '"아이가 기력이 없고 간헐적인 위장 장애 증상을 보이고 있습니다."';
-            if(fbWhy) fbWhy.innerText = "수의학 상담에서는 'Lethargy'와 'Gastrointestinal distress' 같은 전문 용어를 사용해야 정확한 진단이 가능합니다.";
+            if(fbOrg) fbOrg.innerText = `"${scenario.userText}"`;
+            if(fbTryEn) fbTryEn.innerHTML = scenario.fbTryEn;
+            if(fbTryKo) fbTryKo.innerText = scenario.fbTryKo;
+            if(fbWhy) fbWhy.innerText = scenario.fbWhy;
             
             if(fbCard) fbCard.classList.add('active');
         }
