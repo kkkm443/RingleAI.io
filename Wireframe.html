@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ringle AI - 9 Screens Wireframe</title>
+    <!-- [외부 라이브러리] -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+    <style>
+        /* [1. 기본 설정 및 프리젠테이션 보드 레이아웃] */
+        body, button, input, span, div, p, h1, h2, textarea {
+            font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif !important;
+        }
+
+        /* [🔥 피그잼/피그마 렌더링 버그 완벽 방어 (모든 둥근 요소 & 아이콘 절대 고정)] */
+        .rounded-full, .rounded-xl, .rounded-2xl { flex-shrink: 0 !important; }
+        i.fas, i.fab, i.far { flex-shrink: 0 !important; }
+        svg { flex-shrink: 0 !important; }
+        
+        /* Tailwind w/h 사이즈 절대 크기 강제 고정 (피그마 플러그인 축소 오류 원천 차단) */
+        .w-1\.5 { width: 6px !important; min-width: 6px !important; max-width: 6px !important; }
+        .h-1\.5 { height: 6px !important; min-height: 6px !important; max-height: 6px !important; }
+        .w-7 { width: 28px !important; min-width: 28px !important; max-width: 28px !important; }
+        .h-7 { height: 28px !important; min-height: 28px !important; max-height: 28px !important; }
+        .w-10 { width: 40px !important; min-width: 40px !important; max-width: 40px !important; }
+        .h-10 { height: 40px !important; min-height: 40px !important; max-height: 40px !important; }
+        .w-12 { width: 48px !important; min-width: 48px !important; max-width: 48px !important; }
+        .h-12 { height: 48px !important; min-height: 48px !important; max-height: 48px !important; }
+        .w-14 { width: 56px !important; min-width: 56px !important; max-width: 56px !important; }
+        .h-14 { height: 56px !important; min-height: 56px !important; max-height: 56px !important; }
+        .w-16 { width: 64px !important; min-width: 64px !important; max-width: 64px !important; }
+        .h-16 { height: 64px !important; min-height: 64px !important; max-height: 64px !important; }
+        .w-20 { width: 80px !important; min-width: 80px !important; max-width: 80px !important; }
+        .h-20 { height: 80px !important; min-height: 80px !important; max-height: 80px !important; }
+        .w-24 { width: 96px !important; min-width: 96px !important; max-width: 96px !important; }
+        .h-24 { height: 96px !important; min-height: 96px !important; max-height: 96px !important; }
+        .w-32 { width: 128px !important; min-width: 128px !important; max-width: 128px !important; }
+        .h-32 { height: 128px !important; min-height: 128px !important; max-height: 128px !important; }
+        .w-\[72px\] { width: 72px !important; min-width: 72px !important; max-width: 72px !important; }
+        .h-\[72px\] { height: 72px !important; min-height: 72px !important; max-height: 72px !important; }
+        .rank-badge { min-width: 24px !important; flex-shrink: 0 !important; }
+
+        body.wireframe-board { 
+            background-color: #0f172a; /* 다크 프리젠테이션 배경 */
+            color: #1e293b; 
+            margin: 0; 
+            padding: 60px 40px;
+            min-height: 100vh; 
+            overflow-y: auto; 
+        }
+        
+        *, *::before, *::after { box-sizing: border-box; }
+
+        .grid-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .frame-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 375px;
+            flex-shrink: 0;
+        }
+
+        .frame-title {
+            color: #f8fafc;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .frame-title .badge {
+            background-color: #4f46e5;
+            color: white;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+        }
+
+        /* [2. 하드웨어 프레임 시스템 (예시.html과 100% 동일)] */
+        .iphone-frame {
+            width: 375px; 
+            min-width: 375px;
+            height: 812px; 
+            min-height: 812px;
+            background-color: #ffffff; 
+            border: 12px solid #1f2937; 
+            border-radius: 44px;
+            position: relative; 
+            display: flex; 
+            flex-direction: column;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); 
+            overflow: hidden; 
+            flex-shrink: 0;
+        }
+
+        .iphone-frame.dark-mode { 
+            background-color: #0b0e26; 
+            border-color: #1f2937; 
+        }
+
+        .notch { 
+            position: absolute; 
+            top: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 160px; 
+            height: 28px; 
+            background: #1f2937; 
+            border-bottom-left-radius: 18px; 
+            border-bottom-right-radius: 18px; 
+            z-index: 1100; 
+        }
+
+        .status-bar { 
+            height: 44px; 
+            padding: 0 30px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            font-size: 13px; 
+            font-weight: 600; 
+            z-index: 1000; 
+            flex-shrink: 0; 
+        }
+
+        .dark-mode .status-bar { color: white; }
+
+        /* [3. 뷰 시스템 관리 (정적 버전에 맞게 수정)] */
+        .wf-view { 
+            flex: 1; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden; 
+            background-color: #ffffff;
+        }
+
+        .wf-view.transparent { background-color: transparent; }
+
+        .top-nav { 
+            padding: 10px 20px 0; 
+            display: flex; 
+            gap: 20px; 
+            border-bottom: 1px solid #f1f5f9; 
+            flex-shrink: 0; 
+        }
+
+        .top-nav-item { 
+            font-size: 15px; 
+            font-weight: 600; 
+            color: #94a3b8; 
+            padding-bottom: 12px; 
+            cursor: pointer; 
+            position: relative; 
+        }
+
+        .top-nav-item.active { color: #0f172a; }
+        .top-nav-item.active::after { 
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background: #4f46e5; 
+        }
+
+        .scroll-area { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 15px 20px; 
+            background: #f8fafc; 
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* [4. 앱 내 컴포넌트 스타일들 (원본 100% 유지 + 동그라미 강제 보정 추가)] */
+        .commute-card { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); border-radius: 20px; padding: 20px; color: white; margin-bottom: 20px; box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4); }
+        .upcoming-banner { background: rgb(11 14 38); border-radius: 16px; padding: 14px 18px; color: white; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1); }
+        .tutor-card { background: white; border: 1px solid #f1f5f9; border-radius: 24px; padding: 33px 20px; text-align: center; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+        
+        /* 아바타 찌그러짐 완벽 방어 */
+        .avatar-circle { 
+            width: 100px; min-width: 100px; max-width: 100px;
+            height: 100px; min-height: 100px; max-height: 100px;
+            background: #7367f0; 
+            border-radius: 50%; 
+            margin: 0 auto 15px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 40px; 
+            color: white; 
+            font-weight: 800; 
+            background-size: cover; 
+            background-position: center; 
+            overflow: hidden; 
+            flex-shrink: 0; 
+            line-height: 1;
+        }
+
+        .tag-row { display: flex; justify-content: center; gap: 6px; margin-bottom: 10px; }
+        .tutor-tag { background: #f1f5f9; padding: 3px 10px; border-radius: 6px; font-size: 11px; font-weight: 600; color: #94a3b8; }
+        .tutor-name-text { font-size: 22px; font-weight: 800; margin-bottom: 4px; color: #1e293b; }
+        .curr-box-selector { background: white; border: 1px solid #f1f5f9; border-radius: 16px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .btn-primary-action { background: #4f46e5; color: white; padding: 18px; border-radius: 16px; font-weight: 700; font-size: 16px; text-align: center; box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3); width: 100%; transition: transform 0.2s; }
+
+        /* [5. 하단 탭 바 및 홈 인디케이터] */
+        .bottom-bar { height: 75px; border-top: 1px solid #f1f5f9; display: flex; justify-content: space-around; padding-top: 10px; background: white; flex-shrink: 0; z-index: 100; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; font-size: 10px; font-weight: 500; }
+        .nav-item.active { color: #4f46e5; }
+        .nav-item i { font-size: 18px; }
+        .home-indicator { width: 110px; height: 5px; background: #e2e8f0; border-radius: 10px; absolute; bottom: 8px; left: 50%; transform: translateX(-50%); z-index: 9999; margin: -13px auto 8px;}
+        .dark-mode .home-indicator { background: rgba(255, 255, 255, 0.2); }
+
+        /* [6. 커리큘럼 및 셋업 요소] */
+        .curr-accordion-item { border: 1px solid #e2e8f0; border-radius: 16px; margin-bottom: 12px; overflow: hidden; background: white; }
+        .curr-accordion-item.active { border-color: #4f46e5; background: #f5f3ff; }
+        .curr-head { padding: 18px; display: flex; align-items: center; justify-content: space-between; }
+        .curr-body { padding: 0 18px 18px 18px; }
+        .sub-topic-row { padding: 14px; border-radius: 12px; background: white; border: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; font-size: 13px; margin-bottom: 8px; font-weight: 500; }
+        .sub-topic-row.selected { border-color: #4f46e5; color: #4f46e5; font-weight: 700; background: #eef2ff; }
+        .category-label { font-size: 11px; font-weight: 700; color: #94a3b8; margin: 20px 0 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .workflow-sync-card { background: #fff1f2; border: 1.5px dashed #fb7185; border-radius: 16px; padding: 22px; text-align: center; margin-bottom: 20px; }
+        .profile-list-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 10px 24px 20px 24px; margin: 0 -20px; -ms-overflow-style: none; scrollbar-width: none; align-items: center; }
+        .profile-chip { flex-shrink: 0; width: 60px; display: flex; flex-direction: column; align-items: center; gap: 6px; position: relative; }
+        
+        /* 맞춤 설정 아바타 찌그러짐 완벽 방어 */
+        .chip-avatar { 
+            width: 54px; min-width: 54px; max-width: 54px; 
+            height: 54px; min-height: 54px; max-height: 54px; 
+            border-radius: 50%; 
+            border: 2px solid transparent; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700; 
+            color: white; 
+            background-size: cover; 
+            background-position: center; 
+            flex-shrink: 0;
+            line-height: 1;
+            overflow: hidden;
+        }
+        .profile-chip.active .chip-avatar { border-color: #4f46e5; transform: scale(1.1); box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3); }
+
+        .opt-group { margin-bottom: 25px; }
+        .opt-title { font-size: 15px; font-weight: 700; margin-bottom: 12px; color: #1e293b; display: flex; justify-content: space-between; align-items: center; width: 100%; }
+
+        /* [7. 통화 UI 관련 요소] */
+        .ring-animation { animation: ring 2s infinite ease-in-out; }
+        @keyframes ring { 0% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 0.8; } }
+        .fb-card-advanced { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 18px; padding: 20px; width: 100%; position: relative; margin-bottom: 20px; margin-top: 20px; }
+        .fb-strikethrough { font-size: 12px; color: #94a3b8; text-decoration: line-through; margin-bottom: 4px; opacity: 0.6; }
+        .fb-try-bold { font-size: 15px; font-weight: 700; color: white; line-height: 1.4; margin-bottom: 6px; }
+        .logic-viz-viz { background: rgba(79, 70, 229, 0.15); border-radius: 12px; padding: 12px; margin: 15px 0; border: 1px solid rgba(79, 70, 229, 0.25); }
+        .logic-step-item { display: flex; align-items: center; gap: 8px; font-size: 10.5px; color: #a5b4fc; margin-bottom: 6px; }
+        .logic-step-item.now { color: #fbbf24; font-weight: 700; }
+
+        /* [8. 랭킹/내역 요소] */
+        .rank-card-main { background: #e0e7ff; padding: 20px; border-radius: 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .rank-list-item { background: white; padding: 16px; border-bottom: 1px solid #f1f5f9; display: flex; align-items: center; }
+        .rank-badge { width: 24px; font-weight: 800; font-size: 14px; color: #94a3b8; text-align: center; }
+        .rank-list-item.top-3 .rank-badge { color: #f59e0b; }
+    </style>
+</head>
+<body class="wireframe-board">
+
+    <div class="text-center mb-16">
+        <h1 class="text-4xl font-black text-white mb-4">Ringle AI - App Wireframe (Exact Fidelity)</h1>
+        <p class="text-slate-400 font-medium">실제 코드(HTML/CSS)를 100% 활용하여 제작된 고해상도 프리젠테이션 뷰입니다.</p>
+    </div>
+
+    <div class="grid-container">
+
+        <!-- [화면 1: 홈 화면] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">1</span>홈 화면 (메인)</h2>
+            <div class="iphone-frame">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view">
+                    <div class="px-5 py-2 flex justify-between items-center bg-white">
+                        <h1 class="text-2xl font-bold text-slate-800">AI 전화</h1>
+                        <div class="flex gap-4 text-slate-300"><i class="fas fa-fire text-orange-400"></i><i class="fas fa-bars"></i></div>
+                    </div>
+                    <div class="top-nav bg-white">
+                        <div class="top-nav-item active">전화</div><div class="top-nav-item">맞춤설정</div><div class="top-nav-item">전화내역</div>
+                    </div>
+                    <div class="scroll-area no-scrollbar"> 
+                        <div class="commute-card">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[10px] font-black bg-white/20 px-2 py-0.5 rounded uppercase">Commute Prep</span>
+                                <span class="text-[10px] font-bold opacity-80">3분 짬짬이</span>
+                            </div>
+                            <h3 class="text-lg font-bold mb-1">출퇴근길, 눈으로 예습하기</h3>
+                            <p class="text-[12px] opacity-80 mb-4 leading-relaxed">전화 전 핵심 표현 5개를 미리 익히면<br>오늘 대화가 훨씬 유창해집니다.</p>
+                            <div class="flex gap-2"><button class="w-full py-3 bg-white/20 rounded-xl text-[13px] font-bold">오늘의 핵심 문장 예습하기</button></div>
+                        </div>
+                        <div class="upcoming-banner shadow-sm">
+                            <div class="flex flex-col">
+                                <span class="text-[14px] font-bold opacity-80 uppercase tracking-widest">미팅 전 AI와 연습 해보세요!</span>
+                                <span class="text-[12px] font-bold">Harvard 튜터 수업</span>
+                                <span class="text-[11px] opacity-90 mt-1">Ivy League Standard</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-[10px]"></i>
+                        </div>
+                        <div class="tutor-card">
+                            <!-- 수정됨: .avatar-circle 요소 -->
+                            <div class="avatar-circle bg-cover bg-center" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');"></div>
+                            <div class="tag-row"><span class="tutor-tag">다정한</span><span class="tutor-tag">진솔한</span></div>
+                            <div class="tutor-name-text">박보검</div>
+                            <div class="text-[12px] text-slate-400 font-medium px-4 mt-1 italic">"선하고 긍정적인 에너지를 주며, 다정하고 진솔하게 소통합니다."</div>
+                        </div>
+                        <div class="curr-box-selector">
+                            <div class="flex flex-col">
+                                <span class="text-[9px] text-slate-400 font-bold uppercase mb-1">Current Curriculum</span>
+                                <span class="text-[14px] font-bold text-slate-800">해외 세일즈: 제품 판매 시연</span>
+                            </div>
+                            <i class="fas fa-chevron-right text-slate-300 text-xs"></i>
+                        </div>
+                        <div class="mt-6 flex flex-col gap-3 pb-8">
+                            <button class="btn-primary-action">바로 전화하기</button>
+                            <button class="btn-primary-action bg-slate-800 shadow-slate-800/30 text-sm py-4">예시로 전화 수신하기 <i class="fas fa-phone-volume ml-2"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bottom-bar">
+                    <div class="nav-item active"><i class="fas fa-phone-alt mb-1 text-lg"></i><span>AI 전화</span></div>
+                    <div class="nav-item"><i class="fas fa-chart-bar mb-1 text-lg"></i><span>성취</span></div>
+                    <div class="nav-item"><i class="fas fa-comment-dots mb-1 text-lg"></i><span>AI 튜터</span></div>
+                    <div class="nav-item"><i class="fas fa-user mb-1 text-lg"></i><span>마이링글</span></div>
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+        <!-- [화면 2: 맞춤 설정] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">2</span>페르소나 맞춤 설정</h2>
+            <div class="iphone-frame">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view bg-white">
+                    <div class="flex justify-between items-center px-6 pt-6 mb-6 flex-shrink-0">
+                        <h2 class="text-xl font-bold text-slate-800">맞춤설정</h2>
+                        <i class="fas fa-times text-xl text-slate-300"></i>
+                    </div>
+                    <div class="scroll-area !bg-white no-scrollbar">
+                        <div class="opt-group mb-6">
+                            <div class="opt-title px-6 w-full gap-2">
+                                <span class="whitespace-nowrap flex-shrink-0">캐릭터 프로필</span>
+                                <span class="text-[10px] bg-slate-100 text-slate-400 font-bold px-3 py-1.5 rounded-full whitespace-nowrap flex-shrink-0 flex items-center justify-center leading-none">Premium OFF</span>
+                            </div>
+                            <div class="profile-list-scroll px-6">
+                                <div class="profile-chip"><div class="chip-avatar" style="background-color:#7367f0">G</div><span class="text-[10px] font-bold mt-1.5 text-slate-400">Gwen</span></div>
+                                <div class="profile-chip active"><div class="chip-avatar bg-cover bg-center" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');"></div><span class="text-[10px] font-bold mt-1.5 text-indigo-600">박보검</span></div>
+                                <div class="profile-chip"><div class="chip-avatar" style="background-color:#e2e8f0; color:#94a3b8">S</div><span class="text-[10px] font-bold mt-1.5 text-slate-400">Slot 3</span></div>
+                                <div class="profile-chip"><div class="chip-avatar" style="background-color:#e2e8f0; color:#94a3b8">S</div><span class="text-[10px] font-bold mt-1.5 text-slate-400">Slot 4</span></div>
+                            </div>
+                        </div>
+                        <div class="px-6">
+                            <div class="opt-group mb-8">
+                                <div class="text-[15px] font-bold text-slate-800 mb-4">AI 상세 설정</div>
+                                <div class="bg-white border border-slate-100 rounded-[20px] p-5 flex items-center gap-5 mb-6 shadow-sm">
+                                    <div class="relative flex-shrink-0">
+                                        <!-- 수정됨: 강제 고정 크기 및 flex-shrink-0 -->
+                                        <div class="w-[68px] h-[68px] rounded-full flex items-center justify-center bg-cover bg-center flex-shrink-0" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');"></div>
+                                        <div class="absolute -bottom-1 -right-1 bg-white w-7 h-7 rounded-full border border-slate-100 shadow-sm flex items-center justify-center flex-shrink-0"><i class="fas fa-camera text-[11px] text-slate-500"></i></div>
+                                    </div>
+                                    <div class="flex-1 flex flex-col justify-center">
+                                        <span class="text-[10px] font-bold text-slate-400 mb-1">튜터 이름</span>
+                                        <input type="text" value="박보검" class="w-full bg-transparent border-b border-slate-200 pb-1.5 font-bold text-lg text-slate-800 outline-none">
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <span class="text-[11px] font-bold text-slate-400 mb-2 block">캐릭터 성격 및 특징 (Prompt)</span>
+                                    <textarea class="w-full bg-[#f8fafc] border border-slate-100 rounded-[16px] p-4 text-[13px] font-medium text-slate-700 h-[100px]">선하고 긍정적인 에너지를 주며, 다정하고 진솔하게 소통합니다.</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 w-full bg-white flex-shrink-0 z-10 pb-10">
+                        <button class="w-full py-4 bg-[#4f46e5] text-white rounded-[16px] font-bold text-[16px] shadow-lg">저장 및 적용</button>
+                    </div>
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+        <!-- [화면 3: 커리큘럼 선택] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">3</span>커리큘럼 및 주제</h2>
+            <div class="iphone-frame">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view">
+                    <div class="flex justify-between items-center px-5 pt-4 mb-4 flex-shrink-0">
+                        <h2 class="text-xl font-bold">커리큘럼</h2><i class="fas fa-times text-xl text-slate-300"></i>
+                    </div>
+                    <div class="scroll-area no-scrollbar">
+                        <p class="text-[11px] text-slate-400 mb-6 font-medium">주제를 선택하고 나만의 커리큘럼을 만들어 보세요.</p>
+                        <div class="workflow-sync-card">
+                            <i class="fas fa-file-invoice text-3xl text-pink-400 mb-2"></i>
+                            <div class="text-sm font-bold text-pink-600">학습 자료 업로드 </div>
+                            <p class="text-[10px] text-slate-400 mt-1 font-medium">내 PPT/스크립트를 학습하여 시뮬레이션을 진행합니다.</p>
+                        </div>
+                        <div class="category-label">전문직 전용</div>
+                        <div class="curr-accordion-item active">
+                            <div class="curr-head">
+                                <div class="flex items-center gap-3 font-bold text-sm"><i class="fas fa-user-md text-indigo-500"></i>전문직 및 커리어</div>
+                                <i class="fas fa-chevron-down text-xs text-slate-300 transform rotate-180"></i>
+                            </div>
+                            <div class="curr-body">
+                                <p class="text-[11px] text-slate-500 mb-4">상황의 어휘와 논리 구조를 학습합니다.</p>
+                                <div class="flex flex-col gap-2">
+                                    <div class="sub-topic-row selected"><span>제품 판매 시연</span> <i class="fas fa-check-circle text-indigo-500"></i></div>
+                                    <div class="sub-topic-row"><span>VC 피칭 전략</span> <i class="fas fa-check-circle text-indigo-500 hidden"></i></div>
+                                    <div class="sub-topic-row"><span>연봉 협상 전략</span> <i class="fas fa-check-circle text-indigo-500 hidden"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-5 w-full bg-white border-t border-slate-100 flex-shrink-0 pb-10">
+                        <button class="btn-primary-action">저장 완료</button>
+                    </div>
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+        <!-- [화면 4: 리허설 설정] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">4</span>수업 전 리허설</h2>
+            <div class="iphone-frame">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view bg-slate-50">
+                    <div class="p-6 flex justify-between items-center flex-shrink-0">
+                        <i class="fas fa-chevron-left text-lg"></i>
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-800">Class Rehearsal</span>
+                        <i class="fas fa-cog opacity-0"></i>
+                    </div>
+                    
+                    <div class="scroll-area px-5 flex-1 flex flex-col pt-2 pb-10 no-scrollbar">
+                        <div class="relative bg-[#0b0e26] text-white rounded-[24px] py-6 mb-6 shadow-2xl overflow-hidden flex-shrink-0">
+                            <div class="absolute top-0 right-0 w-40 h-40 bg-pink-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                            <div class="relative z-10">
+                                <div class="flex justify-between items-start mb-5 px-6">
+                                    <span class="text-[10px] font-black text-pink-300 uppercase tracking-widest bg-pink-500/10 px-2 py-1 rounded border border-pink-500/20">Harvard Standard</span>
+                                    <div class="text-right"><p class="text-[11px] text-slate-300 font-bold">내일 21:00</p></div>
+                                </div>
+                                <div class="px-6 pb-2">
+                                    <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                                        <div class="flex items-center gap-4 mb-3">
+                                            <div class="w-14 h-14 rounded-full border border-white/20 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');"></div>
+                                            <div><h3 class="text-lg font-bold">Michael</h3><p class="text-[10px] text-slate-300 mt-0.5">Economics Major</p></div>
+                                        </div>
+                                        <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium italic">"Hi! I'm Michael. We'll be discussing the VC pitching strategy tomorrow."</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-[20px] p-5 border border-slate-100 shadow-sm mb-4">
+                            <h4 class="font-bold text-sm mb-3 text-slate-800">대화 타입 설정 (Context)</h4>
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                <button class="px-4 py-2 bg-indigo-600 text-white border border-indigo-600 rounded-xl text-[12px] font-bold shadow-sm">비즈니스 미팅</button>
+                                <button class="px-4 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[12px] font-bold">투자 발표</button>
+                                <button class="px-4 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl text-[12px] font-bold">인터뷰 면접</button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-[20px] p-5 border border-slate-100 shadow-sm mb-6">
+                            <h4 class="font-bold text-sm mb-2 text-slate-800">내 스크립트 기반 연습</h4>
+                            <div class="w-full border-2 border-dashed border-slate-200 rounded-xl p-5 text-center mt-3">
+                                <i class="fas fa-file-upload text-2xl text-slate-300 mb-2"></i>
+                                <p class="text-xs font-bold text-slate-500">대본 파일 업로드 (PDF, DOCX)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full px-5 pt-2 pb-10 bg-slate-50">
+                        <button class="w-full py-4 bg-[#0b0e26] text-white rounded-2xl font-bold shadow-xl">실전 리허설 시작하기</button>
+                    </div>
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+        <!-- [화면 5: 전화 수신] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">5</span>AI 전화 수신 (Dark Mode)</h2>
+            <div class="iphone-frame dark-mode">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view transparent" style="background: linear-gradient(180deg, #1e293b 0%, #020617 100%);">
+                    <div class="flex flex-col items-center pt-24 flex-1 w-full text-white">
+                        <div class="text-[13px] text-slate-400 mb-3 flex items-center gap-2 font-medium">
+                            <i class="fab fa-neos text-indigo-500"></i> Ringle 음성 통화...
+                        </div>
+                        <h2 class="text-4xl font-bold mb-14">박보검</h2>
+                        
+                        <div class="relative mb-12">
+                            <div class="absolute inset-0 bg-indigo-500 rounded-full ring-animation blur-md"></div>
+                            <div class="relative w-32 h-32 rounded-full bg-cover bg-center border-4 border-[#020617] shadow-2xl z-10" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');"></div>
+                        </div>
+                        
+                        <div class="bg-white/10 border border-white/10 rounded-2xl p-6 px-8 mx-auto w-fit max-w-[90%] backdrop-blur-md text-center shadow-lg">
+                            <p class="text-[11px] text-indigo-300 font-bold mb-2 uppercase tracking-wide">오늘의 연습 목표</p>
+                            <p class="text-[15px] font-bold text-white leading-1.6">기술 면접: AI가 대체할 수 없는 나만의 강점 어필하기(포인트 +50)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-between px-14 pb-20 w-full flex-shrink-0">
+                        <div class="flex flex-col items-center gap-3">
+                            <button class="w-16 h-16 rounded-full bg-[#ef4444] flex items-center justify-center text-2xl text-white shadow-lg"><i class="fas fa-times"></i></button>
+                            <span class="text-xs text-white font-medium">거절</span>
+                        </div>
+                        <div class="flex flex-col items-center gap-3">
+                            <button class="w-16 h-16 rounded-full bg-[#3b82f6] flex items-center justify-center text-2xl text-white shadow-lg ring-animation"><i class="fas fa-check"></i></button>
+                            <span class="text-xs text-white font-medium">응답</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+        <!-- [화면 6: 통화 중 & 실시간 피드백] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">6</span>실시간 통화 및 피드백</h2>
+            <div class="iphone-frame dark-mode">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view transparent" style="background-color: #0b0e26;">
+                    <div class="w-full display-flex flex-col items-center padding-15-20-5 flex-shrink-0" style="display:flex; flex-direction:column; align-items:center; padding: 15px 20px 5px;">
+                        <div class="w-20 h-20 rounded-full mb-2 shadow-xl bg-cover bg-center" style="background-image: url('https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png');"></div>
+                        <div class="text-xl font-bold mb-1 text-white">박보검</div>
+                        <div class="text-sm font-medium text-slate-500">04:12</div>
+                    </div>
+                    
+                    <div class="scroll-area no-scrollbar" style="background:transparent; padding:0 20px;">
+                        <div class="mt-8 text-center w-full mb-6">
+                            <div class="text-[15px] font-semibold text-white leading-relaxed">"What is your core strategy to acquire new users?"</div>
+                            <div class="text-[11px] text-slate-500 mt-2 font-medium">"신규 사용자 확보를 위한 핵심 전략은 무엇입니까?"</div>
+                        </div>
+
+                        <div class="text-[17px] font-bold text-amber-400 text-center min-h-[24px] mb-4">We will use social media and get a lot of users.</div>
+
+                        <div class="fb-card-advanced active" style="opacity: 1; transform: translateY(0);">
+                            <div class="text-[9px] font-black text-amber-400 uppercase mb-3 tracking-widest">Ivy League Logic Feedback</div>
+                            <div class="fb-strikethrough font-medium">"We will use social media and get a lot of users."</div>
+                            <div class="fb-try-bold">Try: "We plan to <span style="color: #fbbf24;">leverage targeted campaigns to drive aggressive user acquisition.</span>"</div>
+                            <div class="text-[11px] text-slate-500 italic mb-4">"타겟팅된 캠페인을 활용하여 공격적인 사용자 확보를 추진할 계획입니다."</div>
+
+                            <div class="logic-viz-viz">
+                                <div class="text-[8px] text-white/40 mb-2 font-bold uppercase">Logic Mapping</div>
+                                <div class="logic-step-item"><i class="fas fa-check-circle"></i> Opening & Context</div>
+                                <div class="logic-step-item now"><i class="fas fa-circle"></i> Strategic Expression</div>
+                                <div class="logic-step-item"><i class="fas fa-circle"></i> Logical Conclusion</div>
+                            </div>
+
+                            <div class="pt-3 border-t border-white/10">
+                                <div class="text-[10px] font-black text-indigo-300 mb-1">WHY THIS FEEDBACK?</div>
+                                <p class="text-[11px] text-slate-300 leading-relaxed text-justify">구체적이고 전략적인 비즈니스 용어('leverage', 'drive aggressive acquisition')를 사용하는 것이 논리력과 전문성을 돋보이게 합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="w-full p-10 pb-12 bg-[#0b0e26] border-t border-white/5 flex-shrink-0 text-white">
+                        <div class="flex justify-around items-center mb-8 opacity-40">
+                            <div class="flex flex-col items-center gap-1"><i class="fas fa-microphone-slash text-lg"></i><span class="text-[9px] font-bold">소리끔</span></div>
+                            <div class="flex flex-col items-center gap-1"><i class="fas fa-volume-up text-lg"></i><span class="text-[9px] font-bold">스피커</span></div>
+                            <div class="flex flex-col items-center gap-1"><i class="fas fa-closed-captioning text-lg"></i><span class="text-[9px] font-bold">자막설정</span></div>
+                        </div>
+                        <div class="w-16 h-16 bg-red-500 rounded-full mx-auto flex items-center justify-center text-2xl shadow-xl"><i class="fas fa-phone-slash"></i></div>
+                    </div>
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+        <!-- [화면 7: 통화 내역 및 분석 요약] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">7</span>통화 내역 및 종합 요약</h2>
+            <div class="iphone-frame">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view bg-slate-50">
+                    <div class="px-5 pt-4 pb-2 border-b border-slate-200 bg-white">
+                        <h2 class="text-xl font-bold mb-4">전화내역</h2>
+                    </div>
+                    <div class="scroll-area no-scrollbar">
+                        <div class="relative bg-[#0b0e26] text-white rounded-[24px] p-6 mb-6 shadow-xl overflow-hidden flex-shrink-0">
+                            <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
+                            <div class="relative z-10">
+                                <div class="flex justify-between items-center mb-5">
+                                    <div>
+                                        <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest block mb-1">Overall Level</span>
+                                        <div class="flex items-baseline gap-1"><span class="text-5xl font-black tracking-tighter">7</span><span class="text-sm font-bold text-slate-400">/ 10</span></div>
+                                    </div>
+                                    <div class="relative w-24 h-24 mr-2">
+                                        <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90 drop-shadow-lg">
+                                            <polygon points="50,5 95,50 50,95 5,50" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                                            <polygon points="50,11.75 83.75,50 50,92.75 18.5,50" fill="rgba(99, 102, 241, 0.45)" stroke="#818cf8" stroke-width="1.5" stroke-linejoin="round"/>
+                                            <circle cx="50" cy="11.75" r="2" fill="#fff" /><circle cx="83.75" cy="50" r="2" fill="#fff" />
+                                            <circle cx="50" cy="92.75" r="2" fill="#fff" /><circle cx="18.5" cy="50" r="2" fill="#fff" />
+                                        </svg>
+                                        <span class="absolute top-0 left-1/2 -translate-x-1/2 -mt-3 text-[8.5px] font-bold text-indigo-200">SPK</span>
+                                        <span class="absolute right-0 top-1/2 -translate-y-1/2 -mr-5 text-[8.5px] font-bold text-indigo-200">VOC</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+                                    <h4 class="text-[11px] font-bold text-indigo-300 mb-2 flex items-center gap-1.5 uppercase tracking-wide"><i class="fas fa-magic text-amber-300"></i> AI Summary</h4>
+                                    <p class="text-[11.5px] text-slate-300 leading-relaxed font-medium">의견을 명확히 전달할 수 있습니다. <span class="text-white font-bold">듣기(Listening)</span> 능력이 뛰어나며, <span class="text-white font-bold">문법(Grammar)</span> 정확도를 높이면 한 단계 성장할 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-[20px] border border-slate-100 shadow-sm overflow-hidden mb-4">
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-full bg-cover bg-center border border-slate-100" style="background-image: url('https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80');"></div>
+                                        <div><h3 class="font-bold text-slate-800 text-[15px]">Michael</h3><p class="text-[11px] text-slate-400 font-medium mt-0.5">3/11(수) 21:00 • 15분</p></div>
+                                    </div>
+                                </div>
+                                <div class="mb-4"><span class="inline-block text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded mb-2">인터뷰 면접</span><p class="text-[14px] font-bold text-slate-800 leading-snug">실리콘밸리 PM 기술 면접 대비</p></div>
+                                <div class="flex items-center justify-between border-t border-slate-50 pt-3">
+                                    <div class="flex gap-4">
+                                        <div class="flex flex-col gap-1"><span class="text-[9px] text-slate-400 font-bold uppercase">Complexity</span><div class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span><span class="text-xs font-black text-slate-700">7.5</span></div></div>
+                                    </div>
+                                    <div class="text-[10px] font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded-md">상세보기</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bottom-bar">
+                    <div class="nav-item"><i class="fas fa-phone-alt"></i><span>AI 전화</span></div>
+                    <div class="nav-item"><i class="fas fa-chart-bar"></i><span>성취</span></div>
+                    <div class="nav-item active"><i class="fas fa-user"></i><span>마이링글</span></div> <!-- 편의상 전화내역 탭은 마이링글 쪽에 위치한다고 가정 -->
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+        <!-- [화면 8: 성취 및 랭킹] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">8</span>익명 랭킹 & 스펙 랭크</h2>
+            <div class="iphone-frame">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view">
+                    <div class="px-5 pt-4 pb-2 border-b border-slate-50">
+                        <h2 class="text-xl font-bold mb-4">성취 & 랭킹</h2>
+                        <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2">
+                            <span class="px-4 py-1.5 bg-indigo-600 text-white text-[11.5px] font-bold rounded-full whitespace-nowrap">전체</span>
+                            <span class="px-4 py-1.5 bg-slate-100 text-slate-400 text-[11.5px] font-bold rounded-full whitespace-nowrap">IT/기획</span>
+                            <span class="px-4 py-1.5 bg-slate-100 text-slate-400 text-[11.5px] font-bold rounded-full whitespace-nowrap">연봉 1억+</span>
+                            <span class="px-4 py-1.5 bg-slate-100 text-slate-400 text-[11.5px] font-bold rounded-full whitespace-nowrap">대기업</span>
+                        </div>
+                    </div>
+                    <div class="scroll-area no-scrollbar">
+                        <div class="rank-card-main mt-2">
+                            <div>
+                                <p class="text-[10px] font-bold text-indigo-500 uppercase">My Spec Rank</p>
+                                <h3 class="text-lg font-black text-indigo-900">상위 12.4%</h3>
+                                <p class="text-[11px] text-slate-500 mt-1">전체 직군 중 142위</p>
+                            </div>
+                            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center font-black text-indigo-600 shadow-sm">142</div>
+                        </div>
+                        <div class="mb-5">
+                            <button class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-[16px] font-bold text-[15px] shadow-sm flex items-center justify-center gap-2">
+                                <i class="fas fa-microphone-alt"></i> 발음챌린지로 랭킹 올리기! <i class="fas fa-chevron-right text-[12px] ml-1 opacity-80"></i>
+                            </button>
+                        </div>
+                        <div class="space-y-0">
+                            <div class="rank-list-item top-3">
+                                <div class="rank-badge">1</div>
+                                <div class="w-10 h-10 bg-indigo-100 text-indigo-500 rounded-full mx-3 flex items-center justify-center text-[10px] font-bold">JD</div>
+                                <div class="flex-1"><p class="text-xs font-bold">임*영 <span class="text-[10px] text-slate-400 font-medium">| IT 기획</span></p></div>
+                                <span class="text-xs font-black text-slate-700">Lv.9</span>
+                            </div>
+                            <div class="rank-list-item top-3">
+                                <div class="rank-badge">2</div>
+                                <div class="w-10 h-10 bg-pink-100 text-pink-500 rounded-full mx-3 flex items-center justify-center text-[10px] font-bold">MK</div>
+                                <div class="flex-1"><p class="text-xs font-bold">김*준 <span class="text-[10px] text-slate-400 font-medium">| 금융</span></p></div>
+                                <span class="text-xs font-black text-slate-700">Lv.9</span>
+                            </div>
+                            <div class="rank-list-item top-3">
+                                <div class="rank-badge">3</div>
+                                <div class="w-10 h-10 bg-emerald-100 text-emerald-500 rounded-full mx-3 flex items-center justify-center text-[10px] font-bold">SY</div>
+                                <div class="flex-1"><p class="text-xs font-bold">박*수 <span class="text-[10px] text-slate-400 font-medium">| 개발</span></p></div>
+                                <span class="text-xs font-black text-slate-700">Lv.9</span>
+                            </div>
+                            <div class="rank-list-item">
+                                <div class="rank-badge">4</div>
+                                <div class="w-10 h-10 bg-amber-100 text-amber-500 rounded-full mx-3 flex items-center justify-center text-[10px] font-bold">HJ</div>
+                                <div class="flex-1"><p class="text-xs font-bold">최*민 <span class="text-[10px] text-slate-400 font-medium">| 마케팅</span></p></div>
+                                <span class="text-xs font-black text-slate-700">Lv.8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bottom-bar">
+                    <div class="nav-item"><i class="fas fa-phone-alt"></i><span>AI 전화</span></div>
+                    <div class="nav-item active"><i class="fas fa-chart-bar"></i><span>성취</span></div>
+                    <div class="nav-item"><i class="fas fa-comment-dots"></i><span>AI 튜터</span></div>
+                    <div class="nav-item"><i class="fas fa-user"></i><span>마이링글</span></div>
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+        <!-- [화면 9: 마이 페이지] -->
+        <div class="frame-wrapper">
+            <h2 class="frame-title"><span class="badge">9</span>마이 링글 (설정/정보)</h2>
+            <div class="iphone-frame">
+                <div class="notch"></div>
+                <div class="status-bar"><span id="clock">09:41</span><div class="flex gap-1.5 items-center"><i class="fas fa-signal"></i><i class="fas fa-wifi"></i><i class="fas fa-battery-full"></i></div></div>
+                
+                <div class="wf-view bg-white">
+                    <div class="px-6 pt-12 pb-6">
+                        <div class="flex items-center gap-5">
+                            <div class="w-[72px] h-[72px] bg-slate-100 rounded-full flex items-center justify-center text-slate-300 text-3xl"><i class="fas fa-user"></i></div>
+                            <div class="flex flex-col gap-1">
+                                <h2 class="text-2xl font-bold text-slate-800">이아영</h2>
+                                <p class="text-sm text-slate-400 font-medium">xxxxxx@naver.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="scroll-area !bg-white no-scrollbar">
+                        <div class="w-full bg-[#F8FAFC] rounded-2xl py-4 px-5 flex justify-between items-center mb-6">
+                            <span class="text-[14px] font-bold text-slate-700">친구 초대하고 1만원 + 멤버십 받기 🎁</span>
+                            <i class="fas fa-chevron-right text-slate-400 text-sm"></i>
+                        </div>
+                        <div class="w-full bg-white border border-slate-100 rounded-[20px] p-6 mb-5 shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex justify-between items-center">
+                            <div class="flex flex-col">
+                                <span class="bg-slate-100 text-slate-500 text-[10px] font-bold px-2 py-1 rounded w-fit mb-3">사용 중</span>
+                                <h3 class="text-[18px] font-black text-slate-800">AI 올인원 멤버십</h3>
+                                <p class="text-[12px] text-slate-400 font-medium mt-2">만료 예정: 2026.02.05</p>
+                            </div>
+                            <i class="fas fa-chevron-right text-slate-300 text-lg"></i>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-1 bg-white border border-slate-100 rounded-[16px] py-6 px-4 flex flex-col items-center justify-center shadow-sm">
+                                <span class="text-[10px] text-slate-400 font-bold mb-3">보유 포인트</span>
+                                <span class="text-xl font-black text-indigo-600">290,000 P</span>
+                            </div>
+                            <div class="flex-1 bg-white border border-slate-100 rounded-[16px] py-6 px-4 flex flex-col items-center justify-center shadow-sm">
+                                <span class="text-[10px] text-slate-400 font-bold mb-3">보유 쿠폰</span>
+                                <span class="text-xl font-black text-slate-800">0 개</span>
+                            </div>
+                        </div>
+                        <div class="mt-8 border-t border-slate-50 pt-4">
+                            <div class="flex justify-between items-center p-4 border-b border-slate-50">
+                                <span class="text-[13px] font-bold text-slate-700">알림 설정</span><i class="fas fa-chevron-right text-xs text-slate-300"></i>
+                            </div>
+                            <div class="flex justify-between items-center p-4">
+                                <span class="text-[13px] font-bold text-slate-700">고객 센터</span><i class="fas fa-chevron-right text-xs text-slate-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-bar">
+                    <div class="nav-item"><i class="fas fa-phone-alt"></i><span>AI 전화</span></div>
+                    <div class="nav-item"><i class="fas fa-chart-bar"></i><span>성취</span></div>
+                    <div class="nav-item"><i class="fas fa-comment-dots"></i><span>AI 튜터</span></div>
+                    <div class="nav-item active"><i class="fas fa-user"></i><span>마이링글</span></div>
+                </div>
+                <div class="home-indicator"></div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
