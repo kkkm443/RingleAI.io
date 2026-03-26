@@ -1589,12 +1589,60 @@
             }
         }
 
-        // [학습 자료 업로드 핸들러] 추가
+        // [학습 자료 업로드 핸들러 수정]
         function handleLearningMaterialUpload(event) {
             const file = event.target.files[0];
             if (file) {
-                // 실제 서버 연동은 생략하고 업로드 시각적 피드백만 제공
                 showToast(`'${file.name}' 파일이 성공적으로 업로드되었습니다.`);
+                
+                const inputId = event.target.id;
+                const parent = event.target.parentElement;
+
+                if (inputId === 'learning-material-input') {
+                    // 커리큘럼 화면의 업로드 카드 UI 업데이트
+                    const icon = parent.querySelector('i');
+                    const title = parent.querySelector('.text-pink-600');
+                    const desc = parent.querySelector('p');
+                    
+                    if (icon) icon.className = "fas fa-file-circle-check text-3xl text-emerald-500 mb-2";
+                    if (title) {
+                        title.innerText = `업로드 완료: ${file.name}`;
+                        title.className = "text-sm font-bold text-emerald-600";
+                    }
+                    if (desc) desc.innerText = "자료 분석을 토대로 맞춤형 대화가 준비되었습니다.";
+                    parent.style.backgroundColor = "#f0fdf4";
+                    parent.style.borderColor = "#22c55e";
+                } else if (inputId === 'rehearsal-script-input') {
+                    // 리허설 화면의 대본 업로드 박스 UI 업데이트
+                    const icon = parent.querySelector('i');
+                    const text = parent.querySelector('p');
+                    
+                    if (icon) icon.className = "fas fa-file-signature text-2xl text-indigo-500 mb-2";
+                    if (text) {
+                        text.innerText = `대본 적용됨: ${file.name}`;
+                        text.className = "text-xs font-bold text-indigo-600";
+                    }
+                    parent.style.backgroundColor = "#eef2ff";
+                    parent.style.borderColor = "#4f46e5";
+
+                    // 상단 튜터 카드들에 대본 분석 상태 표시 (시각적 피드백)
+                    const tutorCards = document.querySelectorAll('#rehearsal-tutor-scroll > div');
+                    tutorCards.forEach(card => {
+                        if (card.querySelector('h3')) {
+                            let badge = card.querySelector('.analysis-badge');
+                            if (!badge) {
+                                badge = document.createElement('div');
+                                badge.className = "analysis-badge text-[8px] font-black text-indigo-300 mt-2 uppercase flex items-center gap-1";
+                                card.appendChild(badge);
+                            }
+                            badge.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Script Analyzing...';
+                            setTimeout(() => {
+                                badge.innerHTML = '<i class="fas fa-check-circle"></i> Script Memory Synced';
+                                badge.className = "analysis-badge text-[8px] font-black text-emerald-400 mt-2 uppercase flex items-center gap-1";
+                            }, 1500);
+                        }
+                    });
+                }
             }
         }
 
