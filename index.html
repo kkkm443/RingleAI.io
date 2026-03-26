@@ -2,8 +2,8 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <!-- 모바일 환경에서 실제 노치 영역까지 화면을 확장하고 확대/축소를 방지하는 설정 추가 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- interactive-widget=resizes-content 추가: 키보드 팝업 시 레이아웃 깨짐 방지 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
     <title>Ringle AI Ultimate Integrated Version</title>
     <!-- [외부 라이브러리] -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -736,53 +736,49 @@
             -webkit-user-drag: none !important;
         }
 
-        /* [12. 모바일 웹 브라우저 접속 시 반응형 대응 추가] */
+        /* [12. 모바일 웹 브라우저 접속 시 반응형 대응 및 키보드 이슈 수정] */
         @media (max-width: 640px) {
             body {
-                background-color: #ffffff; /* 모바일에서는 바깥쪽 회색 배경 제거 */
-                align-items: flex-start; /* 화면 위쪽부터 채우기 */
+                background-color: #ffffff;
+                align-items: flex-start;
+                position: fixed; /* 키보드 팝업 시 body 밀림 방지 */
+                width: 100%;
+                height: 100%;
             }
             .iphone-frame {
                 width: 100vw;
-                height: 100dvh; /* 브라우저 하단 툴바(Safari 등)를 제외한 실제 화면 높이 꽉 채우기 */
+                height: 100dvh; /* Dynamic Viewport Height 사용 */
                 max-width: none;
                 max-height: none;
-                border: none; /* 하드웨어 테두리 제거 */
-                border-radius: 0; /* 둥근 모서리 제거 */
+                border: none;
+                border-radius: 0;
                 box-shadow: none;
+                position: fixed;
+                top: 0;
+                left: 0;
             }
             .notch {
-                display: none; /* 모바일 기기 자체 노치가 있으므로 가짜 노치 숨김 */
+                display: none;
             }
             .status-bar {
-                height: max(20px, env(safe-area-inset-top)); /* 실제 기기의 상태바 공간만 여백으로 차지하도록 변경 */
+                height: max(20px, env(safe-area-inset-top));
                 padding: 0;
             }
             .status-bar * {
-                display: none; /* 가짜 시계, 와이파이, 배터리 아이콘 숨김 */
+                display: none;
             }
             .home-indicator {
-                display: none; /* 실제 아이폰의 홈 바가 표시되므로 가짜 홈 바 숨김 */
+                display: none;
             }
         }
 
-        /* [13. 375px 미만 초소형 화면(아이폰 SE 등) UI 깨짐 방지 및 자동 축소 기능] */
+        /* [13. 375px 미만 초소형 화면 대응] */
         @media (max-width: 374px) {
-            body {
-                overflow-x: hidden;
-                background-color: #ffffff;
-            }
             .iphone-frame {
-                /* 화면 기준이 375px로 고정되도록 설정하고 비율에 맞게 전체 스케일을 축소합니다 */
                 width: 375px !important;
-                /* 축소되는 비율의 역수만큼 높이를 늘려주어야 화면 하단에 빈 공간이 생기지 않습니다 */
                 height: calc(100dvh * (375 / 100vw)) !important;
                 transform: scale(calc(100vw / 375)) !important;
                 transform-origin: top left !important;
-                max-width: none !important;
-                max-height: none !important;
-                border: none !important;
-                border-radius: 0 !important;
             }
         }
     </style>
@@ -871,11 +867,15 @@
                 </div>
                 <div class="scroll-area no-scrollbar">
                     <p class="text-[11px] text-slate-400 mb-6 leading-relaxed font-medium">주제를 선택하고 나만의 커리큘럼을 만들어 보세요.</p>
-                    <div class="workflow-sync-card" onclick="showToast('학습 자료 업로드 기능은 현재 준비 중입니다.')">
+                    
+                    <!-- 학습 자료 업로드 기능 활성화 -->
+                    <div class="workflow-sync-card" onclick="document.getElementById('learning-material-input').click()">
+                        <input type="file" id="learning-material-input" class="hidden" onchange="handleLearningMaterialUpload(event)">
                         <i class="fas fa-file-invoice text-3xl text-pink-400 mb-2"></i>
                         <div class="text-sm font-bold text-pink-600">학습 자료 업로드 </div>
                         <p class="text-[10px] text-slate-400 mt-1 font-medium">내 PPT/스크립트를 학습하여 시뮬레이션을 진행합니다.</p>
                     </div>
+
                     <div class="category-label">전문직 전용</div>
                     <div class="curr-accordion-item active">
                         <div class="curr-head" onclick="toggleAccordion(this)">
@@ -1190,7 +1190,6 @@
                                 </div>
                             </div>
                             
-                            <!-- 스크롤 컨테이너에 ID 추가 및 커서 스타일 적용 -->
                             <div id="rehearsal-tutor-scroll" class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar px-6 gap-3 pb-2 prevent-drag">
                                 <div class="w-[85%] snap-center flex-shrink-0 bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
                                     <div class="flex items-center gap-4 mb-3">
@@ -1256,7 +1255,9 @@
                     <div class="bg-white rounded-[20px] p-5 border border-slate-100 shadow-sm flex-shrink-0 mb-6">
                         <h4 class="font-bold text-sm mb-2 text-slate-800">내 스크립트 기반 연습</h4>
                         <p class="text-[11px] text-slate-500 mb-4 leading-relaxed">준비한 피칭 대본을 업로드하면, AI가 투자자 입장에서 날카로운 꼬리 질문을 던집니다.</p>
-                        <div class="w-full border-2 border-dashed border-slate-200 rounded-xl p-5 text-center cursor-pointer hover:bg-slate-50 transition-colors">
+                        <!-- 대본 파일 업로드 활성화 -->
+                        <div class="w-full border-2 border-dashed border-slate-200 rounded-xl p-5 text-center cursor-pointer hover:bg-slate-50 transition-colors" onclick="document.getElementById('rehearsal-script-input').click()">
+                            <input type="file" id="rehearsal-script-input" class="hidden" onchange="handleLearningMaterialUpload(event)">
                             <i class="fas fa-file-upload text-2xl text-slate-300 mb-2"></i>
                             <p class="text-xs font-bold text-slate-500">대본 파일 업로드 (PDF, DOCX)</p>
                         </div>
@@ -1315,14 +1316,12 @@
                 
                 <div class="scroll-area flex-1 pb-24 px-4 pt-4 no-scrollbar">
                     
-                    <!-- [새로 추가된 종합 실력 요약 카드] -->
+                    <!-- [종합 실력 요약 카드] -->
                     <div class="relative bg-[#0b0e26] text-white rounded-[24px] p-6 mb-6 shadow-xl overflow-hidden flex-shrink-0">
-                        <!-- 배경 그라데이션 장식 -->
                         <div class="absolute top-0 right-0 w-40 h-40 bg-indigo-500/20 rounded-full blur-3xl -mr-10 -mt-10"></div>
                         <div class="absolute bottom-0 left-0 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -ml-10 -mb-10"></div>
                         
                         <div class="relative z-10">
-                            <!-- 헤더 및 차트 영역 -->
                             <div class="flex justify-between items-center mb-5">
                                 <div>
                                     <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest block mb-1">Overall Level</span>
@@ -1332,27 +1331,18 @@
                                     </div>
                                 </div>
                                 
-                                <!-- 방사형 레이더 차트 (SVG) -->
                                 <div class="relative w-24 h-24 mr-2">
                                     <svg viewBox="0 0 100 100" class="w-full h-full transform -rotate-90 drop-shadow-lg">
-                                        <!-- 차트 배경 선 -->
                                         <polygon points="50,5 95,50 50,95 5,50" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
                                         <polygon points="50,25 75,50 50,75 25,50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
                                         <line x1="50" y1="5" x2="50" y2="95" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2,2"/>
                                         <line x1="5" y1="50" x2="95" y2="50" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="2,2"/>
-                                        
-                                        <!-- 내 데이터 다각형 (Top: Speaking, Right: Vocab, Bottom: Listening, Left: Grammar) -->
-                                        <!-- Speaking 85%, Vocab 75%, Listening 95%, Grammar 70% 가상의 수치 반영 -->
                                         <polygon points="50,11.75 83.75,50 50,92.75 18.5,50" fill="rgba(99, 102, 241, 0.45)" stroke="#818cf8" stroke-width="1.5" stroke-linejoin="round"/>
-                                        
-                                        <!-- 각 꼭짓점 포인트 원 -->
                                         <circle cx="50" cy="11.75" r="2" fill="#fff" />
                                         <circle cx="83.75" cy="50" r="2" fill="#fff" />
                                         <circle cx="50" cy="92.75" r="2" fill="#fff" />
                                         <circle cx="18.5" cy="50" r="2" fill="#fff" />
                                     </svg>
-                                    
-                                    <!-- 차트 라벨 -->
                                     <span class="absolute top-0 left-1/2 -translate-x-1/2 -mt-3 text-[8.5px] font-bold text-indigo-200 tracking-wider">SPK</span>
                                     <span class="absolute right-0 top-1/2 -translate-y-1/2 -mr-5 text-[8.5px] font-bold text-indigo-200 tracking-wider">VOC</span>
                                     <span class="absolute bottom-0 left-1/2 -translate-x-1/2 -mb-3 text-[8.5px] font-bold text-indigo-200 tracking-wider">LIS</span>
@@ -1360,7 +1350,6 @@
                                 </div>
                             </div>
                             
-                            <!-- 분석 요약 텍스트 -->
                             <div class="bg-white/10 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
                                 <h4 class="text-[11px] font-bold text-indigo-300 mb-2 flex items-center gap-1.5 uppercase tracking-wide">
                                     <i class="fas fa-magic text-amber-300"></i> AI Summary
@@ -1374,7 +1363,6 @@
 
                     <!-- 카드 1 (분석 완료) -->
                     <div class="bg-white rounded-[20px] border border-slate-100 shadow-sm overflow-hidden mb-4">
-                        <!-- 카드 헤더 및 요약 (클릭 시 펼치기) -->
                         <div class="p-5 cursor-pointer" onclick="toggleAnalysis('hist-1', this)">
                             <div class="flex justify-between items-start mb-4">
                                 <div class="flex items-center gap-3">
@@ -1411,10 +1399,8 @@
                             </div>
                         </div>
                         
-                        <!-- 카드 상세 내용 (분석/PREP/동기화) -->
+                        <!-- 카드 상세 내용 -->
                         <div id="hist-1" class="p-5 border-t border-slate-100 flex flex-col gap-6 bg-slate-50/50 hidden">
-                            
-                            <!-- 1. 커뮤니케이션 습관 분석 -->
                             <div>
                                 <h4 class="text-[12px] font-bold text-slate-800 mb-3 flex items-center"><i class="fas fa-chart-pie text-indigo-500 mr-2"></i>커뮤니케이션 습관</h4>
                                 <div class="flex gap-2">
@@ -1440,7 +1426,6 @@
                                 </div>
                             </div>
 
-                            <!-- 2. 논리 구조 재배치 (PREP Framework) -->
                             <div>
                                 <h4 class="text-[12px] font-bold text-slate-800 mb-3 flex items-center"><i class="fas fa-layer-group text-emerald-500 mr-2"></i>논리 구조 재배치 (PREP)</h4>
                                 <div class="bg-red-50/50 rounded-xl p-3 border border-red-100 mb-2 relative">
@@ -1458,7 +1443,6 @@
                                 </div>
                             </div>
 
-                            <!-- 3. 맥락적 세션 동기화 -->
                             <div>
                                 <h4 class="text-[12px] font-bold text-slate-800 mb-3 flex items-center"><i class="fas fa-sync-alt text-purple-500 mr-2"></i>맥락적 세션 동기화</h4>
                                 <div class="bg-purple-50/50 rounded-xl p-4 border border-purple-100 relative overflow-hidden shadow-sm">
@@ -1477,7 +1461,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
                     
@@ -1531,78 +1514,14 @@
         let isPremium = false;
         let activeProfileId = 1;
         let profiles = [
-            { 
-                id: 0, 
-                name: "Gwen", 
-                color: "#7367f0", 
-                personality: "지적이고 논리적인 대화를 선호하며, 차분하게 피드백을 줍니다.", 
-                tags: ["지적인", "논리적인"], 
-                locked: false, 
-                image: "" 
-            },
-            { 
-                id: 1, 
-                name: "박보검", 
-                color: "#4F46E5", 
-                personality: "선하고 긍정적인 에너지를 주며, 다정하고 진솔하게 소통합니다.", 
-                tags: ["다정한", "진솔한"], 
-                locked: false, 
-                image: "https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png" 
-            },
-            { 
-                id: 2, 
-                name: "Slot 3", 
-                color: "#94A3B8", 
-                personality: "준비중인 캐릭터 슬롯입니다.", 
-                tags: [], 
-                locked: true, 
-                image: "" 
-            },
-            { 
-                id: 3, 
-                name: "Slot 4", 
-                color: "#94A3B8", 
-                personality: "준비중인 캐릭터 슬롯입니다.", 
-                tags: [], 
-                locked: true, 
-                image: "" 
-            },
-            { 
-                id: 4, 
-                name: "Slot 5", 
-                color: "#94A3B8", 
-                personality: "준비중인 캐릭터 슬롯입니다.", 
-                tags: [], 
-                locked: true, 
-                image: "" 
-            },
-            { 
-                id: 5, 
-                name: "Slot 6", 
-                color: "#94A3B8", 
-                personality: "준비중인 캐릭터 슬롯입니다.", 
-                tags: [], 
-                locked: true, 
-                image: "" 
-            },
-            { 
-                id: 6, 
-                name: "Slot 7", 
-                color: "#94A3B8", 
-                personality: "준비중인 캐릭터 슬롯입니다.", 
-                tags: [], 
-                locked: true, 
-                image: "" 
-            },
-            { 
-                id: 7, 
-                name: "Slot 8", 
-                color: "#94A3B8", 
-                personality: "준비중인 캐릭터 슬롯입니다.", 
-                tags: [], 
-                locked: true, 
-                image: "" 
-            }
+            { id: 0, name: "Gwen", color: "#7367f0", personality: "지적이고 논리적인 대화를 선호하며, 차분하게 피드백을 줍니다.", tags: ["지적인", "논리적인"], locked: false, image: "" },
+            { id: 1, name: "박보검", color: "#4F46E5", personality: "선하고 긍정적인 에너지를 주며, 다정하고 진솔하게 소통합니다.", tags: ["다정한", "진솔한"], locked: false, image: "https://wimg.heraldcorp.com/news/cms/2025/04/15/news-p.v1.20250415.acb0823538bf4943a5daa6ea9cf09318_P1.png" },
+            { id: 2, name: "Slot 3", color: "#94A3B8", personality: "준비중인 캐릭터 슬롯입니다.", tags: [], locked: true, image: "" },
+            { id: 3, name: "Slot 4", color: "#94A3B8", personality: "준비중인 캐릭터 슬롯입니다.", tags: [], locked: true, image: "" },
+            { id: 4, name: "Slot 5", color: "#94A3B8", personality: "준비중인 캐릭터 슬롯입니다.", tags: [], locked: true, image: "" },
+            { id: 5, name: "Slot 6", color: "#94A3B8", personality: "준비중인 캐릭터 슬롯입니다.", tags: [], locked: true, image: "" },
+            { id: 6, name: "Slot 7", color: "#94A3B8", personality: "준비중인 캐릭터 슬롯입니다.", tags: [], locked: true, image: "" },
+            { id: 7, name: "Slot 8", color: "#94A3B8", personality: "준비중인 캐릭터 슬롯입니다.", tags: [], locked: true, image: "" }
         ];
 
         function updateClock() {
@@ -1667,6 +1586,15 @@
                     renderProfiles();
                 };
                 reader.readAsDataURL(file);
+            }
+        }
+
+        // [학습 자료 업로드 핸들러] 추가
+        function handleLearningMaterialUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // 실제 서버 연동은 생략하고 업로드 시각적 피드백만 제공
+                showToast(`'${file.name}' 파일이 성공적으로 업로드되었습니다.`);
             }
         }
 
@@ -1891,7 +1819,6 @@
         }
 
         let callTimer;
-        // isRehearsal 플래그 추가: true이면 랜덤 튜터, false이면 사용자가 설정한 페르소나와 연결
         function startFullCallSequence(isRehearsal = false) {
             const callName = document.getElementById('call-name');
             const callAvatar = document.getElementById('call-avatar');
@@ -1955,7 +1882,6 @@
 
             let scenario = {};
 
-            // 커리큘럼 선택에 따른 동적 시나리오 매핑
             if (currentTopic.includes('제품 판매') || currentTopic.includes('해외 세일즈')) {
                 scenario = {
                     aiEn: '"Can you highlight the main advantage of your new software?"',
@@ -1984,7 +1910,6 @@
                     fbWhy: "연봉 협상 시에는 주관적인 표현('work hard')보다 'exceeded metrics', 'delivered value'와 같이 객관적이고 성과 중심적인 어휘가 효과적입니다."
                 };
             } else {
-                // 기본값
                 scenario = {
                     aiEn: '"Could you describe your puppy\'s symptoms? Has there been any vomiting?"',
                     aiKo: '"강아지의 증상을 좀 더 자세히 설명해 주시겠어요? 구토 증세도 있었나요?"',
@@ -2052,7 +1977,6 @@
             }
         }
 
-        // 랭킹 데이터 및 탭 작동 로직 추가
         let mockRankings = [];
         
         function initRankings() {
@@ -2069,7 +1993,6 @@
             ];
             const initials = ['JD', 'MK', 'SY', 'HJ', 'JW', 'SH', 'DH', 'YM', 'JY', 'JS'];
 
-            // 70명의 가상 사용자 데이터 생성
             for(let i=1; i<=70; i++) {
                 const cat = categories[Math.floor(Math.random() * categories.length)];
                 mockRankings.push({
@@ -2083,7 +2006,6 @@
                 });
             }
             
-            // 기존 디자인에 있던 상위권 고정
             mockRankings[0] = { name: '임*영', initial: 'JD', job: 'IT 기획', level: 9, isIT: true, isHighSalary: true, isBigCorp: true };
             mockRankings[1] = { name: '김*준', initial: 'MK', job: '금융', level: 9, isIT: false, isHighSalary: true, isBigCorp: true };
             mockRankings[2] = { name: '박*수', initial: 'SY', job: '개발', level: 9, isIT: true, isHighSalary: true, isBigCorp: false };
@@ -2093,7 +2015,6 @@
         }
 
         function filterRank(type, btnElement) {
-            // 탭 UI 스타일 변경
             const tabs = document.querySelectorAll('.rank-tab-btn');
             tabs.forEach(t => {
                 t.classList.remove('bg-indigo-600', 'text-white');
@@ -2102,7 +2023,6 @@
             btnElement.classList.remove('bg-slate-100', 'text-slate-400');
             btnElement.classList.add('bg-indigo-600', 'text-white');
 
-            // 내 랭킹 텍스트 변경
             const desc = document.getElementById('my-rank-desc');
             const numBox = document.getElementById('my-rank-num');
             const percentText = document.getElementById('my-rank-top-percent');
@@ -2148,7 +2068,6 @@
                     'bg-emerald-100 text-emerald-500',
                     'bg-amber-100 text-amber-500'
                 ];
-                // 프로필 색상을 다양하게 배정
                 const colorIndex = (r.name.charCodeAt(0) + r.name.charCodeAt(2)) % colorClasses.length;
                 const colorClass = colorClasses[colorIndex];
 
@@ -2169,7 +2088,6 @@
             updateClock();
             initRankings();
 
-            // 통합 드래그 스크롤 로직 (화면 밖으로 마우스가 나가도 부드럽게 유지되도록 개선)
             let activeSlider = null;
             let isDown = false;
             let startX;
@@ -2186,7 +2104,6 @@
                     activeSlider = slider;
                     slider.style.cursor = 'grabbing';
                     
-                    // 스냅 컨테이너일 경우 드래그 중에는 잠시 스냅 해제 (버벅임 방지)
                     if (slider.classList.contains('snap-x')) {
                         slider.style.scrollSnapType = 'none';
                     }
@@ -2203,13 +2120,11 @@
                 }, true);
             }
 
-            // Window 영역에서 이벤트 감지하여 마우스가 요소를 벗어나도 드래그 유지
             window.addEventListener('mouseup', () => {
                 if (!isDown || !activeSlider) return;
                 isDown = false;
                 activeSlider.style.cursor = 'grab';
                 
-                // 마우스 클릭 해제 시 스냅(자석 효과) 원상복구
                 if (activeSlider.classList.contains('snap-x')) {
                     activeSlider.style.scrollSnapType = ''; 
                 }
@@ -2220,12 +2135,11 @@
                 if (!isDown || !activeSlider) return;
                 e.preventDefault();
                 const x = e.pageX;
-                const walk = (x - startX) * 1.5; // 스크롤 속도
+                const walk = (x - startX) * 1.5;
                 if (Math.abs(walk) > 5) isDragged = true;
                 activeSlider.scrollLeft = scrollLeft - walk;
             });
 
-            // 적용할 컨테이너 등록
             initDragScroll(document.getElementById('profile-container'));
             initDragScroll(document.getElementById('rehearsal-tutor-scroll'));
         };
